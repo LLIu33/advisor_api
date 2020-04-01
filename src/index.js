@@ -3,6 +3,7 @@ const express = require('express');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const uuid = require('uuid/v4');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
 
@@ -21,7 +22,20 @@ admin.initializeApp({
 });
 const db = admin.firestore();
 
-const entities = ['places', 'reviews', 'profiles', 'lists'];
+const entities = [
+  'AppSettings',
+  '_places',
+  'cuisines',
+  'feedbacks',
+  'index-places',
+  'lists',
+  'photo-reports',
+  'place-add-suggestions',
+  'place-edit-suggestions',
+  'places',
+  'profiles',
+  'reports',
+];
 
 entities.forEach(function (collectionName) {
   const router = express.Router(); // eslint-disable-line new-cap
@@ -29,10 +43,11 @@ entities.forEach(function (collectionName) {
   router.post('/', (req, res) => {
     (async () => {
       try {
+        const newData = req.body;
         await db
           .collection(collectionName)
-          .doc('/' + req.body.item_id + '/')
-          .create({ item: req.body.item });
+          .doc('/' + uuid() + '/')
+          .create(newData);
         return res.status(200).send();
       } catch (error) {
         console.log(error);
