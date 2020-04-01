@@ -11,11 +11,10 @@ const app = express();
 app.use(bodyParser.json());
 app.use(compression());
 app.use(cors());
-
 admin.initializeApp({
   credential: admin.credential.cert({
     project_id: process.env.FIREBASE_PROJECT_ID,
-    private_key: Buffer.from(process.env.FIREBASE_PRIVATE_KEY, 'base64').toString('binary'),
+    private_key: Buffer.from(process.env.FIREBASE_PRIVATE_KEY, 'base64').toString('binary').replace(/\\n/g, '\n'),
     client_email: process.env.FIREBASE_CLIENT_EMAIL,
   }),
   databaseURL: process.env.FIREBASE_DATABASE_URL,
@@ -76,7 +75,7 @@ entities.forEach(function (collectionName) {
     (async () => {
       try {
         const query = db.collection(collectionName);
-        const querySnapshot = await query.get();
+        const querySnapshot = await query.orderBy('id').limit(10).offset(0).get();
         const response = querySnapshot.docs.map((doc) => {
           return { id: doc.id, ...doc.data() };
         });
