@@ -4,17 +4,20 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
+require('dotenv').config();
 
 const app = express();
 app.use(bodyParser.json());
 app.use(compression());
 app.use(cors());
 
-const serviceAccount = require('../serviceAccountKey.json');
-
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://fobe-id.firebaseio.com',
+  credential: admin.credential.cert({
+    project_id: process.env.FIREBASE_PROJECT_ID,
+    private_key: Buffer.from(process.env.FIREBASE_PRIVATE_KEY, 'base64').toString('binary'),
+    client_email: process.env.FIREBASE_CLIENT_EMAIL,
+  }),
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
 const db = admin.firestore();
 
@@ -57,18 +60,10 @@ entities.forEach(function (collectionName) {
   router.get('/', (req, res) => {
     (async () => {
       try {
-        const query = db.collection('items');
-        const response = [];
-        await query.get().then((querySnapshot) => {
-          const docs = querySnapshot.docs;
-          for (const doc of docs) {
-            const selectedItem = {
-              id: doc.id,
-              item: doc.data().item,
-            };
-            response.push(selectedItem);
-          }
-          return response;
+        const query = db.collection(collectionName);
+        const querySnapshot = await query.get();
+        const response = querySnapshot.docs.map((doc) => {
+          return { id: doc.id, ...doc.data() };
         });
         return res.status(200).send(response);
       } catch (error) {
@@ -83,9 +78,8 @@ entities.forEach(function (collectionName) {
     (async () => {
       try {
         const document = db.collection(collectionName).doc(req.params.item_id);
-        await document.update({
-          item: req.body.item,
-        });
+        const newData = req.body;
+        await document.update(newData);
         return res.status(200).send();
       } catch (error) {
         console.log(error);
@@ -108,7 +102,7 @@ entities.forEach(function (collectionName) {
     })();
   });
 
-  app.use(`/${collectionName}`, router);
+  app.use(`/api/${collectionName}`, router);
 });
 
 app.use((err, req, res, next) => {
