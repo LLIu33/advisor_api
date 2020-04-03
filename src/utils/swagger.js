@@ -12,7 +12,7 @@ const swaggerSpec = {
       },
     },
   },
-  apis: ['../routes'],
+  apis: ['./src/routes/*.js'],
   host,
   basePath: '/',
 };
