@@ -1,5 +1,4 @@
 const genericModel = require('../models');
-const collectionSchema = require('../schemas/collections');
 
 const createEntity = async (req, res) => {
   try {
@@ -26,7 +25,9 @@ const getEntity = async (req, res) => {
 const getListOfEntity = async (req, res) => {
   try {
     const collectionName = req.params.collection;
-    const response = await genericModel.getList(collectionName, undefined, undefined);
+    const limit = parseInt(req.query.limit);
+    const offset = parseInt(req.query.offset);
+    const response = await genericModel.getList(collectionName, limit, offset);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);

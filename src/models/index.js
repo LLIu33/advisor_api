@@ -18,10 +18,14 @@ const getById = async (collectionName, entityId) => {
 const getList = async (collectionName, limit = 10, offset = 0) => {
   const query = db.collection(collectionName);
   const querySnapshot = await query.orderBy('id').limit(limit).offset(offset).get();
-  const list = querySnapshot.docs.map((doc) => {
+  const data = querySnapshot.docs.map((doc) => {
     return { id: doc.id, ...doc.data() };
   });
-  return list;
+  return {
+    data,
+    limit,
+    offset,
+  };
 };
 const updateById = async (collectionName, entityId, newData) => {
   const document = db.collection(collectionName).doc(entityId);

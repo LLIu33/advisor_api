@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "nodemon": "nodemon src/index.js",
     "test": "mocha src/tests/*.spec.js",
     "lint": "eslint *.js"
   },
@@ -29,6 +30,7 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
     "mocha": "^7.1.1",
+    "nodemon": "^2.0.2",
     "prettier": "^2.0.2"
   }
 }
