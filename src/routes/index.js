@@ -92,8 +92,6 @@ apiRouter.put('/:collection/:item_id', queryValidation, updateEntity);
 apiRouter.delete('/:collection/:item_id', queryValidation, delteEntity);
 
 const swaggerSpec = swaggerJsdoc(swaggerDefinition);
-console.log('swaggerSpec: ');
-console.log(swaggerSpec);
 rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 rootRouter.use('/api', apiRouter);
 
@@ -103,14 +101,6 @@ module.exports = rootRouter;
  * @swagger
  * components:
  *   parameters:
- *     Collection:
- *       in: path
- *       name: collection
- *       schema:
- *         type: string
- *         enum: ['AppSettings', 'cuisines', 'feedbacks', 'index-places', 'lists', 'photo-reports', 'place-add-suggestions', 'place-edit-suggestions', 'places', 'profiles', 'reports']
- *       required: true
- *       description: name for collection of entities
  *     EntityId:
  *       in: path
  *       name: item_id

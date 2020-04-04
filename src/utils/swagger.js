@@ -12,7 +12,7 @@ const swaggerSpec = {
     host: process.env.HOST || 'localhost:5000',
     basePath: '/api',
   },
-  apis: ['./src/routes/*.js', './src/schemas./*.js'],
+  apis: ['./src/schemas/*.js', './src/routes/*.js'],
 };
 
 module.exports = swaggerSpec;

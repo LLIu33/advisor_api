@@ -5,8 +5,13 @@ const Joi = require('@hapi/joi');
  * components:
  *   parameters:
  *     Collection:
- *       type: string
- *       enum: ['AppSettings', 'cuisines', 'feedbacks', 'index-places', 'lists', 'photo-reports', 'place-add-suggestions', 'place-edit-suggestions', 'places', 'profiles', 'reports']
+ *       in: path
+ *       name: collection
+ *       schema:
+ *         type: string
+ *         enum: ['AppSettings', 'cuisines', 'feedbacks', 'index-places', 'lists', 'photo-reports', 'place-add-suggestions', 'place-edit-suggestions', 'places', 'profiles', 'reports']
+ *       required: true
+ *       description: name for collection of entities
  */
 
 const entities = [
