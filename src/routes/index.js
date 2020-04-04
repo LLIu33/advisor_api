@@ -22,6 +22,13 @@ const apiRouter = express.Router();
  *   post:
  *     description: Create entity
  *     tags: [Entities]
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: name for collection of entities
  *     responses:
  *       201:
  *         description: Successfully created
@@ -34,6 +41,30 @@ apiRouter.post('/:collection', queryValidation, createEntity);
  *   get:
  *     description: Get list of entities
  *     tags: [Entities]
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: name for collection of entities
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 100
+ *           default: 10
+ *         required: false
+ *         description: The number of items to return.
+ *       - in: query
+ *         name: offset
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *           default: 0
+ *         required: false
+ *         description: The number of items to skip before starting to collect the result set.
  *     responses:
  *       200:
  *         description: Successfully created
@@ -44,6 +75,19 @@ apiRouter.get('/:collection', queryValidation, getListOfEntity);
  * @swagger
  * /{collection}/{item_id}:
  *   get:
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: name for collection of entities
+ *       - in: path
+ *         name: item_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id of entity
  *     description: Get entity
  *     tags: [Entities]
  *     responses:
@@ -56,6 +100,19 @@ apiRouter.get('/:collection/:item_id', queryValidation, getEntity);
  * @swagger
  * /{collection}/{item_id}:
  *   put:
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: name for collection of entities
+ *       - in: path
+ *         name: item_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id of entity
  *     description: Update entity
  *     tags: [Entities]
  *     responses:
@@ -68,6 +125,19 @@ apiRouter.put('/:collection/:item_id', queryValidation, updateEntity);
  * @swagger
  * /{collection}/{item_id}:
  *   delete:
+ *     parameters:
+ *       - in: path
+ *         name: collection
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: name for collection of entities
+ *       - in: path
+ *         name: item_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Id of entity
  *     description: Delete entity
  *     tags: [Entities]
  *     responses:
