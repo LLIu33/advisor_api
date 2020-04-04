@@ -1,12 +1,14 @@
 const express = require('express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+
 const { createEntity, getEntity, getListOfEntity, updateEntity, delteEntity } = require('../controllers');
 const swaggerOptions = require('../utils/swagger');
+const queryValidation = require('../middlewares/queryValidation');
 
 const rootRouter = express.Router();
-
 const apiRouter = express.Router();
+
 /**
  * @swagger
  * tags:
@@ -24,7 +26,7 @@ const apiRouter = express.Router();
  *       201:
  *         description: Successfully created
  */
-apiRouter.post('/:collection', createEntity);
+apiRouter.post('/:collection', queryValidation, createEntity);
 
 /**
  * @swagger
@@ -33,10 +35,10 @@ apiRouter.post('/:collection', createEntity);
  *     description: Get list of entities
  *     tags: [Entities]
  *     responses:
- *       201:
+ *       200:
  *         description: Successfully created
  */
-apiRouter.get('/:collection', getListOfEntity);
+apiRouter.get('/:collection', queryValidation, getListOfEntity);
 
 /**
  * @swagger
@@ -45,10 +47,10 @@ apiRouter.get('/:collection', getListOfEntity);
  *     description: Get entity
  *     tags: [Entities]
  *     responses:
- *       201:
+ *       200:
  *         description: Successfully created
  */
-apiRouter.get('/:collection/:item_id', getEntity);
+apiRouter.get('/:collection/:item_id', queryValidation, getEntity);
 
 /**
  * @swagger
@@ -57,10 +59,10 @@ apiRouter.get('/:collection/:item_id', getEntity);
  *     description: Update entity
  *     tags: [Entities]
  *     responses:
- *       201:
+ *       200:
  *         description: Successfully created
  */
-apiRouter.put('/:collection/:item_id', updateEntity);
+apiRouter.put('/:collection/:item_id', queryValidation, updateEntity);
 
 /**
  * @swagger
@@ -69,10 +71,10 @@ apiRouter.put('/:collection/:item_id', updateEntity);
  *     description: Delete entity
  *     tags: [Entities]
  *     responses:
- *       201:
+ *       200:
  *         description: Successfully created
  */
-apiRouter.delete('/:collection/:item_id', delteEntity);
+apiRouter.delete('/:collection/:item_id', queryValidation, delteEntity);
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));

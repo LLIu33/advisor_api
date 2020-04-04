@@ -1,18 +1,5 @@
 const genericModel = require('../models');
-
-const entities = [
-  'AppSettings',
-  'cuisines',
-  'feedbacks',
-  'index-places',
-  'lists',
-  'photo-reports',
-  'place-add-suggestions',
-  'place-edit-suggestions',
-  'places',
-  'profiles',
-  'reports',
-];
+const collectionSchema = require('../schemas/collections');
 
 const createEntity = async (req, res) => {
   try {

@@ -42,15 +42,6 @@ class UnauthorizedError extends ApiError {
 }
 
 /**
- * HTTP 409 InternalError Error class
- */
-class ConflictError extends ApiError {
-  constructor(payload = {}, message = 'Conflict') {
-    super(message, payload, httpCodes.CONFLICT);
-  }
-}
-
-/**
  * HTTP 500 InternalError Error class
  */
 class InternalError extends ApiError {
@@ -58,13 +49,6 @@ class InternalError extends ApiError {
     super(message, payload, httpCodes.INTERNAL_ERROR);
   }
 }
-
-/**
- * Returns function which throws HTTP 404 Error
- */
-const notFoundHandler = () => () => {
-  throw new NotFoundError();
-};
 
 const formatResponseError = (err, env) => {
   let errorObject;
@@ -83,21 +67,11 @@ const formatResponseError = (err, env) => {
     responseError.payload = errorObject.payload;
   }
   // check if error stack should be exposed
-  if (env !== 'production') {
+  if (env.NODE_ENV !== 'production') {
     responseError.stacktrace = err.stacktrace || err.stack;
   }
   return responseError;
 };
-
-function isEmpty(obj) {
-  for (var prop in obj) {
-    if (obj.hasOwnProperty(prop)) {
-      return false;
-    }
-  }
-
-  return JSON.stringify(obj) === JSON.stringify({});
-}
 
 module.exports = {
   ApiError,
@@ -105,7 +79,5 @@ module.exports = {
   BadRequestError,
   UnauthorizedError,
   InternalError,
-  ConflictError,
-  notFoundHandler,
   formatResponseError,
 };
