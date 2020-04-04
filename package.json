@@ -12,7 +12,7 @@
   "author": "Grechko A.",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/firestore": "^3.7.2",
+    "@google-cloud/firestore": "^3.7.3",
     "@hapi/joi": "^17.1.1",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
