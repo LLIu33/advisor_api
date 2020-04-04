@@ -25,8 +25,10 @@ const getEntity = async (req, res) => {
 const getListOfEntity = async (req, res) => {
   try {
     const collectionName = req.params.collection;
-    const limit = parseInt(req.query.limit);
-    const offset = parseInt(req.query.offset);
+    let limit = parseInt(req.query.limit) || 10;
+    limit = limit >= 0 ? limit : 0;
+    limit = limit <= 100 ? limit : 100;
+    const offset = parseInt(req.query.offset) || 0;
     const response = await genericModel.getList(collectionName, limit, offset);
     return res.status(200).send(response);
   } catch (error) {

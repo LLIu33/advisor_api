@@ -15,7 +15,7 @@ const getById = async (collectionName, entityId) => {
   const item = await document.get();
   return item.data();
 };
-const getList = async (collectionName, limit = 10, offset = 0) => {
+const getList = async (collectionName, limit, offset) => {
   const query = db.collection(collectionName);
   const querySnapshot = await query.orderBy('id').limit(limit).offset(offset).get();
   const data = querySnapshot.docs.map((doc) => {

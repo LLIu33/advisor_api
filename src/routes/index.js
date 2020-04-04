@@ -3,7 +3,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const { createEntity, getEntity, getListOfEntity, updateEntity, delteEntity } = require('../controllers');
-const swaggerOptions = require('../utils/swagger');
+const swaggerDefinition = require('../utils/swagger');
 const queryValidation = require('../middlewares/queryValidation');
 
 const rootRouter = express.Router();
@@ -18,17 +18,12 @@ const apiRouter = express.Router();
 
 /**
  * @swagger
- * /{collection}:
+ * /api/{collection}:
  *   post:
  *     description: Create entity
  *     tags: [Entities]
  *     parameters:
- *       - in: path
- *         name: collection
- *         schema:
- *           type: string
- *         required: true
- *         description: name for collection of entities
+ *       - $ref: '#/components/parameters/Collection'
  *     responses:
  *       201:
  *         description: Successfully created
@@ -37,34 +32,14 @@ apiRouter.post('/:collection', queryValidation, createEntity);
 
 /**
  * @swagger
- * /{collection}:
+ * /api/{collection}:
  *   get:
  *     description: Get list of entities
  *     tags: [Entities]
  *     parameters:
- *       - in: path
- *         name: collection
- *         schema:
- *           type: string
- *         required: true
- *         description: name for collection of entities
- *       - in: query
- *         name: limit
- *         schema:
- *           type: integer
- *           minimum: 1
- *           maximum: 100
- *           default: 10
- *         required: false
- *         description: The number of items to return.
- *       - in: query
- *         name: offset
- *         schema:
- *           type: integer
- *           minimum: 0
- *           default: 0
- *         required: false
- *         description: The number of items to skip before starting to collect the result set.
+ *       - $ref: '#/components/parameters/Collection'
+ *       - $ref: '#/components/parameters/Offset'
+ *       - $ref: '#/components/parameters/Limit'
  *     responses:
  *       200:
  *         description: Successfully created
@@ -73,21 +48,11 @@ apiRouter.get('/:collection', queryValidation, getListOfEntity);
 
 /**
  * @swagger
- * /{collection}/{item_id}:
+ * /api/{collection}/{item_id}:
  *   get:
  *     parameters:
- *       - in: path
- *         name: collection
- *         schema:
- *           type: string
- *         required: true
- *         description: name for collection of entities
- *       - in: path
- *         name: item_id
- *         schema:
- *           type: string
- *         required: true
- *         description: Id of entity
+ *       - $ref: '#/components/parameters/Collection'
+ *       - $ref: '#/components/parameters/EntityId'
  *     description: Get entity
  *     tags: [Entities]
  *     responses:
@@ -98,21 +63,11 @@ apiRouter.get('/:collection/:item_id', queryValidation, getEntity);
 
 /**
  * @swagger
- * /{collection}/{item_id}:
+ * /api/{collection}/{item_id}:
  *   put:
  *     parameters:
- *       - in: path
- *         name: collection
- *         schema:
- *           type: string
- *         required: true
- *         description: name for collection of entities
- *       - in: path
- *         name: item_id
- *         schema:
- *           type: string
- *         required: true
- *         description: Id of entity
+ *       - $ref: '#/components/parameters/Collection'
+ *       - $ref: '#/components/parameters/EntityId'
  *     description: Update entity
  *     tags: [Entities]
  *     responses:
@@ -123,21 +78,11 @@ apiRouter.put('/:collection/:item_id', queryValidation, updateEntity);
 
 /**
  * @swagger
- * /{collection}/{item_id}:
+ * /api/{collection}/{item_id}:
  *   delete:
  *     parameters:
- *       - in: path
- *         name: collection
- *         schema:
- *           type: string
- *         required: true
- *         description: name for collection of entities
- *       - in: path
- *         name: item_id
- *         schema:
- *           type: string
- *         required: true
- *         description: Id of entity
+ *       - $ref: '#/components/parameters/Collection'
+ *       - $ref: '#/components/parameters/EntityId'
  *     description: Delete entity
  *     tags: [Entities]
  *     responses:
@@ -146,8 +91,50 @@ apiRouter.put('/:collection/:item_id', queryValidation, updateEntity);
  */
 apiRouter.delete('/:collection/:item_id', queryValidation, delteEntity);
 
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
-rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, { explorer: true }));
+const swaggerSpec = swaggerJsdoc(swaggerDefinition);
+console.log('swaggerSpec: ');
+console.log(swaggerSpec);
+rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 rootRouter.use('/api', apiRouter);
 
 module.exports = rootRouter;
+
+/**
+ * @swagger
+ * components:
+ *   parameters:
+ *     Collection:
+ *       in: path
+ *       name: collection
+ *       schema:
+ *         type: string
+ *         enum: ['AppSettings', 'cuisines', 'feedbacks', 'index-places', 'lists', 'photo-reports', 'place-add-suggestions', 'place-edit-suggestions', 'places', 'profiles', 'reports']
+ *       required: true
+ *       description: name for collection of entities
+ *     EntityId:
+ *       in: path
+ *       name: item_id
+ *       schema:
+ *         type: string
+ *       required: true
+ *       description: Id of entity
+ *     Limit:
+ *       in: query
+ *       name: limit
+ *       schema:
+ *         type: integer
+ *         minimum: 1
+ *         maximum: 100
+ *         default: 10
+ *       required: false
+ *       description: The number of items to return.
+ *     Offset:
+ *       in: query
+ *       name: offset
+ *       schema:
+ *         type: integer
+ *         minimum: 0
+ *         default: 0
+ *       required: false
+ *       description: The number of items to skip before starting to collect the result set.
+ */
