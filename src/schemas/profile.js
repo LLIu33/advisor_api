@@ -20,14 +20,7 @@ const Joi = require('@hapi/joi');
  *           type: string
  *           example: 2
  *         birthday:
- *           type: object
- *           properies:
- *             _seconds:
- *               type: number
- *               example: 1579012993
- *             _nanoseconds:
- *               type: number
- *               example: 315973000
+ *           $ref: '#/components/schemas/Date'
  *         avatarUrl:
  *           type: string
  *           example: https://firebasestorage.googleapis.com/v0/b/fobe-id.appspot.com/o/place-photo
@@ -54,14 +47,7 @@ const Joi = require('@hapi/joi');
  *           type: string
  *           example: Instagram
  *         date:
- *           type: object
- *           properies:
- *             _seconds:
- *               type: number
- *               example: 1579012993
- *             _nanoseconds:
- *               type: number
- *               example: 315973000
+ *           $ref: '#/components/schemas/Date'
  */
 
 const placeSchema = Joi.object({

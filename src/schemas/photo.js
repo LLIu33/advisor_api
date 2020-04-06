@@ -26,14 +26,7 @@ const Joi = require('@hapi/joi');
  *           type: string
  *           example: NhzAZI7vdgRlqpC83k2bPWLcQ8N2
  *         date:
- *           type: object
- *           properies:
- *             _seconds:
- *               type: number
- *               example: 1579012993
- *             _nanoseconds:
- *               type: number
- *               example: 315973000
+ *           $ref: '#/components/schemas/Date'
  *         caption:
  *           type: string
  *           example: Google Photos

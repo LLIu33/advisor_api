@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi');
 
-// TODO: create schemas for FoodApp, Review, GoogleReview, Location, Contacts, openingHours
+// TODO: create schemas for FoodApp, GoogleReview
 /**
  * @swagger
  * components:
@@ -46,13 +46,7 @@ const Joi = require('@hapi/joi');
  *           items:
  *             $ref: '#/components/schemas/Photo'
  *         openingHours:
- *           type: object
- *           properties:
- *             periods:
- *               type: array
- *               items:
- *                 type: object
- *                 example: period
+ *           $ref: '#/components/schemas/Timing'
  *         reviewsNumber:
  *           type: number
  *           example: 0
@@ -63,17 +57,7 @@ const Joi = require('@hapi/joi');
  *           type: boolean
  *           example: false
  *         rating:
- *           type: object
- *           properties:
- *             atmosphere:
- *               type: number
- *               example: 0
- *             service:
- *               type: number
- *               example: 0
- *             quality:
- *               type: number
- *               example: 0
+ *           $ref: '#/components/schemas/Location'
  *         popularDishes:
  *           type: array
  *         venueId:
@@ -93,29 +77,7 @@ const Joi = require('@hapi/joi');
  *             type: object
  *             example: review
  *         contacts:
- *           type: object
- *           properties:
- *             carrigeMenu:
- *               type: string
- *               example: null
- *             phone:
- *               type: string
- *               example: +965 6000 8420
- *             deliverooMenu:
- *               type: string
- *               example: null
- *             website:
- *               type: string
- *               example: ''
- *             instagram:
- *               type: string
- *               example: bon_kw
- *             menusite:
- *               type: string
- *               example: ''
- *             talabatMenu:
- *               type: string
- *               example: null
+ *           $resf: '#/components/schemas/Contact'
  *         mainPhotos:
  *           type: array
  *           items:
@@ -135,23 +97,7 @@ const Joi = require('@hapi/joi');
  *               - CmRaAAAAk8C5v1xgLYxYToZr9x3-8zRAM4zKXwBrcPPpjE3aFqYvGQ6xF_e0QpSDmjMRaajzxCZq6J6Xb597XuY2e1ADsJSp--bFCsoBEupz5uy
  *               - CmRaAAAAqDAr0NBiNWFmtX4LOPaZaFVVAVdW92BNwe-i9HZ7aSvUTggV1VY-Xe2eWm5Wgp4VC_2sqzVsG6z15m3gAW3QCcmaZOUOZfWGrt4RtnW
  *         location:
- *           type: object
- *           properties:
- *             coordinates:
- *               type: object
- *               properties:
- *                 _latitude:
- *                   type: string
- *                   example: 29.2119619
- *                 _longitude:
- *                   type: string
- *                   example: 48.1046707
- *             address:
- *               type: string
- *               example: Fnaitees
- *             area:
- *               type: string
- *               example: Fnaitees
+ *           $ref: '#/components/schemas/Location'
  *         photos:
  *           type: array
  *           items:
