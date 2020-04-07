@@ -116,8 +116,8 @@ module.exports = rootRouter;
  *       schema:
  *         type: integer
  *         minimum: 1
- *         maximum: 100
- *         default: 10
+ *         maximum: 1000
+ *         default: 100
  *       required: false
  *       description: The number of items to return.
  *     Offset:

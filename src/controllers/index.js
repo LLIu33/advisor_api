@@ -1,5 +1,9 @@
 const genericModel = require('../models');
 
+const MIN_LIMIT = 1;
+const MAX_LIMIT = 1000;
+const DEFAULT_OFFSET = 0;
+
 const createEntity = async (req, res) => {
   try {
     const newData = req.body;
@@ -25,10 +29,8 @@ const getEntity = async (req, res) => {
 const getListOfEntity = async (req, res) => {
   try {
     const collectionName = req.params.collection;
-    let limit = parseInt(req.query.limit) || 10;
-    limit = limit >= 0 ? limit : 0;
-    limit = limit <= 100 ? limit : 100;
-    const offset = parseInt(req.query.offset) || 0;
+    const limit = processLimitParameter(req.query.limit);
+    const offset = parseInt(req.query.offset) || DEFAULT_OFFSET;
     const response = await genericModel.getList(collectionName, limit, offset);
     return res.status(200).send(response);
   } catch (error) {
@@ -59,6 +61,13 @@ const delteEntity = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+function processLimitParameter(input) {
+  let limit = parseInt(input) || 100;
+  limit = limit >= MIN_LIMIT ? limit : MIN_LIMIT;
+  limit = limit <= MAX_LIMIT ? limit : MAX_LIMIT;
+  return limit;
+}
 
 module.exports = {
   createEntity,
