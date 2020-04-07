@@ -14,6 +14,18 @@ const placeRouter = express.Router();
 
 /**
  * @swagger
+ * /api/places/all:
+ *   get:
+ *     description: Get all places
+ *     tags: [Places]
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+placeRouter.get('/places/all', queryValidation, PlaceCtrl.getAllplaces);
+
+/**
+ * @swagger
  * /api/places:
  *   get:
  *     description: Get list of places

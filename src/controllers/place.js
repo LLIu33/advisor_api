@@ -1,13 +1,25 @@
 const placeModel = require('../models/place');
 const helper = require('./helper');
 
+const getAllplaces = async (req, res) => {
+  try {
+    const response = await placeModel.getAll();
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
 const getList = async (req, res) => {
   try {
-    const isUnlim = req.query.unlim;
-    const limit = helper.processLimit(req.query.limit);
-    const offset = helper.processOffset(req.query.offset);
+    const params = {
+      limit: helper.processLimit(req.query.limit),
+      offset: helper.processOffset(req.query.offset),
+      isUnlim: req.query.unlim,
+      search: req.query.q,
+    };
 
-    const response = await placeModel.getListOfPlaces(limit, offset, isUnlim);
+    const response = await placeModel.getListOfPlaces(params);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -57,6 +69,7 @@ const remove = async (req, res) => {
 };
 
 module.exports = {
+  getAllplaces,
   getList,
   get,
   create,

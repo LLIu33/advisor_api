@@ -1,13 +1,28 @@
 const firebase = require('../utils/firebase');
 const uuid = require('uuid/v4');
+const axios = require('axios');
 
 const db = firebase.getDb();
 const collectionName = 'places';
 
-const getListOfPlaces = async (limit, offset, isUnlim) => {
+const getAll = async () => {
+  const url = 'https://fobe-id.firebaseapp.com/list-cached';
+  const response = await axios.get(url);
+  if (!response || !response.data) {
+    return [];
+  }
+  return {
+    places: response.data,
+    total: response.data.length,
+  };
+};
+
+const getListOfPlaces = async (params) => {
+  const { limit, offset, isUnlim, search } = params;
   let query = db.collection(collectionName);
+  query = search ? query.where('id', '==', search) : query.orderBy('id');
   if (!isUnlim) {
-    query = query.orderBy('id').limit(limit).offset(offset);
+    query = query.limit(limit).offset(offset);
   }
   const querySnapshot = await query.get();
   const places = querySnapshot.docs.map((doc) => {
@@ -40,6 +55,7 @@ const deleteById = async (entityId) => {
 };
 
 module.exports = {
+  getAll,
   getListOfPlaces,
   create,
   getById,
