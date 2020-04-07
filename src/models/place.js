@@ -18,12 +18,15 @@ const getAll = async () => {
 };
 
 const getListOfPlaces = async (params) => {
-  const { limit, offset, isUnlim, search } = params;
-  let query = db.collection(collectionName);
-  query = search ? query.where('id', '==', search) : query.orderBy('id');
-  if (!isUnlim) {
-    query = query.limit(limit).offset(offset);
+  const { limit, offset, filter } = params;
+  let query = db.collection(collectionName).limit(limit).offset(offset);
+
+  if (filter) {
+    for (const prop in filter) {
+      query = query.where(prop, '==', filter[prop]);
+    }
   }
+
   const querySnapshot = await query.get();
   const places = querySnapshot.docs.map((doc) => {
     return { id: doc.id, ...doc.data() };

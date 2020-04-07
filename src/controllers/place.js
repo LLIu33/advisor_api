@@ -12,11 +12,11 @@ const getAllplaces = async (req, res) => {
 };
 const getList = async (req, res) => {
   try {
+    const { limit, offset, ...filterParams } = req.query;
     const params = {
-      limit: helper.processLimit(req.query.limit),
-      offset: helper.processOffset(req.query.offset),
-      isUnlim: req.query.unlim,
-      search: req.query.q,
+      limit: helper.processLimit(limit),
+      offset: helper.processOffset(offset),
+      filter: helper.processFilter(filterParams),
     };
 
     const response = await placeModel.getListOfPlaces(params);

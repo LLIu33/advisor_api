@@ -11,7 +11,23 @@ function processOffset(input, defaultValue = 0, minValue = 0) {
   return offset;
 }
 
+function processFilter(input) {
+  const result = [];
+  for (const filter in input) {
+    switch (filter) {
+      case 'cost':
+        result[filter] = +input[filter];
+        break;
+      case 'isNewlyOpened':
+        result[filter] = input[filter] === 'true' || input[filter] === '1';
+        break;
+    }
+  }
+  return result;
+}
+
 module.exports = {
   processLimit,
   processOffset,
+  processFilter,
 };
