@@ -3,7 +3,8 @@ const uuid = require('uuid/v4');
 const axios = require('axios');
 
 const db = firebase.getDb();
-const collectionName = 'places';
+// const collectionName = 'places';
+const collectionName = 'places_backup';
 
 const getAll = async () => {
   const url = 'https://fobe-id.firebaseapp.com/list-cached';
@@ -20,7 +21,6 @@ const getAll = async () => {
 const getListOfPlaces = async (params) => {
   const { limit, offset, filter } = params;
   let query = db.collection(collectionName).limit(limit).offset(offset);
-
   if (filter) {
     for (const prop in filter) {
       query = query.where(prop, '==', filter[prop]);
@@ -31,12 +31,14 @@ const getListOfPlaces = async (params) => {
   const places = querySnapshot.docs.map((doc) => {
     return { id: doc.id, ...doc.data() };
   });
+
   return {
     places,
     limit,
     offset,
   };
 };
+
 const create = async (newData) => {
   return await db
     .collection(collectionName)
@@ -46,12 +48,21 @@ const create = async (newData) => {
 const getById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();
+  const itemData = item.data();
+  if (itemData.reviewsNumber) {
+    const reviewsSnap = await db.collection(collectionName).doc(item.id).collection('reviews').get();
+    itemData.reviews = reviewsSnap.docs.map((review) => {
+      return review.data();
+    });
+  }
   return item.data();
 };
+
 const updateById = async (entityId, newData) => {
   const document = db.collection(collectionName).doc(entityId);
   return await document.update(newData);
 };
+
 const deleteById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   await document.delete();

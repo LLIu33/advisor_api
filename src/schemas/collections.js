@@ -23,7 +23,7 @@ const entities = [
   'photo-reports',
   'place-add-suggestions',
   'place-edit-suggestions',
-  'places',
+  'places_backup',
   'profiles',
   'reports',
 ];
