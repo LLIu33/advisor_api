@@ -34,13 +34,6 @@ const create = async (newData) => {
 const getById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();
-  const itemData = item.data();
-  if (itemData.reviewsNumber) {
-    const reviewsSnap = await db.collection(collectionName).doc(item.id).collection('reviews').get();
-    itemData.reviews = reviewsSnap.docs.map((review) => {
-      return review.data();
-    });
-  }
   return item.data();
 };
 

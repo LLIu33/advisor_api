@@ -55,7 +55,7 @@ const getById = async (entityId) => {
       return review.data();
     });
   }
-  return item.data();
+  return itemData;
 };
 
 const updateById = async (entityId, newData) => {
