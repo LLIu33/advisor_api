@@ -16,14 +16,14 @@ const listRouter = express.Router();
  * @swagger
  * /api/lists:
  *   get:
- *     description: Get list of lists
+ *     description: Get collection of lists
  *     tags: [Lists]
  *     parameters:
  *       - $ref: '#/components/parameters/Offset'
  *       - $ref: '#/components/parameters/Limit'
  *     responses:
  *       200:
- *         description: Successfully got list of lists
+ *         description: Successfully got collection of lists
  */
 listRouter.get('/lists', queryValidation, ListCtrl.getList);
 

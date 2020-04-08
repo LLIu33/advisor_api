@@ -4,7 +4,7 @@ const uuid = require('uuid/v4');
 const db = firebase.getDb();
 const collectionName = 'lists';
 
-const getListOfLists = async (params) => {
+const getCollectionOfLists = async (params) => {
   const { limit, offset, filter } = params;
   let query = db.collection(collectionName).limit(limit).offset(offset);
   if (filter) {
@@ -55,7 +55,7 @@ const deleteById = async (entityId) => {
 };
 
 module.exports = {
-  getListOfLists,
+  getCollectionOfLists,
   create,
   getById,
   updateById,

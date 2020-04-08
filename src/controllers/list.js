@@ -1,7 +1,7 @@
 const listModel = require('../models/list');
 const helper = require('./helper');
 
-const getList = async (req, res) => {
+const getCollection = async (req, res) => {
   try {
     const { limit, offset, ...filterParams } = req.query;
     const params = {
@@ -10,7 +10,7 @@ const getList = async (req, res) => {
       filter: helper.processFilter(filterParams),
     };
 
-    const response = await listModel.getListOfLists(params);
+    const response = await listModel.getCollectionOfLists(params);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -60,7 +60,7 @@ const remove = async (req, res) => {
 };
 
 module.exports = {
-  getList,
+  getCollection,
   get,
   create,
   update,
