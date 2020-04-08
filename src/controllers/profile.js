@@ -17,6 +17,7 @@ const getList = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -27,6 +28,29 @@ const get = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+const getPhotos = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const response = await profileModel.getPhotosById(entityId);
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
+const getReviews = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const response = await profileModel.getReviewsById(entityId);
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 const create = async (req, res) => {
   try {
     const newData = req.body;
@@ -37,6 +61,7 @@ const create = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -48,21 +73,12 @@ const update = async (req, res) => {
     return res.status(500).send(error);
   }
 };
-const remove = async (req, res) => {
-  try {
-    const entityId = req.params.item_id;
-    await profileModel.deleteById(entityId);
-    return res.status(200).send();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
-  }
-};
 
 module.exports = {
   getList,
   get,
+  getPhotos,
+  getReviews,
   create,
   update,
-  remove,
 };

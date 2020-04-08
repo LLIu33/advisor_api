@@ -49,9 +49,37 @@ profileRouter.post('/profiles', queryValidation, ProfileCtrl.create);
  *     tags: [Profiles]
  *     responses:
  *       200:
- *         description: Successfully retuned
+ *         description: Successfully returned
  */
 profileRouter.get('/profiles/:item_id', queryValidation, ProfileCtrl.get);
+
+/**
+ * @swagger
+ * /api/profiles/{item_id}/photos:
+ *   get:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Get user’s photos
+ *     tags: [Profiles]
+ *     responses:
+ *       200:
+ *         description: Successfully returned
+ */
+profileRouter.get('/profiles/:item_id/photos', queryValidation, ProfileCtrl.getPhotos);
+
+/**
+ * @swagger
+ * /api/profiles/{item_id}/reviews:
+ *   get:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Get user’s reviews
+ *     tags: [Profiles]
+ *     responses:
+ *       200:
+ *         description: Successfully returned
+ */
+profileRouter.get('/profiles/:item_id/reviews', queryValidation, ProfileCtrl.getReviews);
 
 /**
  * @swagger
@@ -66,19 +94,5 @@ profileRouter.get('/profiles/:item_id', queryValidation, ProfileCtrl.get);
  *         description: Successfully updated
  */
 profileRouter.put('/profiles/:item_id', queryValidation, ProfileCtrl.update);
-
-/**
- * @swagger
- * /api/profiles/{item_id}:
- *   delete:
- *     parameters:
- *       - $ref: '#/components/parameters/EntityId'
- *     description: Delete profile
- *     tags: [Profiles]
- *     responses:
- *       200:
- *         description: Successfully removed
- */
-profileRouter.delete('/profiles/:item_id', queryValidation, ProfileCtrl.remove);
 
 module.exports = profileRouter;

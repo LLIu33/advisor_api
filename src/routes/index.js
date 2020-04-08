@@ -6,6 +6,7 @@ const placeRouter = require('./place');
 const listRouter = require('./list');
 const reviewRouter = require('./review');
 const profileRouter = require('./profile');
+const reportRouter = require('./report');
 
 const { createEntity, getEntity, getListOfEntity, updateEntity, delteEntity } = require('../controllers');
 const swaggerDefinition = require('../utils/swagger');
@@ -102,6 +103,7 @@ rootRouter.use('/api', placeRouter);
 rootRouter.use('/api', listRouter);
 rootRouter.use('/api', profileRouter);
 rootRouter.use('/api', reviewRouter);
+rootRouter.use('/api', reportRouter);
 rootRouter.use('/api', apiRouter);
 
 module.exports = rootRouter;

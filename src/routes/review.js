@@ -49,7 +49,7 @@ reviewRouter.post('/places/:place_id/reviews', queryValidation, ReviewCtrl.creat
  *     tags: [Reviews]
  *     responses:
  *       200:
- *         description: Successfully retuned
+ *         description: Successfully returned
  */
 reviewRouter.get('/places/:place_id/reviews/:item_id', queryValidation, ReviewCtrl.get);
 

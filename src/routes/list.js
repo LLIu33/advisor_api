@@ -49,7 +49,7 @@ listRouter.post('/lists', queryValidation, ListCtrl.create);
  *     tags: [Lists]
  *     responses:
  *       200:
- *         description: Successfully retuned
+ *         description: Successfully returned
  */
 listRouter.get('/lists/:item_id', queryValidation, ListCtrl.get);
 

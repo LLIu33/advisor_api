@@ -14,6 +14,7 @@ const getListOfReviews = async (params) => {
     .collection(collectionName)
     .limit(limit)
     .offset(offset);
+
   if (filter) {
     for (const prop in filter) {
       query = query.where(prop, '==', filter[prop]);
@@ -30,6 +31,19 @@ const getListOfReviews = async (params) => {
     limit,
     offset,
   };
+};
+
+const getReviewsByPlaceIds = async (ids) => {
+  const promises = ids.map(async (placeId) => {
+    const reviewsSnap = await db.collection(parentCollectionName).doc(placeId).collection(collectionName).get();
+    const reviewsByPlace = reviewsSnap.docs.map((doc) => {
+      console.log(doc);
+      return { id: doc.id, ...doc.data() };
+    });
+    return reviewsByPlace;
+  });
+  const result = await Promise.all(promises);
+  return [].concat.apply([], result);
 };
 
 const create = async (newData, placeId) => {
@@ -57,6 +71,7 @@ const deleteById = async (entityId, placeId) => {
 };
 
 module.exports = {
+  getReviewsByPlaceIds,
   getListOfReviews,
   create,
   getById,

@@ -45,6 +45,7 @@ const create = async (newData) => {
     .doc('/' + uuid() + '/')
     .create(newData);
 };
+
 const getById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();

@@ -1,8 +1,10 @@
 const firebase = require('../utils/firebase');
 const uuid = require('uuid/v4');
+const reviewModel = require('./review');
 
 const db = firebase.getDb();
 const collectionName = 'profiles';
+const placesCollection = 'places';
 
 const getListOfProfiles = async (params) => {
   const { limit, offset, filter } = params;
@@ -31,10 +33,33 @@ const create = async (newData) => {
     .doc('/' + uuid() + '/')
     .create(newData);
 };
+
 const getById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();
   return item.data();
+};
+
+const getReviewsById = async (entityId) => {
+  const document = db.collection(collectionName).doc(entityId);
+  const profile = await document.get();
+  const profileData = profile.data();
+  const reviews = profileData.placeIds ? await reviewModel.getReviewsByPlaceIds(profileData.placeIds) : [];
+  return reviews;
+};
+
+const getPhotosById = async (entityId) => {
+  const document = db.collection(collectionName).doc(entityId);
+  const item = await document.get();
+  const itemData = item.data();
+  const photos = [];
+  if (itemData.placeIds) {
+    const places = await getPlacesInfoByIds(itemData.placeIds);
+    places.forEach((place) => {
+      photos.push(place.photos);
+    });
+  }
+  return photos;
 };
 
 const updateById = async (entityId, newData) => {
@@ -42,15 +67,19 @@ const updateById = async (entityId, newData) => {
   return await document.update(newData);
 };
 
-const deleteById = async (entityId) => {
-  const document = db.collection(collectionName).doc(entityId);
-  await document.delete();
-};
+async function getPlacesInfoByIds(ids) {
+  const querySnapshot = await db.collection(placesCollection).where('id', 'in', ids).get();
+  const places = querySnapshot.docs.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  });
+  return places;
+}
 
 module.exports = {
   getListOfProfiles,
   create,
   getById,
+  getPhotosById,
+  getReviewsById,
   updateById,
-  deleteById,
 };

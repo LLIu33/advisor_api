@@ -61,7 +61,7 @@ placeRouter.post('/places', queryValidation, PlaceCtrl.create);
  *     tags: [Places]
  *     responses:
  *       200:
- *         description: Successfully retuned
+ *         description: Successfully returned
  */
 placeRouter.get('/places/:item_id', queryValidation, PlaceCtrl.get);
 
