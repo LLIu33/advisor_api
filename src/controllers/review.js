@@ -11,7 +11,7 @@ const getList = async (req, res) => {
       filter: helper.processFilter(filterParams),
     };
 
-    const response = await reviewModel.getReviewOfReviews(params);
+    const response = await reviewModel.getListOfReviews(params);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);

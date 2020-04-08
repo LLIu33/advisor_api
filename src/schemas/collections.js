@@ -23,9 +23,11 @@ const entities = [
   'photo-reports',
   'place-add-suggestions',
   'place-edit-suggestions',
+  'places',
   'places_backup',
   'profiles',
   'reports',
+  'reviews',
 ];
 
 const collectionSchema = Joi.string().valid(...entities);

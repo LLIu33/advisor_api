@@ -25,7 +25,7 @@ const listRouter = express.Router();
  *       200:
  *         description: Successfully got collection of lists
  */
-listRouter.get('/lists', queryValidation, ListCtrl.getList);
+listRouter.get('/lists', queryValidation, ListCtrl.getCollection);
 
 /**
  * @swagger

@@ -3,6 +3,10 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
 const placeRouter = require('./place');
+const listRouter = require('./list');
+const reviewRouter = require('./review');
+const profileRouter = require('./profile');
+
 const { createEntity, getEntity, getListOfEntity, updateEntity, delteEntity } = require('../controllers');
 const swaggerDefinition = require('../utils/swagger');
 const queryValidation = require('../middlewares/queryValidation');
@@ -95,6 +99,9 @@ apiRouter.delete('/:collection/:item_id', queryValidation, delteEntity);
 const swaggerSpec = swaggerJsdoc(swaggerDefinition);
 rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 rootRouter.use('/api', placeRouter);
+rootRouter.use('/api', listRouter);
+rootRouter.use('/api', profileRouter);
+rootRouter.use('/api', reviewRouter);
 rootRouter.use('/api', apiRouter);
 
 module.exports = rootRouter;
