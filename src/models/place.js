@@ -39,6 +39,14 @@ const getListOfPlaces = async (params) => {
   };
 };
 
+const getPlacesByIds = async (ids) => {
+  const querySnapshot = await db.collection(collectionName).where('id', 'in', ids).get();
+  const places = querySnapshot.docs.map((doc) => {
+    return { id: doc.id, ...doc.data() };
+  });
+  return places;
+};
+
 const create = async (newData) => {
   return await db
     .collection(collectionName)
@@ -72,6 +80,7 @@ const deleteById = async (entityId) => {
 module.exports = {
   getAll,
   getListOfPlaces,
+  getPlacesByIds,
   create,
   getById,
   updateById,

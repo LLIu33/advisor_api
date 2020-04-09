@@ -55,6 +55,20 @@ listRouter.get('/lists/:item_id', queryValidation, ListCtrl.get);
 
 /**
  * @swagger
+ * /api/lists/{item_id}/places:
+ *   get:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Get places for list
+ *     tags: [Lists]
+ *     responses:
+ *       200:
+ *         description: Successfully returned
+ */
+listRouter.get('/lists/:item_id/places', queryValidation, ListCtrl.getPlacesByListId);
+
+/**
+ * @swagger
  * /api/lists/{item_id}:
  *   put:
  *     parameters:

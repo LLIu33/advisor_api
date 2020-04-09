@@ -1,5 +1,6 @@
 const firebase = require('../utils/firebase');
 const uuid = require('uuid/v4');
+const placeModel = require('./place');
 
 const db = firebase.getDb();
 const collectionName = 'lists_backup';
@@ -12,12 +13,10 @@ const getCollectionOfLists = async (params) => {
       query = query.where(prop, '==', filter[prop]);
     }
   }
-
   const querySnapshot = await query.get();
   const lists = querySnapshot.docs.map((doc) => {
     return { id: doc.id, ...doc.data() };
   });
-
   return {
     lists,
     limit,
@@ -36,6 +35,20 @@ const getById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();
   return item.data();
+};
+
+const getPlacesByListId = async (entityId) => {
+  const document = db.collection(collectionName).doc(entityId);
+  const list = await document.get();
+  const listData = list.data();
+  let places = [];
+  if (listData.placeListItems) {
+    const placeIds = listData.placeListItems.map((placeIdObj) => {
+      return placeIdObj.placeId;
+    });
+    places = await placeModel.getPlacesByIds(placeIds);
+  }
+  return places;
 };
 
 const updateById = async (entityId, newData) => {
@@ -80,6 +93,7 @@ module.exports = {
   getCollectionOfLists,
   create,
   getById,
+  getPlacesByListId,
   updateById,
   addPlacesToList,
   removePlaceFromList,

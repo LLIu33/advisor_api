@@ -1,10 +1,10 @@
 const firebase = require('../utils/firebase');
 const uuid = require('uuid/v4');
 const reviewModel = require('./review');
+const placeModel = require('./place');
 
 const db = firebase.getDb();
 const collectionName = 'profiles';
-const placesCollection = 'places';
 
 const getListOfProfiles = async (params) => {
   const { limit, offset, filter } = params;
@@ -54,7 +54,7 @@ const getPhotosById = async (entityId) => {
   const itemData = item.data();
   const photos = [];
   if (itemData.placeIds) {
-    const places = await getPlacesInfoByIds(itemData.placeIds);
+    const places = await placeModel.getPlacesByIds(itemData.placeIds);
     places.forEach((place) => {
       photos.push(place.photos);
     });
@@ -66,14 +66,6 @@ const updateById = async (entityId, newData) => {
   const document = db.collection(collectionName).doc(entityId);
   return await document.update(newData);
 };
-
-async function getPlacesInfoByIds(ids) {
-  const querySnapshot = await db.collection(placesCollection).where('id', 'in', ids).get();
-  const places = querySnapshot.docs.map((doc) => {
-    return { id: doc.id, ...doc.data() };
-  });
-  return places;
-}
 
 module.exports = {
   getListOfProfiles,
