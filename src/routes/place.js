@@ -95,6 +95,20 @@ placeRouter.put('/places/:item_id', PlaceCtrl.update);
 
 /**
  * @swagger
+ * /api/places/{item_id}/add_photo:
+ *   put:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Add photo to place
+ *     tags: [Places]
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ */
+placeRouter.put('/places/:item_id/add_photo', PlaceCtrl.addPhotoToPlace);
+
+/**
+ * @swagger
  * /api/places/{item_id}:
  *   delete:
  *     parameters:

@@ -72,6 +72,14 @@ const updateById = async (entityId, newData) => {
   return await document.update(newData);
 };
 
+const addPhotoToPlace = async (entityId, photoObj) => {
+  const document = db.collection(collectionName).doc(entityId);
+  const placeSnap = await document.get();
+  const place = placeSnap.data();
+  place.photos.push(photoObj);
+  return await document.set({ photos: place.photos }, { merge: true });
+};
+
 const deleteById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   await document.delete();
@@ -81,6 +89,7 @@ module.exports = {
   getAll,
   getListOfPlaces,
   getPlacesByIds,
+  addPhotoToPlace,
   create,
   getById,
   updateById,

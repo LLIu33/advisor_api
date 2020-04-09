@@ -73,6 +73,18 @@ const update = async (req, res) => {
   }
 };
 
+const addPhotoToPlace = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const photoObj = req.body;
+    await placeModel.addPhotoToPlace(entityId, photoObj);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -91,5 +103,6 @@ module.exports = {
   getByIds,
   create,
   update,
+  addPhotoToPlace,
   remove,
 };
