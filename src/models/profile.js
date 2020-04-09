@@ -44,22 +44,36 @@ const getReviewsById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const profile = await document.get();
   const profileData = profile.data();
-  const reviews = profileData.placeIds ? await reviewModel.getReviewsByPlaceIds(profileData.placeIds) : [];
-  return reviews;
+  const data = [];
+  if (profileData.placeIds) {
+    const places = await reviewModel.getReviewsByPlaceIds(profileData.placeIds);
+    places.forEach((place) => {
+      data.push({
+        name: place.name,
+        mainPhotos: place.mainPhotos,
+        reviews: place.reviews,
+      });
+    });
+  }
+  return data;
 };
 
 const getPhotosById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();
-  const itemData = item.data();
-  const photos = [];
-  if (itemData.placeIds) {
-    const places = await placeModel.getPlacesByIds(itemData.placeIds);
+  const profileData = item.data();
+  const data = [];
+  if (profileData.placeIds) {
+    const places = await placeModel.getPlacesByIds(profileData.placeIds);
     places.forEach((place) => {
-      photos.push(place.photos);
+      data.push({
+        name: place.name,
+        mainPhotos: place.mainPhotos,
+        photos: place.photos,
+      });
     });
   }
-  return photos;
+  return data;
 };
 
 const updateById = async (entityId, newData) => {

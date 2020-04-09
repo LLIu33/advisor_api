@@ -35,11 +35,15 @@ const getListOfReviews = async (params) => {
 
 const getReviewsByPlaceIds = async (ids) => {
   const promises = ids.map(async (placeId) => {
-    const reviewsSnap = await db.collection(parentCollectionName).doc(placeId).collection(collectionName).get();
+    const placeQuery = db.collection(parentCollectionName).doc(placeId);
+    const placeSnap = await placeQuery.get();
+    const place = { id: placeSnap.id, ...placeSnap.data() };
+    const reviewsSnap = await placeQuery.collection(collectionName).get();
     const reviewsByPlace = reviewsSnap.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });
-    return reviewsByPlace;
+    place.reviews = reviewsByPlace;
+    return place;
   });
   const result = await Promise.all(promises);
   return [].concat.apply([], result);
@@ -53,6 +57,7 @@ const create = async (newData, placeId) => {
     .doc('/' + uuid() + '/')
     .create(newData);
 };
+
 const getById = async (entityId, placeId) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   const item = await document.get();
