@@ -24,7 +24,6 @@ const entities = [
   'place-add-suggestions',
   'place-edit-suggestions',
   'places',
-  'places_backup',
   'profiles',
   'reports',
   'reviews',

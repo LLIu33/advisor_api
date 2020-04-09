@@ -2,7 +2,7 @@ const firebase = require('../utils/firebase');
 const uuid = require('uuid/v4');
 
 const db = firebase.getDb();
-const collectionName = 'lists';
+const collectionName = 'lists_backup';
 
 const getCollectionOfLists = async (params) => {
   const { limit, offset, filter } = params;
@@ -31,6 +31,7 @@ const create = async (newData) => {
     .doc('/' + uuid() + '/')
     .create(newData);
 };
+
 const getById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   const item = await document.get();
@@ -40,6 +41,24 @@ const getById = async (entityId) => {
 const updateById = async (entityId, newData) => {
   const document = db.collection(collectionName).doc(entityId);
   return await document.update(newData);
+};
+
+const addPlacesToList = async (entityId, input) => {
+  const document = db.collection(collectionName).doc(entityId);
+  const existListSnap = await document.get();
+  const existList = existListSnap.data();
+  existList.placeListItems.forEach((placeIdObj) => {
+    if (input.includes(placeIdObj.placeId)) {
+      input.splice(input.indexOf(placeIdObj.placeId), 1);
+    }
+  });
+  const newPlaces = input.map((placeId) => {
+    return {
+      date: new Date(),
+      placeId,
+    };
+  });
+  return await document.set({ placeListItems: existList.placeListItems.concat(newPlaces) }, { merge: true });
 };
 
 const deleteById = async (entityId) => {
@@ -52,5 +71,6 @@ module.exports = {
   create,
   getById,
   updateById,
+  addPlacesToList,
   deleteById,
 };

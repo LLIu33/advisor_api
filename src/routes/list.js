@@ -69,6 +69,20 @@ listRouter.put('/lists/:item_id', queryValidation, ListCtrl.update);
 
 /**
  * @swagger
+ * /api/lists/{item_id}/addPlaces:
+ *   put:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Update list
+ *     tags: [Lists]
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ */
+listRouter.put('/lists/:item_id/addPlaces', queryValidation, ListCtrl.addPlacesToList);
+
+/**
+ * @swagger
  * /api/lists/{item_id}:
  *   delete:
  *     parameters:

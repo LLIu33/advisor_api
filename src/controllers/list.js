@@ -48,6 +48,19 @@ const update = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+const addPlacesToList = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const newPlaces = req.body;
+    await listModel.addPlacesToList(entityId, newPlaces);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -64,5 +77,6 @@ module.exports = {
   get,
   create,
   update,
+  addPlacesToList,
   remove,
 };
