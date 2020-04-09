@@ -27,3 +27,13 @@ rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 rootRouter.use('/api', queryValidation, apiRouter);
 
 module.exports = rootRouter;
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */

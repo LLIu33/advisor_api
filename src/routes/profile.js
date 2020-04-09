@@ -15,6 +15,8 @@ const profileRouter = express.Router();
  *   get:
  *     description: Get list of profiles
  *     tags: [Profiles]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - $ref: '#/components/parameters/Offset'
  *       - $ref: '#/components/parameters/Limit'
@@ -30,6 +32,8 @@ profileRouter.get('/profiles', ProfileCtrl.getList);
  *   post:
  *     description: Create profile
  *     tags: [Profiles]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       201:
  *         description: Successfully created
@@ -44,6 +48,8 @@ profileRouter.post('/profiles', ProfileCtrl.create);
  *       - $ref: '#/components/parameters/EntityId'
  *     description: Get profile
  *     tags: [Profiles]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successfully returned
@@ -58,6 +64,8 @@ profileRouter.get('/profiles/:item_id', ProfileCtrl.get);
  *       - $ref: '#/components/parameters/EntityId'
  *     description: Get user’s photos
  *     tags: [Profiles]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successfully returned
@@ -72,6 +80,8 @@ profileRouter.get('/profiles/:item_id/photos', ProfileCtrl.getPhotos);
  *       - $ref: '#/components/parameters/EntityId'
  *     description: Get user’s reviews
  *     tags: [Profiles]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successfully returned
@@ -86,6 +96,8 @@ profileRouter.get('/profiles/:item_id/reviews', ProfileCtrl.getReviews);
  *       - $ref: '#/components/parameters/EntityId'
  *     description: Update profile
  *     tags: [Profiles]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Successfully updated
