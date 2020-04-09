@@ -1,8 +1,5 @@
 const express = require('express');
-
 const ReportCtrl = require('../controllers/report');
-const queryValidation = require('../middlewares/queryValidation');
-
 const reportRouter = express.Router();
 
 /**
@@ -22,6 +19,6 @@ const reportRouter = express.Router();
  *       201:
  *         description: Successfully created
  */
-reportRouter.post('/reports', queryValidation, ReportCtrl.create);
+reportRouter.post('/reports', ReportCtrl.create);
 
 module.exports = reportRouter;

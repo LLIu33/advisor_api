@@ -1,8 +1,5 @@
 const express = require('express');
-
 const PlaceCtrl = require('../controllers/place');
-const queryValidation = require('../middlewares/queryValidation');
-
 const placeRouter = express.Router();
 
 /**
@@ -22,7 +19,7 @@ const placeRouter = express.Router();
  *       200:
  *         description: Success
  */
-placeRouter.get('/places/all', queryValidation, PlaceCtrl.getAllplaces);
+placeRouter.get('/places/all', PlaceCtrl.getAllplaces);
 
 /**
  * @swagger
@@ -37,7 +34,7 @@ placeRouter.get('/places/all', queryValidation, PlaceCtrl.getAllplaces);
  *       200:
  *         description: Successfully got list of places
  */
-placeRouter.get('/places', queryValidation, PlaceCtrl.getList);
+placeRouter.get('/places', PlaceCtrl.getList);
 
 /**
  * @swagger
@@ -49,7 +46,7 @@ placeRouter.get('/places', queryValidation, PlaceCtrl.getList);
  *       201:
  *         description: Successfully created
  */
-placeRouter.post('/places', queryValidation, PlaceCtrl.create);
+placeRouter.post('/places', PlaceCtrl.create);
 
 /**
  * @swagger
@@ -66,7 +63,7 @@ placeRouter.post('/places', queryValidation, PlaceCtrl.create);
  *       200:
  *         description: Successfully returned
  */
-placeRouter.get('/places/byIds', queryValidation, PlaceCtrl.getByIds);
+placeRouter.get('/places/byIds', PlaceCtrl.getByIds);
 
 /**
  * @swagger
@@ -80,7 +77,7 @@ placeRouter.get('/places/byIds', queryValidation, PlaceCtrl.getByIds);
  *       200:
  *         description: Successfully returned
  */
-placeRouter.get('/places/:item_id', queryValidation, PlaceCtrl.get);
+placeRouter.get('/places/:item_id', PlaceCtrl.get);
 
 /**
  * @swagger
@@ -94,7 +91,7 @@ placeRouter.get('/places/:item_id', queryValidation, PlaceCtrl.get);
  *       200:
  *         description: Successfully updated
  */
-placeRouter.put('/places/:item_id', queryValidation, PlaceCtrl.update);
+placeRouter.put('/places/:item_id', PlaceCtrl.update);
 
 /**
  * @swagger
@@ -108,6 +105,6 @@ placeRouter.put('/places/:item_id', queryValidation, PlaceCtrl.update);
  *       200:
  *         description: Successfully removed
  */
-placeRouter.delete('/places/:item_id', queryValidation, PlaceCtrl.remove);
+placeRouter.delete('/places/:item_id', PlaceCtrl.remove);
 
 module.exports = placeRouter;

@@ -1,6 +1,7 @@
 const firebaseAdmin = require('firebase-admin');
 
 let db = null;
+let admin = null;
 
 const initDb = () => {
   firebaseAdmin.initializeApp({
@@ -11,6 +12,7 @@ const initDb = () => {
     }),
     databaseURL: process.env.FIREBASE_DATABASE_URL,
   });
+  admin = firebaseAdmin;
   const firestore = firebaseAdmin.firestore();
   firestore.settings({ timestampsInSnapshots: true });
   db = firestore;
@@ -24,6 +26,14 @@ const getDb = () => {
   return db;
 };
 
+const getAdmin = () => {
+  if (!admin) {
+    initDb();
+  }
+  return admin;
+};
+
 module.exports = {
   getDb,
+  getAdmin,
 };

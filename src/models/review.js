@@ -37,7 +37,6 @@ const getReviewsByPlaceIds = async (ids) => {
   const promises = ids.map(async (placeId) => {
     const reviewsSnap = await db.collection(parentCollectionName).doc(placeId).collection(collectionName).get();
     const reviewsByPlace = reviewsSnap.docs.map((doc) => {
-      console.log(doc);
       return { id: doc.id, ...doc.data() };
     });
     return reviewsByPlace;

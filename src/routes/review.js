@@ -1,8 +1,5 @@
 const express = require('express');
-
 const ReviewCtrl = require('../controllers/review');
-const queryValidation = require('../middlewares/queryValidation');
-
 const reviewRouter = express.Router();
 
 /**
@@ -25,7 +22,7 @@ const reviewRouter = express.Router();
  *       200:
  *         description: Successfully got list of reviews
  */
-reviewRouter.get('/places/:place_id/reviews', queryValidation, ReviewCtrl.getList);
+reviewRouter.get('/places/:place_id/reviews', ReviewCtrl.getList);
 
 /**
  * @swagger
@@ -37,7 +34,7 @@ reviewRouter.get('/places/:place_id/reviews', queryValidation, ReviewCtrl.getLis
  *       201:
  *         description: Successfully created
  */
-reviewRouter.post('/places/:place_id/reviews', queryValidation, ReviewCtrl.create);
+reviewRouter.post('/places/:place_id/reviews', ReviewCtrl.create);
 
 /**
  * @swagger
@@ -51,7 +48,7 @@ reviewRouter.post('/places/:place_id/reviews', queryValidation, ReviewCtrl.creat
  *       200:
  *         description: Successfully returned
  */
-reviewRouter.get('/places/:place_id/reviews/:item_id', queryValidation, ReviewCtrl.get);
+reviewRouter.get('/places/:place_id/reviews/:item_id', ReviewCtrl.get);
 
 /**
  * @swagger
@@ -65,7 +62,7 @@ reviewRouter.get('/places/:place_id/reviews/:item_id', queryValidation, ReviewCt
  *       200:
  *         description: Successfully updated
  */
-reviewRouter.put('/places/:place_id/reviews/:item_id', queryValidation, ReviewCtrl.update);
+reviewRouter.put('/places/:place_id/reviews/:item_id', ReviewCtrl.update);
 
 /**
  * @swagger
@@ -79,6 +76,6 @@ reviewRouter.put('/places/:place_id/reviews/:item_id', queryValidation, ReviewCt
  *       200:
  *         description: Successfully removed
  */
-reviewRouter.delete('/places/:place_id/reviews/:item_id', queryValidation, ReviewCtrl.remove);
+reviewRouter.delete('/places/:place_id/reviews/:item_id', ReviewCtrl.remove);
 
 module.exports = reviewRouter;

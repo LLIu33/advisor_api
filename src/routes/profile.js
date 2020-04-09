@@ -1,8 +1,5 @@
 const express = require('express');
-
 const ProfileCtrl = require('../controllers/profile');
-const queryValidation = require('../middlewares/queryValidation');
-
 const profileRouter = express.Router();
 
 /**
@@ -25,7 +22,7 @@ const profileRouter = express.Router();
  *       200:
  *         description: Successfully got list of profiles
  */
-profileRouter.get('/profiles', queryValidation, ProfileCtrl.getList);
+profileRouter.get('/profiles', ProfileCtrl.getList);
 
 /**
  * @swagger
@@ -37,7 +34,7 @@ profileRouter.get('/profiles', queryValidation, ProfileCtrl.getList);
  *       201:
  *         description: Successfully created
  */
-profileRouter.post('/profiles', queryValidation, ProfileCtrl.create);
+profileRouter.post('/profiles', ProfileCtrl.create);
 
 /**
  * @swagger
@@ -51,7 +48,7 @@ profileRouter.post('/profiles', queryValidation, ProfileCtrl.create);
  *       200:
  *         description: Successfully returned
  */
-profileRouter.get('/profiles/:item_id', queryValidation, ProfileCtrl.get);
+profileRouter.get('/profiles/:item_id', ProfileCtrl.get);
 
 /**
  * @swagger
@@ -65,7 +62,7 @@ profileRouter.get('/profiles/:item_id', queryValidation, ProfileCtrl.get);
  *       200:
  *         description: Successfully returned
  */
-profileRouter.get('/profiles/:item_id/photos', queryValidation, ProfileCtrl.getPhotos);
+profileRouter.get('/profiles/:item_id/photos', ProfileCtrl.getPhotos);
 
 /**
  * @swagger
@@ -79,7 +76,7 @@ profileRouter.get('/profiles/:item_id/photos', queryValidation, ProfileCtrl.getP
  *       200:
  *         description: Successfully returned
  */
-profileRouter.get('/profiles/:item_id/reviews', queryValidation, ProfileCtrl.getReviews);
+profileRouter.get('/profiles/:item_id/reviews', ProfileCtrl.getReviews);
 
 /**
  * @swagger
@@ -93,6 +90,6 @@ profileRouter.get('/profiles/:item_id/reviews', queryValidation, ProfileCtrl.get
  *       200:
  *         description: Successfully updated
  */
-profileRouter.put('/profiles/:item_id', queryValidation, ProfileCtrl.update);
+profileRouter.put('/profiles/:item_id', ProfileCtrl.update);
 
 module.exports = profileRouter;

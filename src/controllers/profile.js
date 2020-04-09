@@ -10,7 +10,7 @@ const getList = async (req, res) => {
       filter: helper.processFilter(filterParams),
     };
 
-    const response = await profileModel.getProfileOfProfiles(params);
+    const response = await profileModel.getListOfProfiles(params);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);

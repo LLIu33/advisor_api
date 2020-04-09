@@ -1,8 +1,5 @@
 const express = require('express');
-
 const ListCtrl = require('../controllers/list');
-const queryValidation = require('../middlewares/queryValidation');
-
 const listRouter = express.Router();
 
 /**
@@ -25,7 +22,7 @@ const listRouter = express.Router();
  *       200:
  *         description: Successfully got collection of lists
  */
-listRouter.get('/lists', queryValidation, ListCtrl.getCollection);
+listRouter.get('/lists', ListCtrl.getCollection);
 
 /**
  * @swagger
@@ -37,7 +34,7 @@ listRouter.get('/lists', queryValidation, ListCtrl.getCollection);
  *       201:
  *         description: Successfully created
  */
-listRouter.post('/lists', queryValidation, ListCtrl.create);
+listRouter.post('/lists', ListCtrl.create);
 
 /**
  * @swagger
@@ -51,7 +48,7 @@ listRouter.post('/lists', queryValidation, ListCtrl.create);
  *       200:
  *         description: Successfully returned
  */
-listRouter.get('/lists/:item_id', queryValidation, ListCtrl.get);
+listRouter.get('/lists/:item_id', ListCtrl.get);
 
 /**
  * @swagger
@@ -65,7 +62,7 @@ listRouter.get('/lists/:item_id', queryValidation, ListCtrl.get);
  *       200:
  *         description: Successfully returned
  */
-listRouter.get('/lists/:item_id/places', queryValidation, ListCtrl.getPlacesByListId);
+listRouter.get('/lists/:item_id/places', ListCtrl.getPlacesByListId);
 
 /**
  * @swagger
@@ -79,7 +76,7 @@ listRouter.get('/lists/:item_id/places', queryValidation, ListCtrl.getPlacesByLi
  *       200:
  *         description: Successfully updated
  */
-listRouter.put('/lists/:item_id', queryValidation, ListCtrl.update);
+listRouter.put('/lists/:item_id', ListCtrl.update);
 
 /**
  * @swagger
@@ -93,7 +90,7 @@ listRouter.put('/lists/:item_id', queryValidation, ListCtrl.update);
  *       200:
  *         description: Successfully updated
  */
-listRouter.put('/lists/:item_id/addPlaces', queryValidation, ListCtrl.addPlacesToList);
+listRouter.put('/lists/:item_id/addPlaces', ListCtrl.addPlacesToList);
 
 /**
  * @swagger
@@ -107,7 +104,7 @@ listRouter.put('/lists/:item_id/addPlaces', queryValidation, ListCtrl.addPlacesT
  *       200:
  *         description: Successfully updated
  */
-listRouter.delete('/lists/:item_id/removePlace/:place_id', queryValidation, ListCtrl.removePlaceFromList);
+listRouter.delete('/lists/:item_id/removePlace/:place_id', ListCtrl.removePlaceFromList);
 
 /**
  * @swagger
@@ -121,6 +118,6 @@ listRouter.delete('/lists/:item_id/removePlace/:place_id', queryValidation, List
  *       200:
  *         description: Successfully removed
  */
-listRouter.delete('/lists/:item_id', queryValidation, ListCtrl.remove);
+listRouter.delete('/lists/:item_id', ListCtrl.remove);
 
 module.exports = listRouter;
