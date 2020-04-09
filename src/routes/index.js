@@ -17,13 +17,13 @@ const rootRouter = express.Router();
 const apiRouter = express.Router();
 apiRouter.use(placeRouter);
 apiRouter.use(listRouter);
-apiRouter.use(profileRouter);
+apiRouter.use(requiresLogin, profileRouter);
 apiRouter.use(reviewRouter);
 apiRouter.use(reportRouter);
 apiRouter.use(genericRouter);
 
 const swaggerSpec = swaggerJsdoc(swaggerDefinition);
 rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-rootRouter.use('/api', queryValidation, requiresLogin, apiRouter);
+rootRouter.use('/api', queryValidation, apiRouter);
 
 module.exports = rootRouter;
