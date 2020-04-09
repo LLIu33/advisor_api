@@ -66,6 +66,34 @@ reviewRouter.put('/places/:place_id/reviews/:item_id', ReviewCtrl.update);
 
 /**
  * @swagger
+ * /api/places/{place_id}/reviews/{item_id}/add_photo:
+ *   put:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Add photo to review
+ *     tags: [Reviews]
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ */
+reviewRouter.put('/places/:place_id/reviews/:item_id/add_photo', ReviewCtrl.addPhoto);
+
+/**
+ * @swagger
+ * /api/places/{place_id}/reviews/{item_id}/remove_photo/:photo_id:
+ *   delete:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Remove photo from review
+ *     tags: [Reviews]
+ *     responses:
+ *       200:
+ *         description: Successfully removed
+ */
+reviewRouter.delete('/places/:place_id/reviews/:item_id/remove_photo/:photo_id', ReviewCtrl.removePhoto);
+
+/**
+ * @swagger
  * /api/places/{place_id}/reviews/{item_id}:
  *   delete:
  *     parameters:

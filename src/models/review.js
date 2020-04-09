@@ -64,6 +64,26 @@ const updateById = async (entityId, newData, placeId) => {
   return await document.update(newData);
 };
 
+const addPhoto = async (entityId, placeId, photoObj) => {
+  const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
+  const revieweSnap = await document.get();
+  const review = revieweSnap.data();
+  review.photos.push(photoObj);
+  return await document.set({ photos: review.photos }, { merge: true });
+};
+
+const removePhoto = async (entityId, placeId, photoId) => {
+  const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
+  const revieweSnap = await document.get();
+  const review = revieweSnap.data();
+  review.photos = review.photos.filter((photoObj) => {
+    if (photoObj.id !== photoId) {
+      return photoObj;
+    }
+  });
+  return await document.set({ photos: review.photos }, { merge: true });
+};
+
 const deleteById = async (entityId, placeId) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   await document.delete();
@@ -75,5 +95,7 @@ module.exports = {
   create,
   getById,
   updateById,
+  addPhoto,
+  removePhoto,
   deleteById,
 };

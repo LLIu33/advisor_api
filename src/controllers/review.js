@@ -18,6 +18,7 @@ const getList = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -28,6 +29,7 @@ const get = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const create = async (req, res) => {
   try {
     const newData = req.body;
@@ -39,6 +41,7 @@ const create = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const update = async (req, res) => {
   try {
     const placeId = req.params.place_id;
@@ -51,6 +54,33 @@ const update = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+const addPhoto = async (req, res) => {
+  try {
+    const placeId = req.params.place_id;
+    const entityId = req.params.item_id;
+    const photoObj = req.body;
+    await reviewModel.updateById(entityId, placeId, photoObj);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
+const removePhoto = async (req, res) => {
+  try {
+    const placeId = req.params.place_id;
+    const entityId = req.params.item_id;
+    const photoId = req.params.photo_id;
+    await reviewModel.deleteById(entityId, placeId, photoId);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const placeId = req.params.place_id;
@@ -68,5 +98,7 @@ module.exports = {
   get,
   create,
   update,
+  addPhoto,
+  removePhoto,
   remove,
 };
