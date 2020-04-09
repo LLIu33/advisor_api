@@ -19,6 +19,8 @@ function processFilter(input) {
         result[filter] = +input[filter];
         break;
       case 'isNewlyOpened':
+      case 'isPublic':
+      case 'isTrending':
         result[filter] = input[filter] === 'true' || input[filter] === '1';
         break;
     }
