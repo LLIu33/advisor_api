@@ -53,6 +53,23 @@ placeRouter.post('/places', queryValidation, PlaceCtrl.create);
 
 /**
  * @swagger
+ * /api/places/byIds:
+ *   get:
+ *     parameters:
+ *       item_ids:
+ *         type: array
+ *         items:
+ *           - $ref: '#/components/parameters/EntityId'
+ *     description: Get places by ids from body
+ *     tags: [Places]
+ *     responses:
+ *       200:
+ *         description: Successfully returned
+ */
+placeRouter.get('/places/byIds', queryValidation, PlaceCtrl.getByIds);
+
+/**
+ * @swagger
  * /api/places/{item_id}:
  *   get:
  *     parameters:

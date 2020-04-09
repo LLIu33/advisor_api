@@ -10,6 +10,7 @@ const getAllplaces = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const getList = async (req, res) => {
   try {
     const { limit, offset, ...filterParams } = req.query;
@@ -26,6 +27,18 @@ const getList = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
+const getByIds = async (req, res) => {
+  try {
+    const ids = req.body;
+    const response = await placeModel.getPlacesByIds(ids);
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -36,6 +49,7 @@ const get = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const create = async (req, res) => {
   try {
     const newData = req.body;
@@ -46,6 +60,7 @@ const create = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -57,6 +72,7 @@ const update = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+
 const remove = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -72,6 +88,7 @@ module.exports = {
   getAllplaces,
   getList,
   get,
+  getByIds,
   create,
   update,
   remove,
