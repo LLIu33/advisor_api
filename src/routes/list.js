@@ -73,13 +73,27 @@ listRouter.put('/lists/:item_id', queryValidation, ListCtrl.update);
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
- *     description: Update list
+ *     description: Add places to exist list
  *     tags: [Lists]
  *     responses:
  *       200:
  *         description: Successfully updated
  */
 listRouter.put('/lists/:item_id/addPlaces', queryValidation, ListCtrl.addPlacesToList);
+
+/**
+ * @swagger
+ * /api/lists/{item_id}/addPlaces:
+ *   put:
+ *     parameters:
+ *       - $ref: '#/components/parameters/EntityId'
+ *     description: Remove place from exist list
+ *     tags: [Lists]
+ *     responses:
+ *       200:
+ *         description: Successfully updated
+ */
+listRouter.delete('/lists/:item_id/removePlace/:place_id', queryValidation, ListCtrl.removePlaceFromList);
 
 /**
  * @swagger

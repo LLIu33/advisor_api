@@ -61,6 +61,16 @@ const addPlacesToList = async (entityId, input) => {
   return await document.set({ placeListItems: existList.placeListItems.concat(newPlaces) }, { merge: true });
 };
 
+const removePlaceFromList = async (entityId, placeId) => {
+  const document = db.collection(collectionName).doc(entityId);
+  const existListSnap = await document.get();
+  const existList = existListSnap.data();
+  const newPlaceList = existList.placeListItems.filter((placeIdObj) => {
+    if (placeIdObj.placeId !== placeId) return placeIdObj;
+  });
+  return await document.set({ placeListItems: newPlaceList }, { merge: true });
+};
+
 const deleteById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   await document.delete();
@@ -72,5 +82,6 @@ module.exports = {
   getById,
   updateById,
   addPlacesToList,
+  removePlaceFromList,
   deleteById,
 };

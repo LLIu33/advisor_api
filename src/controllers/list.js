@@ -61,6 +61,18 @@ const addPlacesToList = async (req, res) => {
   }
 };
 
+const removePlaceFromList = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const placeId = req.params.place_id;
+    await listModel.removePlaceFromList(entityId, placeId);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const entityId = req.params.item_id;
@@ -78,5 +90,6 @@ module.exports = {
   create,
   update,
   addPlacesToList,
+  removePlaceFromList,
   remove,
 };
