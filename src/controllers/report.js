@@ -1,9 +1,31 @@
 const reportModel = require('../models/report');
 
-const create = async (req, res) => {
+const createReviewReport = async (req, res) => {
   try {
     const newData = req.body;
-    await reportModel.create(newData);
+    await reportModel.createReviewReport(newData);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
+const createPhotoReport = async (req, res) => {
+  try {
+    const newData = req.body;
+    await reportModel.createPhotoReport(newData);
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
+const createListReport = async (req, res) => {
+  try {
+    const newData = req.body;
+    await reportModel.createListReport(newData);
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -12,5 +34,7 @@ const create = async (req, res) => {
 };
 
 module.exports = {
-  create,
+  createReviewReport,
+  createPhotoReport,
+  createListReport,
 };

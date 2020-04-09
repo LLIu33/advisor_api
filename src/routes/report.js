@@ -13,12 +13,36 @@ const reportRouter = express.Router();
  * @swagger
  * /api/reports:
  *   post:
- *     description: Create report
+ *     description: Create review report
  *     tags: [Reports]
  *     responses:
  *       201:
  *         description: Successfully created
  */
-reportRouter.post('/reports', ReportCtrl.create);
+reportRouter.post('/reports', ReportCtrl.createReviewReport);
+
+/**
+ * @swagger
+ * /api/photo-reports:
+ *   post:
+ *     description: Create photo report
+ *     tags: [Reports]
+ *     responses:
+ *       201:
+ *         description: Successfully created
+ */
+reportRouter.post('/photo-reports', ReportCtrl.createPhotoReport);
+
+/**
+ * @swagger
+ * /api/list-reports:
+ *   post:
+ *     description: Create list report
+ *     tags: [Reports]
+ *     responses:
+ *       201:
+ *         description: Successfully created
+ */
+reportRouter.post('/list-reports', ReportCtrl.createListReport);
 
 module.exports = reportRouter;
