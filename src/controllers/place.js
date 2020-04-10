@@ -31,6 +31,7 @@ const getList = async (req, res) => {
 const getByIds = async (req, res) => {
   try {
     const ids = req.body.ids;
+    console.log(ids);
     const response = await placeModel.getPlacesByIds(ids);
     return res.status(200).send(response);
   } catch (error) {
