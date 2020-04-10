@@ -7,6 +7,7 @@ const listRouter = require('./list');
 const reviewRouter = require('./review');
 const profileRouter = require('./profile');
 const reportRouter = require('./report');
+const areaRouter = require('./area');
 const genericRouter = require('./generic');
 
 const swaggerDefinition = require('../utils/swagger');
@@ -20,6 +21,7 @@ apiRouter.use(listRouter);
 apiRouter.use(requiresLogin, profileRouter);
 apiRouter.use(reviewRouter);
 apiRouter.use(reportRouter);
+apiRouter.use(areaRouter);
 apiRouter.use(genericRouter);
 
 const swaggerSpec = swaggerJsdoc(swaggerDefinition);
