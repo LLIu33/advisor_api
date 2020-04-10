@@ -1,5 +1,5 @@
 const admin = require('../utils/firebase').getAdmin();
-const profileModel = require('../models/profile');
+const profileModel = require('../services/profile');
 const { httpCodes } = require('../utils/http');
 
 //TODO: remove temporary solution for testing

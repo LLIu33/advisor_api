@@ -1,4 +1,4 @@
-const placeModel = require('../models/place');
+const placeModel = require('../services/place');
 const helper = require('./helper');
 
 const getAllplaces = async (req, res) => {

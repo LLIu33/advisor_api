@@ -1,4 +1,4 @@
-const reportModel = require('../models/report');
+const reportModel = require('../services/report');
 
 const createReviewReport = async (req, res) => {
   try {

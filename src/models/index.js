@@ -1,45 +1,39 @@
-const uuid = require('uuid/v4');
+const dbConfig = require('../config/mysql');
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const basename = path.basename(__filename);
+const db = {};
 
-const firebase = require('../utils/firebase');
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+  host: dbConfig.HOST,
+  dialect: dbConfig.dialect,
+  operatorsAliases: false,
 
-const db = firebase.getDb();
+  pool: {
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle,
+  },
+});
 
-const create = async (collectionName, newData) => {
-  return await db
-    .collection(collectionName)
-    .doc('/' + uuid() + '/')
-    .create(newData);
-};
-const getById = async (collectionName, entityId) => {
-  const document = db.collection(collectionName).doc(entityId);
-  const item = await document.get();
-  return item.data();
-};
-const getList = async (collectionName, limit, offset) => {
-  const query = db.collection(collectionName);
-  const querySnapshot = await query.orderBy('id').limit(limit).offset(offset).get();
-  const data = querySnapshot.docs.map((doc) => {
-    return { id: doc.id, ...doc.data() };
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js';
+  })
+  .forEach((file) => {
+    const model = sequelize['import'](path.join(__dirname, file));
+    db[model.name] = model;
   });
-  return {
-    data,
-    limit,
-    offset,
-  };
-};
-const updateById = async (collectionName, entityId, newData) => {
-  const document = db.collection(collectionName).doc(entityId);
-  return await document.update(newData);
-};
-const deleteById = async (collectionName, entityId) => {
-  const document = db.collection(collectionName).doc(entityId);
-  await document.delete();
-};
 
-module.exports = {
-  create,
-  getList,
-  getById,
-  updateById,
-  deleteById,
-};
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

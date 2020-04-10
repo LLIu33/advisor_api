@@ -1,4 +1,4 @@
-const profileModel = require('../models/profile');
+const profileModel = require('../services/profile');
 const helper = require('./helper');
 
 const getList = async (req, res) => {

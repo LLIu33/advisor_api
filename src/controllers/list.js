@@ -1,4 +1,4 @@
-const listModel = require('../models/list');
+const listModel = require('../services/list');
 const helper = require('./helper');
 
 const getCollection = async (req, res) => {

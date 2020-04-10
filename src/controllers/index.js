@@ -1,4 +1,4 @@
-const genericModel = require('../models');
+const genericModel = require('../services');
 const helper = require('./helper');
 
 const createEntity = async (req, res) => {
