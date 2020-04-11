@@ -30,7 +30,7 @@ const getList = async (req, res) => {
 
 const getByIds = async (req, res) => {
   try {
-    const ids = req.body.ids;
+    const ids = req.query.ids;
     const response = await placeModel.getPlacesByIds(ids);
     return res.status(200).send(response);
   } catch (error) {
