@@ -31,9 +31,13 @@ const Joi = require('@hapi/joi');
  */
 
 const contactSchema = Joi.object({
-  atmosphere: Joi.number().required(),
-  service: Joi.number().required(),
-  quality: Joi.number().required(),
+  carrigeMenu: Joi.string(),
+  phone: Joi.string(),
+  deliverooMenu: Joi.string(),
+  website: Joi.string(),
+  instagram: Joi.string(),
+  menusite: Joi.string(),
+  talabatMenu: Joi.string(),
 });
 
 module.exports = contactSchema;
