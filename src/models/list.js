@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     List.belongsToMany(models.Place, {
       through: 'ListPlace',
       as: 'places',
-      foreignKey: 'list_id',
+      foreignKey: 'listId',
     });
   };
   return List;

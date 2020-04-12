@@ -17,6 +17,12 @@ module.exports = {
       userUid: {
         type: Sequelize.STRING,
       },
+      placeId: {
+        type: Sequelize.INTEGER,
+      },
+      placeUid: {
+        type: Sequelize.STRING,
+      },
       atmosphereRating: {
         type: Sequelize.INTEGER,
       },

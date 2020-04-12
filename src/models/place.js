@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     Place.belongsToMany(models.List, {
       through: 'ListPlace',
       as: 'lists',
-      foreignKey: 'place_id',
+      foreignKey: 'placeId',
+    });
+    Place.hasMany(models.Review, {
+      foreignKey: 'placeId',
+      as: 'reviews',
     });
   };
   return Place;

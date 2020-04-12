@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       uid: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       userUid: DataTypes.STRING,
+      placeId: DataTypes.INTEGER,
+      placeUid: DataTypes.STRING,
       atmosphereRating: DataTypes.INTEGER,
       serviceRating: DataTypes.INTEGER,
       qualityRating: DataTypes.INTEGER,
