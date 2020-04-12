@@ -6,31 +6,34 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      id: {
-        type: Sequelize.STRING
+      uid: {
+        type: Sequelize.STRING,
       },
       listId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+      },
+      listUid: {
+        type: Sequelize.STRING,
       },
       text: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       timestamp: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('ListReports');
-  }
+  },
 };

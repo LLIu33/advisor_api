@@ -6,52 +6,52 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      id: {
-        type: Sequelize.STRING
+      uid: {
+        type: Sequelize.STRING,
       },
       firstname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       lastname: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
-      date: {
-        type: Sequelize.DATE
+      registeredAt: {
+        type: Sequelize.DATE,
       },
       birthday: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       gender: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       latestCongratsLevel: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER,
       },
       level: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER,
       },
       role: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER,
       },
       points: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER,
       },
       avatarUrl: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Profiles');
-  }
+  },
 };

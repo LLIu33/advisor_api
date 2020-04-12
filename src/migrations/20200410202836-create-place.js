@@ -6,49 +6,52 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      id: {
-        type: Sequelize.STRING
+      uid: {
+        type: Sequelize.STRING,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       cost: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER,
       },
       isNewlyOpen: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       googlePlaceId: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       reviewsNumber: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER,
       },
       hidden: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       hasDelivery: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       venueId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+      },
+      venueUid: {
+        type: Sequelize.STRING,
       },
       hasOutdoorSeating: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Places');
-  }
+  },
 };

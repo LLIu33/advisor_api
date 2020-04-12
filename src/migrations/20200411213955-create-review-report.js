@@ -6,34 +6,40 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      id: {
-        type: Sequelize.STRING
+      uid: {
+        type: Sequelize.STRING,
       },
       placeId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
       },
       reviewId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+      },
+      placeUid: {
+        type: Sequelize.STRING,
+      },
+      reviewUid: {
+        type: Sequelize.STRING,
       },
       text: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       timestamp: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('ReviewReports');
-  }
+  },
 };
