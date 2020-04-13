@@ -18,7 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Profile.associate = function (models) {
-    // associations can be defined here
+    Profile.hasMany(models.Review, {
+      foreignKey: 'userId',
+      as: 'reviews',
+    });
   };
   return Profile;
 };
