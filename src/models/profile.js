@@ -14,6 +14,14 @@ module.exports = (sequelize, DataTypes) => {
       role: DataTypes.INTEGER,
       points: DataTypes.INTEGER,
       avatarUrl: DataTypes.STRING,
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
     },
     {}
   );
@@ -21,6 +29,12 @@ module.exports = (sequelize, DataTypes) => {
     Profile.hasMany(models.Review, {
       foreignKey: 'userId',
       as: 'reviews',
+    });
+
+    Profile.belongsToMany(models.Place, {
+      through: 'ProfilePlace',
+      as: 'places',
+      foreignKey: 'profileId',
     });
   };
   return Profile;

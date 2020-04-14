@@ -1,0 +1,328 @@
+{
+  "collection:cuisines": {
+    "Afghani": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Afghani",
+      "displayName": "Afghani"
+    },
+    "Armenian": {
+      "name": "Armenian",
+      "displayName": "Armenian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Azerbaijani": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Azerbaijani",
+      "displayName": "Azerbaijani"
+    },
+    "Bacha": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Bacha",
+      "displayName": "Bacha"
+    },
+    "Baked Potato": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Baked Potato",
+      "displayName": "Baked Potato"
+    },
+    "Bhutanese": {
+      "name": "Bhutanese",
+      "displayName": "Bhutanese",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Chicken": {
+      "name": "Chicken",
+      "displayName": "Chicken",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Cigar Lounge": {
+      "category": "beverages",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Cigar Lounge",
+      "displayName": "Cigar Lounge"
+    },
+    "Ethiopian ": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Ethiopian ",
+      "displayName": "Ethiopian "
+    },
+    "French ": {
+      "name": "French ",
+      "displayName": "French ",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Fried Chicken": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Fried Chicken",
+      "displayName": "Fried Chicken"
+    },
+    "Hawaiian": {
+      "name": "Hawaiian",
+      "displayName": "Hawaiian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Healthy Sweets": {
+      "name": "Healthy Sweets",
+      "displayName": "Healthy Sweets",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Heathy Sweets": {
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Heathy Sweets",
+      "displayName": "Heathy Sweets"
+    },
+    "Iraqi": {
+      "name": "Iraqi",
+      "displayName": "Iraqi",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Irish": {
+      "name": "Irish",
+      "displayName": "Irish",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Japanese Sweets": {
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Japanese Sweets",
+      "displayName": "Japanese Sweets"
+    },
+    "Japanese Sweets ": {
+      "name": "Japanese Sweets ",
+      "displayName": "Japanese Sweets ",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Jordanian": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Jordanian",
+      "displayName": "Jordanian"
+    },
+    "Korean": {
+      "name": "Korean",
+      "displayName": "Korean",
+      "category": "beverages",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Matcha": {
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Matcha",
+      "displayName": "Matcha"
+    },
+    "Moroccan": {
+      "name": "Moroccan",
+      "displayName": "Moroccan",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Nepali": {
+      "name": "Nepali",
+      "displayName": "Nepali",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Nordic": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Nordic",
+      "displayName": "Nordic"
+    },
+    "Nuts": {
+      "name": "Nuts",
+      "displayName": "Nuts",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Oman": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Oman",
+      "displayName": "Oman"
+    },
+    "Omani Grills": {
+      "name": "Omani Grills",
+      "displayName": "Omani Grills",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Omani Sweets": {
+      "name": "Omani Sweets",
+      "displayName": "Omani Sweets",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Pakistani": {
+      "name": "Pakistani",
+      "displayName": "Pakistani",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Peruvian": {
+      "name": "Peruvian",
+      "displayName": "Peruvian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Popcorn": {
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Popcorn",
+      "displayName": "Popcorn"
+    },
+    "Ramen": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Ramen",
+      "displayName": "Ramen"
+    },
+    "Rotisserie": {
+      "name": "Rotisserie",
+      "displayName": "Rotisserie",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Rotisserie Chicken": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Rotisserie Chicken",
+      "displayName": "Rotisserie Chicken"
+    },
+    "Spanish": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Spanish",
+      "displayName": "Spanish"
+    },
+    "Sri Lankan": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Sri Lankan",
+      "displayName": "Sri Lankan"
+    },
+    "Syrian": {
+      "name": "Syrian",
+      "displayName": "Syrian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Turkish Sweets": {
+      "name": "Turkish Sweets",
+      "displayName": "Turkish Sweets",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Uzbek": {
+      "name": "Uzbek",
+      "displayName": "Uzbek",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "Yemeni": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "Yemeni",
+      "displayName": "Yemeni"
+    },
+    "acai": {
+      "name": "acai",
+      "displayName": "acai",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "argentinian": {
+      "name": "argentinian",
+      "displayName": "argentinian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "ethiopian": {
+      "name": "ethiopian",
+      "displayName": "ethiopian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "fastfood": {
+      "name": "fastfood",
+      "displayName": "fastfood",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "filipino": {
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "filipino",
+      "displayName": "filipino"
+    },
+    "fried chicken": {
+      "name": "fried chicken",
+      "displayName": "fried chicken",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "hawaiian": {
+      "name": "hawaiian",
+      "displayName": "hawaiian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "indonesian": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "indonesian",
+      "displayName": "indonesian"
+    },
+    "mochi": {
+      "name": "mochi",
+      "displayName": "mochi",
+      "category": "desserts",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "moroccan": {
+      "name": "moroccan",
+      "displayName": "moroccan",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "morrocan ": {
+      "name": "morrocan ",
+      "displayName": "morrocan ",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "other_bev": {
+      "name": "other_bev",
+      "displayName": "other_bev",
+      "category": "beverages",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "singaporian": {
+      "name": "singaporian",
+      "displayName": "singaporian",
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}"
+    },
+    "يمني": {
+      "category": "restaurants",
+      "isOther": "{\"type\":\"bool\",\"data\":true}",
+      "name": "يمني",
+      "displayName": "يمني"
+    }
+  }
+}

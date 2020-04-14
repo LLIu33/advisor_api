@@ -10,6 +10,14 @@ module.exports = (sequelize, DataTypes) => {
       isPublic: DataTypes.BOOLEAN,
       creatorId: DataTypes.INTEGER,
       creatorUid: DataTypes.STRING,
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
     },
     {}
   );
