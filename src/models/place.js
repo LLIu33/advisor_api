@@ -14,8 +14,19 @@ module.exports = (sequelize, DataTypes) => {
       venueId: DataTypes.INTEGER,
       venueUid: DataTypes.STRING,
       hasOutdoorSeating: DataTypes.BOOLEAN,
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
     },
-    {}
+    {
+      charset: 'utf8',
+      collate: 'utf8mb4_general_ci',
+    }
   );
   Place.associate = function (models) {
     Place.belongsToMany(models.List, {
