@@ -20,10 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
       },
     },
     {
+      timestamps: true,
       charset: 'utf8',
       collate: 'utf8mb4_general_ci',
     }

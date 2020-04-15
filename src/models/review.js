@@ -16,8 +16,20 @@ module.exports = (sequelize, DataTypes) => {
       qualityText: DataTypes.STRING,
       text: DataTypes.STRING,
       publishedAt: DataTypes.DATE,
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW()'),
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
+      },
     },
-    {}
+    {
+      timestamps: true,
+      charset: 'utf8',
+      collate: 'utf8mb4_general_ci',
+    }
   );
   Review.associate = function (models) {
     Review.belongsTo(models.Place, {
