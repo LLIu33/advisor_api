@@ -11,7 +11,7 @@ const reviewRouter = express.Router();
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews:
+ * /v2/api/places/{place_id}/reviews:
  *   get:
  *     description: Get list of reviews
  *     tags: [Reviews]
@@ -26,7 +26,7 @@ reviewRouter.get('/places/:place_id/reviews', ReviewCtrl.getList);
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews:
+ * /v2/api/places/{place_id}/reviews:
  *   post:
  *     description: Create review
  *     tags: [Reviews]
@@ -38,7 +38,7 @@ reviewRouter.post('/places/:place_id/reviews', ReviewCtrl.create);
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews/{item_id}:
+ * /v2/api/places/{place_id}/reviews/{item_id}:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -52,7 +52,7 @@ reviewRouter.get('/places/:place_id/reviews/:item_id', ReviewCtrl.get);
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews/{item_id}:
+ * /v2/api/places/{place_id}/reviews/{item_id}:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -66,7 +66,7 @@ reviewRouter.put('/places/:place_id/reviews/:item_id', ReviewCtrl.update);
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews/{item_id}/add_photo:
+ * /v2/api/places/{place_id}/reviews/{item_id}/add_photo:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -80,7 +80,7 @@ reviewRouter.put('/places/:place_id/reviews/:item_id/add_photo', ReviewCtrl.addP
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews/{item_id}/remove_photo/:photo_id:
+ * /v2/api/places/{place_id}/reviews/{item_id}/remove_photo/:photo_id:
  *   delete:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -94,7 +94,7 @@ reviewRouter.delete('/places/:place_id/reviews/:item_id/remove_photo/:photo_id',
 
 /**
  * @swagger
- * /api/places/{place_id}/reviews/{item_id}:
+ * /v2/api/places/{place_id}/reviews/{item_id}:
  *   delete:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'

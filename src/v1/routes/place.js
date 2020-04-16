@@ -11,7 +11,7 @@ const placeRouter = express.Router();
 
 /**
  * @swagger
- * /api/places/all:
+ * /v1/api/places/all:
  *   get:
  *     description: Get all places
  *     tags: [Places]
@@ -23,7 +23,7 @@ placeRouter.get('/places/all', PlaceCtrl.getAllplaces);
 
 /**
  * @swagger
- * /api/places:
+ * /v1/api/places:
  *   get:
  *     description: Get list of places
  *     tags: [Places]
@@ -38,7 +38,7 @@ placeRouter.get('/places', PlaceCtrl.getList);
 
 /**
  * @swagger
- * /api/places:
+ * /v1/api/places:
  *   post:
  *     description: Create place
  *     tags: [Places]
@@ -50,7 +50,7 @@ placeRouter.post('/places', PlaceCtrl.create);
 
 /**
  * @swagger
- * /api/places/byIds:
+ * /v1/api/places/byIds:
  *   get:
  *     parameters:
  *       item_ids:
@@ -67,7 +67,7 @@ placeRouter.get('/places/byIds', PlaceCtrl.getByIds);
 
 /**
  * @swagger
- * /api/places/{item_id}:
+ * /v1/api/places/{item_id}:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -81,7 +81,7 @@ placeRouter.get('/places/:item_id', PlaceCtrl.get);
 
 /**
  * @swagger
- * /api/places/{item_id}:
+ * /v1/api/places/{item_id}:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -95,7 +95,7 @@ placeRouter.put('/places/:item_id', PlaceCtrl.update);
 
 /**
  * @swagger
- * /api/places/{item_id}/add_photo:
+ * /v1/api/places/{item_id}/add_photo:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -109,7 +109,7 @@ placeRouter.put('/places/:item_id/add_photo', PlaceCtrl.addPhotoToPlace);
 
 /**
  * @swagger
- * /api/places/{item_id}:
+ * /v1/api/places/{item_id}:
  *   delete:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'

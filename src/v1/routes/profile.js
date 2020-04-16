@@ -11,7 +11,7 @@ const profileRouter = express.Router();
 
 /**
  * @swagger
- * /api/profiles:
+ * /v1/api/profiles:
  *   get:
  *     description: Get list of profiles
  *     tags: [Profiles]
@@ -28,7 +28,7 @@ profileRouter.get('/profiles', ProfileCtrl.getList);
 
 /**
  * @swagger
- * /api/profiles:
+ * /v1/api/profiles:
  *   post:
  *     description: Create profile
  *     tags: [Profiles]
@@ -42,7 +42,7 @@ profileRouter.post('/profiles', ProfileCtrl.create);
 
 /**
  * @swagger
- * /api/profiles/{item_id}:
+ * /v1/api/profiles/{item_id}:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -58,7 +58,7 @@ profileRouter.get('/profiles/:item_id', ProfileCtrl.get);
 
 /**
  * @swagger
- * /api/profiles/{item_id}/photos:
+ * /v1/api/profiles/{item_id}/photos:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -74,7 +74,7 @@ profileRouter.get('/profiles/:item_id/photos', ProfileCtrl.getPhotos);
 
 /**
  * @swagger
- * /api/profiles/{item_id}/reviews:
+ * /v1/api/profiles/{item_id}/reviews:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -90,7 +90,7 @@ profileRouter.get('/profiles/:item_id/reviews', ProfileCtrl.getReviews);
 
 /**
  * @swagger
- * /api/profiles/{item_id}:
+ * /v1/api/profiles/{item_id}:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'

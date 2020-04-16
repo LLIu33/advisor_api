@@ -1,4 +1,4 @@
-const dbConfig = require('../config/mysql');
+const dbConfig = require('../../config/mysql');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');

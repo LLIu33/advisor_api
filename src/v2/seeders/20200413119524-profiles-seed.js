@@ -1,6 +1,6 @@
-const helper = require('../utils/helper');
+const helper = require('../../utils/helper');
 
-const data = require('../../data/profiles.json')['collection:profiles'];
+const data = require('../../../data/profiles.json')['collection:profiles'];
 const dataToInsert = [];
 const addedEntity = [];
 for (const key in data) {

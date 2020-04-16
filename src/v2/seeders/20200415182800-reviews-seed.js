@@ -1,9 +1,9 @@
-const helper = require('../utils/helper');
+const helper = require('../../utils/helper');
 const fs = require('fs');
 
 module.exports = {
   up: async (queryInterface) => {
-    const data = require('../../data/places.json')['collection:places'];
+    const data = require('../../../data/places.json')['collection:places'];
     const dataToInsert = [];
     for (const key in data) {
       const entity = data[key];

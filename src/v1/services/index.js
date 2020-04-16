@@ -1,6 +1,6 @@
 const uuid = require('uuid/v4');
 
-const firebase = require('../utils/firebase');
+const firebase = require('../../utils/firebase');
 
 const db = firebase.getDb();
 

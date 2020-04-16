@@ -11,7 +11,7 @@ const apiRouter = express.Router();
 
 /**
  * @swagger
- * /api/{collection}:
+ * /v1/api/{collection}:
  *   post:
  *     description: Create entity
  *     tags: [Entities]
@@ -25,7 +25,7 @@ apiRouter.post('/:collection', createEntity);
 
 /**
  * @swagger
- * /api/{collection}:
+ * /v1/api/{collection}:
  *   get:
  *     description: Get list of entities
  *     tags: [Entities]
@@ -41,7 +41,7 @@ apiRouter.get('/:collection', getListOfEntity);
 
 /**
  * @swagger
- * /api/{collection}/{item_id}:
+ * /v1/api/{collection}/{item_id}:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/Collection'
@@ -56,7 +56,7 @@ apiRouter.get('/:collection/:item_id', getEntity);
 
 /**
  * @swagger
- * /api/{collection}/{item_id}:
+ * /v1/api/{collection}/{item_id}:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/Collection'
@@ -71,7 +71,7 @@ apiRouter.put('/:collection/:item_id', updateEntity);
 
 /**
  * @swagger
- * /api/{collection}/{item_id}:
+ * /v1/api/{collection}/{item_id}:
  *   delete:
  *     parameters:
  *       - $ref: '#/components/parameters/Collection'

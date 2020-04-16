@@ -11,7 +11,7 @@ const reportRouter = express.Router();
 
 /**
  * @swagger
- * /api/reports:
+ * /v2/api/reports:
  *   post:
  *     description: Create review report
  *     tags: [Reports]
@@ -23,7 +23,7 @@ reportRouter.post('/reports', ReportCtrl.createReviewReport);
 
 /**
  * @swagger
- * /api/photo-reports:
+ * /v2/api/photo-reports:
  *   post:
  *     description: Create photo report
  *     tags: [Reports]
@@ -35,7 +35,7 @@ reportRouter.post('/photo-reports', ReportCtrl.createPhotoReport);
 
 /**
  * @swagger
- * /api/list-reports:
+ * /v2/api/list-reports:
  *   post:
  *     description: Create list report
  *     tags: [Reports]

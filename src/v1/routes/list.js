@@ -11,7 +11,7 @@ const listRouter = express.Router();
 
 /**
  * @swagger
- * /api/lists:
+ * /v1/api/lists:
  *   get:
  *     description: Get collection of lists
  *     tags: [Lists]
@@ -26,7 +26,7 @@ listRouter.get('/lists', ListCtrl.getCollection);
 
 /**
  * @swagger
- * /api/lists:
+ * /v1/api/lists:
  *   post:
  *     description: Create list
  *     tags: [Lists]
@@ -38,7 +38,7 @@ listRouter.post('/lists', ListCtrl.create);
 
 /**
  * @swagger
- * /api/lists/{item_id}:
+ * /v1/api/lists/{item_id}:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -52,7 +52,7 @@ listRouter.get('/lists/:item_id', ListCtrl.get);
 
 /**
  * @swagger
- * /api/lists/{item_id}/places:
+ * /v1/api/lists/{item_id}/places:
  *   get:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -66,7 +66,7 @@ listRouter.get('/lists/:item_id/places', ListCtrl.getPlacesByListId);
 
 /**
  * @swagger
- * /api/lists/{item_id}:
+ * /v1/api/lists/{item_id}:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -80,7 +80,7 @@ listRouter.put('/lists/:item_id', ListCtrl.update);
 
 /**
  * @swagger
- * /api/lists/{item_id}/addPlaces:
+ * /v1/api/lists/{item_id}/addPlaces:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -94,7 +94,7 @@ listRouter.put('/lists/:item_id/addPlaces', ListCtrl.addPlacesToList);
 
 /**
  * @swagger
- * /api/lists/{item_id}/addPlaces:
+ * /v1/api/lists/{item_id}/addPlaces:
  *   put:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'
@@ -108,7 +108,7 @@ listRouter.delete('/lists/:item_id/removePlace/:place_id', ListCtrl.removePlaceF
 
 /**
  * @swagger
- * /api/lists/{item_id}:
+ * /v1/api/lists/{item_id}:
  *   delete:
  *     parameters:
  *       - $ref: '#/components/parameters/EntityId'

@@ -9,9 +9,9 @@ const profileRouter = require('./profile');
 const reportRouter = require('./report');
 const genericRouter = require('./generic');
 
-const swaggerDefinition = require('../utils/swagger');
-const queryValidation = require('../middlewares/queryValidation');
-const { requiresLogin } = require('../middlewares/authentication');
+const swaggerDefinition = require('../../utils/swagger');
+const queryValidation = require('../../middlewares/queryValidation');
+const { requiresLogin } = require('../../middlewares/authentication');
 
 const rootRouter = express.Router();
 const apiRouter = express.Router();
