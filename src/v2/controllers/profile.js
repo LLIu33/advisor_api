@@ -1,16 +1,20 @@
-const profileModel = require('../services/profile');
+const db = require('../models');
+const Profile = db.Profile;
 const helper = require('./helper');
 
 const getList = async (req, res) => {
   try {
-    const { limit, offset, ...filterParams } = req.query;
-    const params = {
-      limit: helper.processLimit(limit),
-      offset: helper.processOffset(offset),
-      filter: helper.processFilter(filterParams),
-    };
+    let { limit, offset, ...filter } = req.query;
+    limit = helper.processLimit(limit);
+    offset = helper.processOffset(offset);
+    filter = helper.processFilter(filter);
 
-    const response = await profileModel.getListOfProfiles(params);
+    const profiles = await Profile.findAll({ where: filter });
+    const response = {
+      profiles,
+      limit,
+      offset,
+    };
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -21,29 +25,7 @@ const getList = async (req, res) => {
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const response = await profileModel.getById(entityId);
-    return res.status(200).send(response);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
-  }
-};
-
-const getPhotos = async (req, res) => {
-  try {
-    const entityId = req.params.item_id;
-    const response = await profileModel.getPhotosById(entityId);
-    return res.status(200).send(response);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
-  }
-};
-
-const getReviews = async (req, res) => {
-  try {
-    const entityId = req.params.item_id;
-    const response = await profileModel.getReviewsById(entityId);
+    const response = await Profile.findOne({ where: { uid: entityId } });
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -54,7 +36,7 @@ const getReviews = async (req, res) => {
 const create = async (req, res) => {
   try {
     const newData = req.body;
-    await profileModel.create(newData);
+    await Profile.create(newData);
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -66,7 +48,9 @@ const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
     const newData = req.body;
-    await profileModel.updateById(entityId, newData);
+    await Profile.update(newData, {
+      where: { uid: entityId },
+    });
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -74,11 +58,33 @@ const update = async (req, res) => {
   }
 };
 
+// const getPhotos = async (req, res) => {
+//   try {
+//     const entityId = req.params.item_id;
+//     const response = await profileModel.getPhotosById(entityId);
+//     return res.status(200).send(response);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send(error);
+//   }
+// };
+
+// const getReviews = async (req, res) => {
+//   try {
+//     const entityId = req.params.item_id;
+//     const response = await profileModel.getReviewsById(entityId);
+//     return res.status(200).send(response);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send(error);
+//   }
+// };
+
 module.exports = {
   getList,
   get,
-  getPhotos,
-  getReviews,
+  // getPhotos,
+  // getReviews,
   create,
   update,
 };
