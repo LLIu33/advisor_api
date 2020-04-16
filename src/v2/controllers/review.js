@@ -1,17 +1,20 @@
-const reviewModel = require('../services/review');
+const db = require('../models');
+const Review = db.Review;
 const helper = require('./helper');
 
 const getList = async (req, res) => {
   try {
-    const { limit, offset, ...filterParams } = req.query;
-    const params = {
-      placeId: req.params.place_id,
-      limit: helper.processLimit(limit),
-      offset: helper.processOffset(offset),
-      filter: helper.processFilter(filterParams),
-    };
+    let { limit, offset, ...filter } = req.query;
+    limit = helper.processLimit(limit);
+    offset = helper.processOffset(offset);
+    filter = helper.processFilter(filter);
 
-    const response = await reviewModel.getListOfReviews(params);
+    const lists = await Review.findAll({ where: filter });
+    const response = {
+      lists,
+      limit,
+      offset,
+    };
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -22,7 +25,7 @@ const getList = async (req, res) => {
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const response = await reviewModel.getById(entityId);
+    const response = await Review.findOne({ where: { uid: entityId } });
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -33,8 +36,7 @@ const get = async (req, res) => {
 const create = async (req, res) => {
   try {
     const newData = req.body;
-    const placeId = req.params.place_id;
-    await reviewModel.create(newData, placeId);
+    await Review.create(newData);
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -44,36 +46,11 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const placeId = req.params.place_id;
     const entityId = req.params.item_id;
     const newData = req.body;
-    await reviewModel.updateById(entityId, newData, placeId);
-    return res.status(200).send();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
-  }
-};
-
-const addPhoto = async (req, res) => {
-  try {
-    const placeId = req.params.place_id;
-    const entityId = req.params.item_id;
-    const photoObj = req.body;
-    await reviewModel.updateById(entityId, placeId, photoObj);
-    return res.status(200).send();
-  } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
-  }
-};
-
-const removePhoto = async (req, res) => {
-  try {
-    const placeId = req.params.place_id;
-    const entityId = req.params.item_id;
-    const photoId = req.params.photo_id;
-    await reviewModel.deleteById(entityId, placeId, photoId);
+    await Review.update(newData, {
+      where: { uid: entityId },
+    });
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -83,9 +60,10 @@ const removePhoto = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    const placeId = req.params.place_id;
     const entityId = req.params.item_id;
-    await reviewModel.deleteById(entityId, placeId);
+    await Review.destroy({
+      where: { uid: entityId },
+    });
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -93,12 +71,38 @@ const remove = async (req, res) => {
   }
 };
 
+// const addPhoto = async (req, res) => {
+//   try {
+//     const placeId = req.params.place_id;
+//     const entityId = req.params.item_id;
+//     const photoObj = req.body;
+//     await reviewModel.updateById(entityId, placeId, photoObj);
+//     return res.status(200).send();
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send(error);
+//   }
+// };
+
+// const removePhoto = async (req, res) => {
+//   try {
+//     const placeId = req.params.place_id;
+//     const entityId = req.params.item_id;
+//     const photoId = req.params.photo_id;
+//     await reviewModel.deleteById(entityId, placeId, photoId);
+//     return res.status(200).send();
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).send(error);
+//   }
+// };
+
 module.exports = {
   getList,
   get,
   create,
   update,
-  addPhoto,
-  removePhoto,
+  // addPhoto,
+  // removePhoto,
   remove,
 };
