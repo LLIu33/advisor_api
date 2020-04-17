@@ -62,7 +62,7 @@ listRouter.get('/lists/:item_id', ListCtrl.get);
  *       200:
  *         description: Successfully returned
  */
-listRouter.get('/lists/:item_id/places', ListCtrl.getPlacesByListId);
+// listRouter.get('/lists/:item_id/places', ListCtrl.getPlacesByListId);
 
 /**
  * @swagger
@@ -90,7 +90,7 @@ listRouter.put('/lists/:item_id', ListCtrl.update);
  *       200:
  *         description: Successfully updated
  */
-listRouter.put('/lists/:item_id/addPlaces', ListCtrl.addPlacesToList);
+// listRouter.put('/lists/:item_id/addPlaces', ListCtrl.addPlacesToList);
 
 /**
  * @swagger
@@ -104,7 +104,7 @@ listRouter.put('/lists/:item_id/addPlaces', ListCtrl.addPlacesToList);
  *       200:
  *         description: Successfully updated
  */
-listRouter.delete('/lists/:item_id/removePlace/:place_id', ListCtrl.removePlaceFromList);
+// listRouter.delete('/lists/:item_id/removePlace/:place_id', ListCtrl.removePlaceFromList);
 
 /**
  * @swagger

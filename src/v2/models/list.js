@@ -2,7 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const List = sequelize.define(
     'List',
     {
-      id: DataTypes.INTEGER,
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       uid: DataTypes.STRING,
       name: DataTypes.STRING,
       coverUrl: DataTypes.STRING,

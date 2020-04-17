@@ -1,6 +1,6 @@
-const admin = require('../utils/firebase').getAdmin();
+const admin = require('../../utils/firebase').getAdmin();
 const profileModel = require('../services/profile');
-const { httpCodes } = require('../utils/http');
+const { httpCodes } = require('../../utils/http');
 
 //TODO: remove temporary solution for testing
 const hardcodedToken =

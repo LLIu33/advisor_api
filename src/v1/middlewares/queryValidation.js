@@ -1,5 +1,5 @@
-const collectionSchema = require('../schemas/collections');
-const { httpCodes } = require('../utils/http');
+const collectionSchema = require('../../schemas/collections');
+const { httpCodes } = require('../../utils/http');
 
 module.exports = (req, res, next) => {
   console.log('queryValidation middlware');

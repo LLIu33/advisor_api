@@ -2,7 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const PhotoReport = sequelize.define(
     'PhotoReport',
     {
-      id: DataTypes.INTEGER,
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       uid: DataTypes.STRING,
       placeId: DataTypes.INTEGER,
       photoId: DataTypes.INTEGER,

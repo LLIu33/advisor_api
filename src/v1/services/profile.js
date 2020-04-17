@@ -1,4 +1,4 @@
-const firebase = require('../utils/firebase');
+const firebase = require('../../utils/firebase');
 const uuid = require('uuid/v4');
 const reviewModel = require('./review');
 const placeModel = require('./place');
