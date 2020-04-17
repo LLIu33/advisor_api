@@ -28,10 +28,17 @@ const getListOfProfiles = async (params) => {
 };
 
 const create = async (newData) => {
-  return await db
+  const newEntityId = uuid();
+  newData.uid = newEntityId;
+  const isCreated = await db
     .collection(collectionName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  const document = await db.collection(collectionName).doc(newEntityId).get();
+  return document.data();
 };
 
 const getById = async (entityId) => {
@@ -77,8 +84,13 @@ const getPhotosById = async (entityId) => {
 };
 
 const updateById = async (entityId, newData) => {
-  const document = db.collection(collectionName).doc(entityId);
-  return await document.update(newData);
+  newData.uid = entityId;
+  const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
+  if (!isUpdated) {
+    return false;
+  }
+  const document = await db.collection(collectionName).doc(entityId).get();
+  return document.data();
 };
 
 module.exports = {

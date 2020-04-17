@@ -54,8 +54,8 @@ const getReviews = async (req, res) => {
 const create = async (req, res) => {
   try {
     const newData = req.body;
-    await profileModel.create(newData);
-    return res.status(200).send();
+    const response = await profileModel.create(newData);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -66,8 +66,8 @@ const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
     const newData = req.body;
-    await profileModel.updateById(entityId, newData);
-    return res.status(200).send();
+    const response = await profileModel.updateById(entityId, newData);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
