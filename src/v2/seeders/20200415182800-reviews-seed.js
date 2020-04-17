@@ -1,5 +1,4 @@
 const helper = require('../../utils/helper');
-const fs = require('fs');
 
 module.exports = {
   up: async (queryInterface) => {

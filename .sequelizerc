@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   'config': path.resolve('src/config', './mysql.js'),
-  'models-path': path.resolve('src', 'models'),
-  'seeders-path': path.resolve('src', 'seeders'),
-  'migrations-path': path.resolve('src', 'migrations')
+  'models-path': path.resolve('src/v2', 'models'),
+  'seeders-path': path.resolve('src/v2', 'seeders'),
+  'migrations-path': path.resolve('src/v2', 'migrations')
 }

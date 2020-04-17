@@ -1,4 +1,4 @@
-const helper = require('../utils/helper');
+const helper = require('../../utils/helper');
 const listsData = require('../../data/lists.json');
 
 module.exports = {
