@@ -66,7 +66,7 @@ const update = async (req, res) => {
 const addPlacesToList = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const newPlaces = req.body;
+    const newPlaces = req.body.placeIds;
     const response = await listModel.addPlacesToList(entityId, newPlaces);
     return res.status(200).send(response);
   } catch (error) {
