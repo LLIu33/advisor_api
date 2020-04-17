@@ -30,7 +30,7 @@ const getList = async (req, res) => {
 
 const getByIds = async (req, res) => {
   try {
-    const ids = req.body;
+    const ids = req.query.ids;
     const response = await placeModel.getPlacesByIds(ids);
     return res.status(200).send(response);
   } catch (error) {
@@ -53,8 +53,8 @@ const get = async (req, res) => {
 const create = async (req, res) => {
   try {
     const newData = req.body;
-    await placeModel.create(newData);
-    return res.status(200).send();
+    const response = await placeModel.create(newData);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -65,8 +65,8 @@ const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
     const newData = req.body;
-    await placeModel.updateById(entityId, newData);
-    return res.status(200).send();
+    const response = await placeModel.updateById(entityId, newData);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -77,8 +77,8 @@ const addPhotoToPlace = async (req, res) => {
   try {
     const entityId = req.params.item_id;
     const photoObj = req.body;
-    await placeModel.addPhotoToPlace(entityId, photoObj);
-    return res.status(200).send();
+    const response = await placeModel.addPhotoToPlace(entityId, photoObj);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

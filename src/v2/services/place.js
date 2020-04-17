@@ -48,10 +48,17 @@ const getPlacesByIds = async (ids) => {
 };
 
 const create = async (newData) => {
-  return await db
+  const newEntityId = uuid();
+  newData.id = newEntityId;
+  const isCreated = await db
     .collection(collectionName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  const document = await db.collection(collectionName).doc(newEntityId).get();
+  return document.data();
 };
 
 const getById = async (entityId) => {
@@ -68,8 +75,13 @@ const getById = async (entityId) => {
 };
 
 const updateById = async (entityId, newData) => {
-  const document = db.collection(collectionName).doc(entityId);
-  return await document.update(newData);
+  newData.id = entityId;
+  const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
+  if (!isUpdated) {
+    return false;
+  }
+  const document = await db.collection(collectionName).doc(entityId).get();
+  return document.data();
 };
 
 const addPhotoToPlace = async (entityId, photoObj) => {
@@ -77,7 +89,12 @@ const addPhotoToPlace = async (entityId, photoObj) => {
   const placeSnap = await document.get();
   const place = placeSnap.data();
   place.photos.push(photoObj);
-  return await document.set({ photos: place.photos }, { merge: true });
+  const isUpdated = await document.set({ photos: place.photos }, { merge: true });
+  if (!isUpdated) {
+    return false;
+  }
+  const updatedPlace = await db.collection(collectionName).doc(entityId).get();
+  return updatedPlace.data();
 };
 
 const deleteById = async (entityId) => {

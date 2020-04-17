@@ -7,24 +7,45 @@ const photoReportsName = 'photo-reports';
 const listReportsName = 'list-reports';
 
 const createReviewReport = async (newData) => {
-  return await db
+  const newEntityId = uuid();
+  newData.id = newEntityId;
+  const isCreated = await db
     .collection(reviewReportsName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  const document = await db.collection(reviewReportsName).doc(newEntityId).get();
+  return document.data();
 };
 
 const createPhotoReport = async (newData) => {
-  return await db
+  const newEntityId = uuid();
+  newData.id = newEntityId;
+  const isCreated = await db
     .collection(photoReportsName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  const document = await db.collection(photoReportsName).doc(newEntityId).get();
+  return document.data();
 };
 
 const createListReport = async (newData) => {
-  return await db
+  const newEntityId = uuid();
+  newData.id = newEntityId;
+  const isCreated = await db
     .collection(listReportsName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  const document = await db.collection(listReportsName).doc(newEntityId).get();
+  return document.data();
 };
 
 module.exports = {
