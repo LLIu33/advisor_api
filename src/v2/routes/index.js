@@ -9,7 +9,6 @@ const profileRouter = require('./profile');
 const reportRouter = require('./report');
 
 const swaggerDefinition = require('../../utils/swagger');
-const queryValidation = require('../../middlewares/queryValidation');
 const { requiresLogin } = require('../../middlewares/authentication');
 
 const rootRouter = express.Router();
@@ -22,7 +21,7 @@ apiRouter.use(reportRouter);
 
 const swaggerSpec = swaggerJsdoc(swaggerDefinition);
 rootRouter.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-rootRouter.use('/api', queryValidation, apiRouter);
+rootRouter.use('/api', apiRouter);
 
 module.exports = rootRouter;
 
