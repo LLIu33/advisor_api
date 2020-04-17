@@ -25,7 +25,7 @@ function processFilter(input) {
         break;
     }
   }
-  return result;
+  return Object.assign({}, result);
 }
 
 module.exports = {

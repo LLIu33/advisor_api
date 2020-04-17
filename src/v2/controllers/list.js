@@ -37,8 +37,8 @@ const get = async (req, res) => {
 const create = async (req, res) => {
   try {
     const newData = req.body;
-    await List.create(newData);
-    return res.status(200).send();
+    const response = await List.create(newData);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -52,7 +52,8 @@ const update = async (req, res) => {
     await List.update(newData, {
       where: { uid: entityId },
     });
-    return res.status(200).send();
+    const response = await List.findOne({ where: { uid: entityId } });
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
