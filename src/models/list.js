@@ -25,10 +25,17 @@ const getCollectionOfLists = async (params) => {
 };
 
 const create = async (newData) => {
-  return await db
+  const newEntityId = uuid();
+  newData.id = newEntityId;
+  const isCreated = await db
     .collection(collectionName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  const document = await db.collection(collectionName).doc(newEntityId).get();
+  return document.data();
 };
 
 const getById = async (entityId) => {
@@ -52,8 +59,13 @@ const getPlacesByListId = async (entityId) => {
 };
 
 const updateById = async (entityId, newData) => {
-  const document = db.collection(collectionName).doc(entityId);
-  return await document.update(newData);
+  newData.id = entityId;
+  const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
+  if (!isUpdated) {
+    return false;
+  }
+  const document = await db.collection(collectionName).doc(entityId).get();
+  return document.data();
 };
 
 const addPlacesToList = async (entityId, input) => {
@@ -71,7 +83,12 @@ const addPlacesToList = async (entityId, input) => {
       placeId,
     };
   });
-  return await document.set({ placeListItems: existList.placeListItems.concat(newPlaces) }, { merge: true });
+  const isUpdated = await document.set({ placeListItems: existList.placeListItems.concat(newPlaces) }, { merge: true });
+  if (!isUpdated) {
+    return false;
+  }
+  const updatedDoc = await db.collection(collectionName).doc(entityId).get();
+  return updatedDoc.data();
 };
 
 const removePlaceFromList = async (entityId, placeId) => {
@@ -81,7 +98,12 @@ const removePlaceFromList = async (entityId, placeId) => {
   const newPlaceList = existList.placeListItems.filter((placeIdObj) => {
     if (placeIdObj.placeId !== placeId) return placeIdObj;
   });
-  return await document.set({ placeListItems: newPlaceList }, { merge: true });
+  const isUpdated = await document.set({ placeListItems: newPlaceList }, { merge: true });
+  if (!isUpdated) {
+    return false;
+  }
+  const updatedDoc = await db.collection(collectionName).doc(entityId).get();
+  return updatedDoc.data();
 };
 
 const deleteById = async (entityId) => {
