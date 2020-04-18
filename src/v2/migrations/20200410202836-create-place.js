@@ -17,7 +17,7 @@ module.exports = {
       cost: {
         type: Sequelize.INTEGER,
       },
-      isNewlyOpen: {
+      isNewlyOpened: {
         type: Sequelize.BOOLEAN,
       },
       googlePlaceId: {

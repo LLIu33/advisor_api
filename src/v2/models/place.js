@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       uid: DataTypes.STRING,
       name: DataTypes.STRING,
       cost: DataTypes.INTEGER,
-      isNewlyOpen: DataTypes.BOOLEAN,
+      isNewlyOpened: DataTypes.BOOLEAN,
       googlePlaceId: DataTypes.STRING,
       reviewsNumber: DataTypes.INTEGER,
       hidden: DataTypes.BOOLEAN,
