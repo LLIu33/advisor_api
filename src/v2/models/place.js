@@ -49,6 +49,11 @@ module.exports = (sequelize, DataTypes) => {
       as: 'DeliveryApps',
       foreignKey: 'place_id',
     });
+    Place.belongsToMany(models.DeliveryApps, {
+      through: 'PlacePickupApps',
+      as: 'PickupApps',
+      foreignKey: 'place_id',
+    });
   };
   return Place;
 };
