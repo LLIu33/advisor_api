@@ -54,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'PickupApps',
       foreignKey: 'place_id',
     });
+    Place.hasMany(models.PhotoReferences, {
+      foreignKey: 'place_id',
+      as: 'photo_references',
+    });
   };
   return Place;
 };
