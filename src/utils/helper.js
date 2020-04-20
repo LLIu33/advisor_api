@@ -37,13 +37,23 @@ const getDataFromJson = (input) => {
     return data;
   } catch (e) {
     console.log(e);
-    return null;
+    return input;
   }
+};
+
+const isJsonString = (input) => {
+  try {
+    JSON.parse(input);
+  } catch (e) {
+    return false;
+  }
+  return true;
 };
 
 module.exports = {
   fbTimestampToDatetime,
   emptyOrNullToString,
   emptyOrNullToNumber,
+  isJsonString,
   getDataFromJson,
 };

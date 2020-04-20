@@ -95,6 +95,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'location',
     });
+    Place.hasMany(models.Contacts, {
+      foreignKey: 'placeId',
+      as: 'contacts',
+    });
   };
   return Place;
 };
