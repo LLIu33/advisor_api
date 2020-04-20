@@ -62,6 +62,31 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'popularDishes',
     });
+    Place.belongsToMany(models.DeliveryApps, {
+      through: 'PlacePhotos',
+      as: 'photos',
+      foreignKey: 'placeId',
+    });
+    Place.belongsToMany(models.DeliveryApps, {
+      through: 'PlaceGooglePhotos',
+      as: 'googlePhotos',
+      foreignKey: 'placeId',
+    });
+    Place.belongsToMany(models.DeliveryApps, {
+      through: 'PlaceMainPhotos',
+      as: 'mainPhotos',
+      foreignKey: 'placeId',
+    });
+    Place.belongsToMany(models.DeliveryApps, {
+      through: 'PlaceTopPhotos',
+      as: 'topPhotos',
+      foreignKey: 'placeId',
+    });
+    Place.belongsToMany(models.DeliveryApps, {
+      through: 'PlacePositionedPhotos',
+      as: 'positionedPhotos',
+      foreignKey: 'placeId',
+    });
   };
   return Place;
 };
