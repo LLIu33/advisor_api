@@ -47,16 +47,20 @@ module.exports = (sequelize, DataTypes) => {
     Place.belongsToMany(models.DeliveryApps, {
       through: 'PlaceDeliveryApps',
       as: 'DeliveryApps',
-      foreignKey: 'place_id',
+      foreignKey: 'placeId',
     });
     Place.belongsToMany(models.DeliveryApps, {
       through: 'PlacePickupApps',
       as: 'PickupApps',
-      foreignKey: 'place_id',
+      foreignKey: 'placeId',
     });
     Place.hasMany(models.PhotoReferences, {
-      foreignKey: 'place_id',
+      foreignKey: 'placeId',
       as: 'photo_references',
+    });
+    Place.hasMany(models.Dishes, {
+      foreignKey: 'placeId',
+      as: 'popularDishes',
     });
   };
   return Place;
