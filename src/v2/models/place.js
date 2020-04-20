@@ -87,6 +87,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'positionedPhotos',
       foreignKey: 'placeId',
     });
+    Place.hasMany(models.Periods, {
+      foreignKey: 'placeId',
+      as: 'openingHours',
+    });
   };
   return Place;
 };
