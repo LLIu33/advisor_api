@@ -99,6 +99,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'contacts',
     });
+    Place.hasMany(models.Ratings, {
+      foreignKey: 'placeId',
+      as: 'rating',
+    });
   };
   return Place;
 };
