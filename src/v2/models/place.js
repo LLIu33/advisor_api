@@ -62,27 +62,27 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'popularDishes',
     });
-    Place.belongsToMany(models.DeliveryApps, {
+    Place.belongsToMany(models.Photos, {
       through: 'PlacePhotos',
       as: 'photos',
       foreignKey: 'placeId',
     });
-    Place.belongsToMany(models.DeliveryApps, {
+    Place.belongsToMany(models.Photos, {
       through: 'PlaceGooglePhotos',
       as: 'googlePhotos',
       foreignKey: 'placeId',
     });
-    Place.belongsToMany(models.DeliveryApps, {
+    Place.belongsToMany(models.Photos, {
       through: 'PlaceMainPhotos',
       as: 'mainPhotos',
       foreignKey: 'placeId',
     });
-    Place.belongsToMany(models.DeliveryApps, {
+    Place.belongsToMany(models.Photos, {
       through: 'PlaceTopPhotos',
       as: 'topPhotos',
       foreignKey: 'placeId',
     });
-    Place.belongsToMany(models.DeliveryApps, {
+    Place.belongsToMany(models.Photos, {
       through: 'PlacePositionedPhotos',
       as: 'positionedPhotos',
       foreignKey: 'placeId',
@@ -90,6 +90,10 @@ module.exports = (sequelize, DataTypes) => {
     Place.hasMany(models.Periods, {
       foreignKey: 'placeId',
       as: 'openingHours',
+    });
+    Place.hasMany(models.Locations, {
+      foreignKey: 'placeId',
+      as: 'location',
     });
   };
   return Place;
