@@ -21,6 +21,16 @@ const emptyOrNullToString = (input) => {
   return input;
 };
 
+const emptyOrNullToNumber = (input) => {
+  if (typeof input === 'string') {
+    input = getDataFromJson(input);
+  }
+  if (!input || input.type === 'null') {
+    return 0;
+  }
+  return input;
+};
+
 const getDataFromJson = (input) => {
   try {
     const data = JSON.parse(input);
@@ -34,5 +44,6 @@ const getDataFromJson = (input) => {
 module.exports = {
   fbTimestampToDatetime,
   emptyOrNullToString,
+  emptyOrNullToNumber,
   getDataFromJson,
 };
