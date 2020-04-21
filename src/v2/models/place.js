@@ -103,6 +103,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'rating',
     });
+    Place.hasMany(models.GoogleReviews, {
+      foreignKey: 'placeId',
+      as: 'googleReviews',
+    });
   };
   return Place;
 };
