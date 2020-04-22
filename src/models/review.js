@@ -50,12 +50,18 @@ const getReviewsByPlaceIds = async (ids) => {
 };
 
 const create = async (newData, placeId) => {
-  return await db
+  const newEntityId = uuid();
+  newData.id = newEntityId;
+  const isCreated = await db
     .collection(parentCollectionName)
     .doc(placeId)
     .collection(collectionName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  return getPlaceById(placeId);
 };
 
 const getById = async (entityId, placeId) => {
@@ -66,7 +72,8 @@ const getById = async (entityId, placeId) => {
 
 const updateById = async (entityId, newData, placeId) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
-  return await document.update(newData);
+  await document.update(newData);
+  return getPlaceById(placeId);
 };
 
 const addPhoto = async (entityId, placeId, photoObj) => {
@@ -74,7 +81,8 @@ const addPhoto = async (entityId, placeId, photoObj) => {
   const revieweSnap = await document.get();
   const review = revieweSnap.data();
   review.photos.push(photoObj);
-  return await document.set({ photos: review.photos }, { merge: true });
+  await document.set({ photos: review.photos }, { merge: true });
+  return getPlaceById(placeId);
 };
 
 const removePhoto = async (entityId, placeId, photoId) => {
@@ -86,12 +94,24 @@ const removePhoto = async (entityId, placeId, photoId) => {
       return photoObj;
     }
   });
-  return await document.set({ photos: review.photos }, { merge: true });
+  await document.set({ photos: review.photos }, { merge: true });
+  return getPlaceById(placeId);
 };
 
 const deleteById = async (entityId, placeId) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   await document.delete();
+};
+
+const getPlaceById = async (placeId) => {
+  const place = await db.collection(parentCollectionName).doc(placeId).get();
+  if (place.reviewsNumber) {
+    const reviewsSnap = await db.collection(collectionName).doc(placeId).collection('reviews').get();
+    place.reviews = reviewsSnap.docs.map((review) => {
+      return review.data();
+    });
+  }
+  return place.data();
 };
 
 module.exports = {
