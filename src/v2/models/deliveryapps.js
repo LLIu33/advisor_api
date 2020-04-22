@@ -17,8 +17,13 @@ module.exports = (sequelize, DataTypes) => {
   DeliveryApps.associate = function (models) {
     DeliveryApps.belongsToMany(models.Place, {
       through: 'PlaceDeliveryApps',
-      as: 'places',
-      foreignKey: 'delivery_id',
+      as: 'placesForDelivery',
+      foreignKey: 'deliveryId',
+    });
+    DeliveryApps.belongsToMany(models.Place, {
+      through: 'PlacePickupApps',
+      as: 'placesForPickup',
+      foreignKey: 'deliveryId',
     });
   };
   return DeliveryApps;

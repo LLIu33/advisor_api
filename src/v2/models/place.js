@@ -30,19 +30,24 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: true,
-      charset: 'utf8',
+      charset: 'utf8mb4',
       collate: 'utf8mb4_general_ci',
     }
   );
   Place.associate = function (models) {
-    Place.belongsToMany(models.List, {
-      through: 'ListPlace',
-      as: 'lists',
+    // Place.belongsToMany(models.List, {
+    //   through: 'ListPlace',
+    //   as: 'lists',
+    //   foreignKey: 'placeId',
+    // });
+    // Place.hasMany(models.Review, {
+    //   foreignKey: 'placeId',
+    //   as: 'reviews',
+    // });
+    Place.belongsToMany(models.Cuisines, {
+      through: 'PlaceCuisines',
+      as: 'cuisines',
       foreignKey: 'placeId',
-    });
-    Place.hasMany(models.Review, {
-      foreignKey: 'placeId',
-      as: 'reviews',
     });
     Place.belongsToMany(models.DeliveryApps, {
       through: 'PlaceDeliveryApps',
@@ -56,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     Place.hasMany(models.PhotoReferences, {
       foreignKey: 'placeId',
-      as: 'photo_references',
+      as: 'PhotoReferences',
     });
     Place.hasMany(models.Dishes, {
       foreignKey: 'placeId',

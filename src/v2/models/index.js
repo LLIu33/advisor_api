@@ -10,6 +10,13 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
   host: config.host,
   dialect: config.dialect,
   operatorsAliases: '0',
+  dialectOptions: {
+    charset: 'utf8mb4',
+  },
+  define: {
+    freezeTableName: true,
+    syncOnAssociation: true,
+  },
 });
 
 fs.readdirSync(__dirname)
@@ -26,6 +33,8 @@ Object.keys(db).forEach((modelName) => {
     db[modelName].associate(db);
   }
 });
+
+sequelize.sync({ alter: true });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

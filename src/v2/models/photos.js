@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
       },
     },
-    { charset: 'utf8', collate: 'utf8mb4_general_ci' }
+    { charset: 'utf8mb4', collate: 'utf8mb4_general_ci' }
   );
   Photos.associate = function (models) {
     // associations can be defined here
