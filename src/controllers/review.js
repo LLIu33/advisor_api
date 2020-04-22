@@ -85,8 +85,8 @@ const remove = async (req, res) => {
   try {
     const placeId = req.params.place_id;
     const entityId = req.params.item_id;
-    await reviewModel.deleteById(entityId, placeId);
-    return res.status(200).send();
+    const response = await reviewModel.deleteById(entityId, placeId);
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

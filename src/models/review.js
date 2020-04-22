@@ -101,6 +101,7 @@ const removePhoto = async (entityId, placeId, photoId) => {
 const deleteById = async (entityId, placeId) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   await document.delete();
+  return getPlaceById(placeId);
 };
 
 const getPlaceById = async (placeId) => {
