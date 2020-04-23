@@ -2,23 +2,23 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    queryInterface.changeColumn('Reviews', 'createdAt', {
+    queryInterface.changeColumn('Review', 'createdAt', {
       type: Sequelize.DATE,
       defaultValue: Sequelize.literal('NOW()'),
     });
 
-    return queryInterface.changeColumn('Reviews', 'updatedAt', {
+    return queryInterface.changeColumn('Review', 'updatedAt', {
       type: Sequelize.DATE,
       defaultValue: Sequelize.literal('NOW() ON UPDATE NOW()'),
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    queryInterface.changeColumn('Reviews', 'createdAt', {
+    queryInterface.changeColumn('Review', 'createdAt', {
       type: Sequelize.DATE,
     });
 
-    return queryInterface.changeColumn('Reviews', 'updatedAt', {
+    return queryInterface.changeColumn('Review', 'updatedAt', {
       type: Sequelize.DATE,
     });
   },

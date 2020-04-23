@@ -3,7 +3,7 @@ const helper = require('../../utils/helper');
 module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
-    const placesQuery = `SELECT id, uid from Places`;
+    const placesQuery = `SELECT id, uid from Place`;
     const places = await queryInterface.sequelize.query(placesQuery, {
       type: queryInterface.sequelize.QueryTypes.SELECT,
     });
@@ -11,7 +11,7 @@ module.exports = {
     places.forEach((item) => {
       placesHash[item.uid] = item.id;
     });
-    console.log(placesHash);
+    //console.log(placesHash);
     const photoQuery = `SELECT id, storageRef from Photos`;
     const photos = await queryInterface.sequelize.query(photoQuery, {
       type: queryInterface.sequelize.QueryTypes.SELECT,

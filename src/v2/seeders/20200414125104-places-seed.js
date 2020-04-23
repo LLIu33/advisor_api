@@ -10,6 +10,9 @@ module.exports = {
       entity.cost = helper.emptyOrNullToString(entity.cost);
       entity.hidden = helper.emptyOrNullToString(entity.hidden);
       entity.hasOutdoorSeating = helper.emptyOrNullToString(entity.hasOutdoorSeating);
+      entity.isNewlyOpened =
+        typeof entity.isNewlyOpened === 'string' ? helper.getDataFromJson(entity.isNewlyOpened) : entity.isNewlyOpened;
+      entity.reviewsNumber = helper.getDataFromJson(entity.reviewsNumber);
       const item = {
         uid: entity.id,
         name: entity.name,
@@ -22,13 +25,13 @@ module.exports = {
         venueUid: entity.venueId ? entity.venueId : '',
         hasOutdoorSeating: entity.hasOutdoorSeating ? entity.hasOutdoorSeating.data : 0,
       };
-      console.log(entity.venueId);
-      console.log(item);
+      // console.log(entity.venueId);
+      // console.log(item);
       dataToInsert.push(item);
     }
 
     console.log('dataToInsert.length: ', dataToInsert.length);
-    return queryInterface.bulkInsert('Places', dataToInsert, {});
+    return queryInterface.bulkInsert('Place', dataToInsert, {});
   },
 
   down: (queryInterface) => {
@@ -39,6 +42,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('Places', null, {});
+    return queryInterface.bulkDelete('Place', null, {});
   },
 };

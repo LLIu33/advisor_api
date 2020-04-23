@@ -16,8 +16,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  PlacePhotos.associate = function (models) {
-    // associations can be defined here
-  };
+  PlacePhotos.associate = function (models) {};
   return PlacePhotos;
 };

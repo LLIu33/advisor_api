@@ -3,6 +3,12 @@ module.exports = (sequelize, DataTypes) => {
   const Cuisines = sequelize.define(
     'Cuisines',
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       name: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
@@ -16,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Cuisines.associate = function (models) {
-    // associations can be defined here
+    Cuisines.belongsToMany(models.Place, {
+      through: 'PlaceCuisines',
+      as: 'places',
+      foreignKey: 'cuisineId',
+    });
   };
   return Cuisines;
 };

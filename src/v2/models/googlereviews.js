@@ -21,10 +21,15 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
       },
     },
-    {}
+    {
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_general_ci',
+    }
   );
   GoogleReviews.associate = function (models) {
-    // associations can be defined here
+    GoogleReviews.belongsTo(models.Place, {
+      foreignKey: 'placeId',
+    });
   };
   return GoogleReviews;
 };

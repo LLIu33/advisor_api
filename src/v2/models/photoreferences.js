@@ -17,7 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   PhotoReferences.associate = function (models) {
-    // associations can be defined here
+    PhotoReferences.belongsTo(models.Place, {
+      foreignKey: 'placeId',
+    });
   };
   return PhotoReferences;
 };

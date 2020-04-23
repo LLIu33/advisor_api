@@ -30,7 +30,31 @@ module.exports = (sequelize, DataTypes) => {
     { charset: 'utf8mb4', collate: 'utf8mb4_general_ci' }
   );
   Photos.associate = function (models) {
-    // associations can be defined here
+    Photos.belongsToMany(models.Place, {
+      through: 'PlacePhotos',
+      as: 'places',
+      foreignKey: 'photoId',
+    });
+    Photos.belongsToMany(models.Place, {
+      through: 'PlaceGooglePhotos',
+      as: 'placesForGoogle',
+      foreignKey: 'photoId',
+    });
+    Photos.belongsToMany(models.Place, {
+      through: 'PlaceMainPhotos',
+      as: 'placesForMain',
+      foreignKey: 'photoId',
+    });
+    Photos.belongsToMany(models.Place, {
+      through: 'PlaceTopPhotos',
+      as: 'placesForTop',
+      foreignKey: 'photoId',
+    });
+    Photos.belongsToMany(models.Place, {
+      through: 'PlacePositionedPhotos',
+      as: 'placesForPositioned',
+      foreignKey: 'photoId',
+    });
   };
   return Photos;
 };

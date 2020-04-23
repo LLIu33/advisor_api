@@ -3,7 +3,7 @@ module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
     const dataToInsert = [];
-    const placesQuery = `SELECT id, uid from Places`;
+    const placesQuery = `SELECT id, uid from Place`;
     const places = await queryInterface.sequelize.query(placesQuery, {
       type: queryInterface.sequelize.QueryTypes.SELECT,
     });
@@ -15,14 +15,14 @@ module.exports = {
       const place = data[key];
       const placeId = placesHash[place.id];
       const entity = place.rating || [];
-      console.log(entity);
+      //console.log(entity);
       const item = {
         placeId: placeId,
         atmosphere: helper.emptyOrNullToNumber(entity.atmosphere).data,
         quality: helper.emptyOrNullToNumber(entity.quality).data,
         service: helper.emptyOrNullToNumber(entity.service).data,
       };
-      console.log(item);
+      //console.log(item);
       dataToInsert.push(item);
     }
 

@@ -11,14 +11,14 @@ module.exports = {
         for (const reviewKey in reviews) {
           let profile = [];
           let place = [];
-          const placeQuery = `SELECT id from Places WHERE uid = "${entity.id}";`;
+          const placeQuery = `SELECT id from Place WHERE uid = "${entity.id}";`;
           place = await queryInterface.sequelize.query(placeQuery, {
             type: queryInterface.sequelize.QueryTypes.SELECT,
           });
           const review = reviews[reviewKey];
           // console.log(review);
           if (review.userID) {
-            const profileQuery = `SELECT id from Profiles WHERE uid = "${review.userID}";`;
+            const profileQuery = `SELECT id from Profile WHERE uid = "${review.userID}";`;
             profile = await queryInterface.sequelize.query(profileQuery, {
               type: queryInterface.sequelize.QueryTypes.SELECT,
             });
@@ -46,10 +46,10 @@ module.exports = {
         }
       }
     }
-    console.log(dataToInsert);
+    //console.log(dataToInsert);
     // fs.writeFileSync('./reviews.json', JSON.stringify(dataToInsert), 'utf8');
     console.log('dataToInsert.length: ', dataToInsert.length);
-    return queryInterface.bulkInsert('Reviews', dataToInsert, {
+    return queryInterface.bulkInsert('Review', dataToInsert, {
       timestamps: true,
       charset: 'utf8mb4',
       collate: 'utf8mb4_general_ci',
@@ -64,6 +64,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('Reviews', null, {});
+    return queryInterface.bulkDelete('Review', null, {});
   },
 };

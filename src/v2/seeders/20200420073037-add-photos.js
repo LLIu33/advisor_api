@@ -26,7 +26,7 @@ module.exports = {
           uid: entity.uid || '',
           reviewUid: entity.reviewId || '',
         };
-        console.log(item);
+        //console.log(item);
         dataToInsert.push(item);
       });
     }

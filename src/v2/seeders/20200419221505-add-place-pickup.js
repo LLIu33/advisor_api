@@ -3,7 +3,7 @@ const helper = require('../../utils/helper');
 module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
-    const placesQuery = `SELECT id, uid from Places`;
+    const placesQuery = `SELECT id, uid from Place`;
     const places = await queryInterface.sequelize.query(placesQuery, {
       type: queryInterface.sequelize.QueryTypes.SELECT,
     });
@@ -28,7 +28,7 @@ module.exports = {
       const entitiesList = place.pickUpApps || [];
 
       entitiesList.forEach((entity) => {
-        console.log(entity);
+        //console.log(entity);
         const item = {
           placeId: placeId,
           deliveryId: deliveriesHash[entity],
@@ -38,7 +38,7 @@ module.exports = {
       });
     }
     dataToInsert = [...new Set(dataToInsert)];
-    console.log(dataToInsert);
+    //console.log(dataToInsert);
     console.log('dataToInsert.length: ', dataToInsert.length);
     return queryInterface.bulkInsert('PlacePickupApps', dataToInsert, {});
   },

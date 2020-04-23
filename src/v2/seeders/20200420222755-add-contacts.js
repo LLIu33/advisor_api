@@ -3,7 +3,7 @@ module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
     const dataToInsert = [];
-    const placesQuery = `SELECT id, uid from Places`;
+    const placesQuery = `SELECT id, uid from Place`;
     const places = await queryInterface.sequelize.query(placesQuery, {
       type: queryInterface.sequelize.QueryTypes.SELECT,
     });

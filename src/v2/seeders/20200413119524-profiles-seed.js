@@ -36,7 +36,7 @@ module.exports = {
       }], {});
     */
     console.log('dataToInsert.length: ', dataToInsert.length);
-    return queryInterface.bulkInsert('Profiles', dataToInsert, {});
+    return queryInterface.bulkInsert('Profile', dataToInsert, {});
   },
 
   down: (queryInterface) => {
@@ -47,6 +47,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('Profiles', null, {});
+    return queryInterface.bulkDelete('Profile', null, {});
   },
 };

@@ -1,5 +1,5 @@
 const helper = require('../../utils/helper');
-const listsData = require('../../data/lists.json');
+const listsData = require('../../../data/lists.json');
 
 module.exports = {
   up: async (queryInterface) => {
@@ -13,7 +13,7 @@ module.exports = {
       const list = listsData[listKey];
       let profile = [];
       if (list.creatorId) {
-        const query = `SELECT id from Profiles WHERE uid = "${list.creatorId}";`;
+        const query = `SELECT id from Profile WHERE uid = "${list.creatorId}";`;
         profile = await queryInterface.sequelize.query(query, { type: queryInterface.sequelize.QueryTypes.SELECT });
       }
       if (addedEntity.includes(list.id)) {
@@ -33,7 +33,7 @@ module.exports = {
       DataToSeed.push(item);
     }
     console.log(DataToSeed.length);
-    return queryInterface.bulkInsert('Lists', DataToSeed, {});
+    return queryInterface.bulkInsert('List', DataToSeed, {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -41,6 +41,6 @@ module.exports = {
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
     */
-    return queryInterface.bulkDelete('Lists', null, {});
+    return queryInterface.bulkDelete('List', null, {});
   },
 };

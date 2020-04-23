@@ -10,8 +10,24 @@ const getList = async (req, res) => {
     limit = helper.processLimit(limit);
     offset = helper.processOffset(offset);
     filter = helper.processFilter(filter);
-
-    const places = await Place.findAll({ where: filter });
+    console.log(filter);
+    const data = await Place.findAll({
+      where: filter,
+      include: [
+        { model: db.Cuisines, as: 'cuisines' },
+        { model: db.Photos, as: 'topPhotos' },
+        { model: db.Photos, as: 'positionedPhotos' },
+        { model: db.Periods, as: 'openingHours' },
+        { model: db.Locations, as: 'location' },
+        { model: db.Contacts, as: 'contacts' },
+        { model: db.Ratings, as: 'rating' },
+        { model: db.GoogleReviews, as: 'googleReviews' },
+      ],
+      offset: offset,
+      limit: limit,
+    });
+    console.log(data.length);
+    const places = data.length ? data.map((place) => toShortPlace(place)) : [];
     const response = {
       places,
       limit,
@@ -31,15 +47,14 @@ const get = async (req, res) => {
       where: { uid: entityId },
       include: [
         { model: db.Cuisines, as: 'cuisines' },
-        // { model: db.DeliveryApps, as: 'DeliveryApps' },
-        // { model: db.DeliveryApps, as: 'PickupApps' },
+        { model: db.DeliveryApps, as: 'DeliveryApps' },
+        { model: db.DeliveryApps, as: 'PickupApps' },
         { model: db.PhotoReferences, as: 'PhotoReferences' },
         { model: db.Dishes, as: 'popularDishes' },
-        // { model: db.Photos, as: 'photos' },
-        // { model: db.Photos, as: 'googlePhotos' },
-        // { model: db.Photos, as: 'mainPhotos' },
-        // { model: db.Photos, as: 'topPhotos' },
-        // { model: db.Photos, as: 'positionedPhotos' },
+        { model: db.Photos, as: 'photos' },
+        { model: db.Photos, as: 'googlePhotos' },
+        { model: db.Photos, as: 'mainPhotos' },
+        { model: db.Photos, as: 'topPhotos' },
         { model: db.Periods, as: 'openingHours' },
         { model: db.Locations, as: 'location' },
         { model: db.Contacts, as: 'contacts' },
@@ -132,8 +147,33 @@ const getByIds = async (req, res) => {
 //   }
 // };
 
-const toJson = (input) => {
+const toShortPlace = (input) => {
   return {
+    id: input.uid,
+    name: input.name,
+    cost: input.cost,
+    reviewsNumber: input.reviewsNumber,
+    hidden: input.hidden,
+    cuisines: input.cuisines.map((item) => item.name),
+    rating: ratingToJson(input.rating),
+    location: locationToJson(input.location),
+    openingHours: input.openingHours.map((item) => zipOpeningHours(item)),
+    googleReviews_number: input.googleReviews.length,
+    googleReviews: input.googleReviews.map((item) => googleReviewToJson(item)),
+    topPhotos: input.topPhotos.map((item) => photoToJson(item)),
+  };
+};
+
+function zipOpeningHours(period) {
+  const openDay = period.open ? period.open.day : null;
+  const openTime = period.open ? Number(period.open.time) : null;
+  const closeDay = period.close ? period.close.day : null;
+  const closeTime = period.close ? Number(period.close.time) : null;
+  return [openDay, openTime, closeDay, closeTime];
+}
+
+const toJson = (input, withNested = true) => {
+  let item = {
     id: input.id,
     uid: input.uid,
     name: input.name,
@@ -147,22 +187,28 @@ const toJson = (input) => {
     hasOutdoorSeating: input.hasOutdoorSeating,
     createdAt: input.createdAt,
     updatedAt: input.updatedAt,
-    cuisines: input.cuisines.map((item) => item.name),
-    // DeliveryApps: input.DeliveryApps.map((item) => item.name),
-    // PickupApps: input.PickupApps.map((item) => item.name),
-    photo_references: input.PhotoReferences.map((item) => item.reference),
-    popularDishes: input.popularDishes.map((item) => item.name),
-    // photos: input.photos.map((item) => photoToJson(item)),
-    // googlePhotos: input.googlePhotos.map((item) => photoToJson(item)),
-    // mainPhotos: input.mainPhotos.map((item) => photoToJson(item)),
-    // topPhotos: input.topPhotos.map((item) => photoToJson(item)),
-    // positionedPhotos: input.positionedPhotos.map((item) => photoToJson(item)),
-    openingHours: { periods: input.openingHours.map((item) => periodToJson(item)) },
-    location: input.location.map((item) => locationToJson(item)),
-    contacts: input.contacts.map((item) => contactToJson(item)),
-    rating: input.rating.map((item) => ratingToJson(item)),
-    googleReviews: input.googleReviews.map((item) => googleReviewToJson(item)),
   };
+  if (withNested) {
+    const additionalData = {
+      cuisines: input.cuisines.map((item) => item.name),
+      DeliveryApps: input.DeliveryApps.map((item) => item.name),
+      PickupApps: input.PickupApps.map((item) => item.name),
+      photo_references: input.PhotoReferences.map((item) => item.reference),
+      popularDishes: input.popularDishes.map((item) => item.name),
+      photos: input.photos.map((item) => photoToJson(item)),
+      googlePhotos: input.googlePhotos.map((item) => photoToJson(item)),
+      mainPhotos: input.mainPhotos.map((item) => photoToJson(item)),
+      topPhotos: input.topPhotos.map((item) => photoToJson(item)),
+      positionedPhotos: input.positionedPhotos.map((item) => photoToJson(item)),
+      openingHours: { periods: input.openingHours.map((item) => periodToJson(item)) },
+      location: locationToJson(input.location),
+      contacts: contactToJson(input.contacts),
+      rating: ratingToJson(input.rating),
+      googleReviews: input.googleReviews.map((item) => googleReviewToJson(item)),
+    };
+    item = Object.assign(item, additionalData);
+  }
+  return item;
 };
 
 const photoToJson = (photo) => {
