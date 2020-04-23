@@ -10,16 +10,13 @@ const getList = async (req, res) => {
     limit = helper.processLimit(limit);
     offset = helper.processOffset(offset);
     filter = helper.processFilter(filter);
-    console.log(filter);
     const data = await Place.findAll({
       where: filter,
       include: [
         { model: db.Cuisines, as: 'cuisines' },
-        { model: db.Photos, as: 'photos' },
-        { model: db.Photos, as: 'googlePhotos' },
-        { model: db.Photos, as: 'mainPhotos' },
-        { model: db.Photos, as: 'topPhotos' },
-        { model: db.Photos, as: 'positionedPhotos' },
+        // { model: db.Photos, as: 'photos' },
+        // { model: db.GooglePhotos, as: 'googlePhotos' },
+        { model: db.PositionedPhotos, as: 'positionedPhotos' },
         { model: db.Periods, as: 'openingHours' },
         { model: db.Locations, as: 'location' },
         { model: db.Contacts, as: 'contacts' },
@@ -29,8 +26,7 @@ const getList = async (req, res) => {
       offset: offset,
       limit: limit,
     });
-    console.log(data.length);
-    const places = data.length ? data.map((place) => toJson(place, false)) : [];
+    const places = data.length ? data.map((place) => toShortPlace(place)) : [];
     const response = {
       places,
       limit,
@@ -224,36 +220,6 @@ const getByIds = async (req, res) => {
 //                 }
 //             ],
 //         },
-function cutArraysFields(value, whitelistedFields = [], blacklistedFields = []) {
-  if (!value) {
-    return value;
-  } else {
-    if (!value.length) {
-      return [];
-    } else {
-      let result = [...value];
-      if (whitelistedFields.length) {
-        result = result.map((p) => {
-          const item = {};
-          for (const field of whitelistedFields) {
-            item[field] = p[field];
-          }
-          return item;
-        });
-      }
-      if (blacklistedFields.length) {
-        result = result.map((p) => {
-          const item = Object.assign({}, p);
-          for (const field of blacklistedFields) {
-            delete item[field];
-          }
-          return item;
-        });
-      }
-      return result;
-    }
-  }
-}
 const placeFieldNames = [
   'name',
   'cost',
@@ -273,30 +239,76 @@ const placeFieldNames = [
   'positionedPhotos',
   'googleReviews',
 ];
-const toShortPlace = (input) => {
+const toShortPlace = (data) => {
+  const item = { id: data.id, topPhotos: [] };
+  for (const fieldName of placeFieldNames) {
+    if (fieldName === 'positionedPhotos') {
+      const positionedPhotos = data[fieldName];
+      if (positionedPhotos && positionedPhotos.length) {
+        item[fieldName] = positionedPhotos.map((p) => Object.assign(Object.assign({}, p), { profileRef: undefined }));
+      } else {
+        item[fieldName] = positionedPhotos;
+      }
+    } else if (fieldName === 'photos' || fieldName === 'googlePhotos') {
+      if (data[fieldName] && data[fieldName].length) {
+        item.topPhotos = data[fieldName].map((item) => shortPhotoToJson(item));
+      }
+    }
+  }
+  item.positionedPhotos =
+    item.positionedPhotos && item.positionedPhotos
+      ? item.positionedPhotos.sort((a, b) => (a.position || 0) - (b.position || 0))
+      : item.positionedPhotos;
+  let dateSortedPhotos = [...item.topPhotos].sort((a, b) => {
+    const aDate = a.date ? a.date.toDate().getTime() : new Date();
+    const bDate = b.date ? b.date.toDate().getTime() : new Date();
+    if (aDate > bDate) {
+      return -1;
+    } else if (aDate < bDate) {
+      return 1;
+    } else if (a.imageUrl < b.imageUrl) {
+      return -1;
+    } else if (a.imageUrl > b.imageUrl) {
+      return 1;
+    }
+    return 0;
+  });
+  for (const i of [...Array(item.positionedPhotos ? item.positionedPhotos.length : 0).keys()]) {
+    const priorPhoto = item.positionedPhotos[i];
+    const index = dateSortedPhotos.findIndex((tp) => tp.imageUrl === priorPhoto.imageUrl);
+    if (index !== -1) {
+      const photo = dateSortedPhotos[index];
+      dateSortedPhotos.splice(index, 1);
+      dateSortedPhotos.splice(i, 0, photo);
+    } else {
+      dateSortedPhotos.splice(i, 0, priorPhoto);
+    }
+  }
+  dateSortedPhotos = dateSortedPhotos.filter((p) => !(p.category && p.category.includes('Menu')));
+  item.topPhotos = dateSortedPhotos.slice(0, 4).map((p) => zipImageUrl(p));
+  delete item.positionedPhotos;
+  // item.openingHours = zipOpeningHours(item);
+  // return item;
   return {
-    id: input.uid,
-    name: input.name,
-    cost: input.cost,
-    reviewsNumber: input.reviewsNumber,
-    hidden: input.hidden,
-    cuisines: input.cuisines.map((item) => item.name),
-    rating: ratingToJson(input.rating),
-    location: locationToJson(input.location),
-    openingHours: input.openingHours.map((item) => zipOpeningHours(item)),
-    googleReviews_number: input.googleReviews.length,
+    id: data.uid,
+    name: data.name,
+    cost: data.cost,
+    reviewsNumber: data.reviewsNumber,
+    hidden: data.hidden,
+    cuisines: data.cuisines.map((item) => item.name),
+    rating: ratingToJson(data.rating),
+    location: locationToJson(data.location),
+    openingHours: data.openingHours.map((item) => shortPeriodToJson(item)),
+    googleReviews_number: data.googleReviews.length,
     // google_rating,
-    // googleReviews,
-    // topPhotos,
+    googleReviews: data.googleReviews.map((item) => shortGoogleReviewToJson(item)),
+    topPhotos: item.topPhotos,
   };
 };
 
-function zipOpeningHours(period) {
-  const openDay = period.open ? period.open.day : null;
-  const openTime = period.open ? Number(period.open.time) : null;
-  const closeDay = period.close ? period.close.day : null;
-  const closeTime = period.close ? Number(period.close.time) : null;
-  return [openDay, openTime, closeDay, closeTime];
+function zipImageUrl(photo) {
+  const placeImageDirPath = 'https://firebasestorage.googleapis.com/v0/b/fobe-id.appspot.com/o/place-photos%2F';
+  return { imageUrl: photo.imageUrl.replace(placeImageDirPath, '') };
 }
 
 const toJson = (input, withNested = true) => {
@@ -395,7 +407,6 @@ const ratingToJson = (entity) => {
 };
 
 const googleReviewToJson = (entity) => {
-  console.log(entity);
   return {
     author_name: entity.authorName,
     profile_photo_url: entity.profilePhotoUrl,
@@ -404,6 +415,27 @@ const googleReviewToJson = (entity) => {
     time: moment(entity.publishedAt).unix(),
   };
 };
+
+const shortPhotoToJson = (photo) => {
+  return {
+    imageUrl: photo.imageUrl,
+    date: photo.publishedAt,
+    category: photo.category,
+    position: photo.position,
+  };
+};
+
+const shortGoogleReviewToJson = (entity) => {
+  console.log(entity);
+  return {
+    rating: entity.rating,
+    time: moment(entity.publishedAt).unix(),
+  };
+};
+
+function shortPeriodToJson(period) {
+  return [period.openDay, period.openTime, period.closeDay, period.closeTime];
+}
 
 module.exports = {
   getAllplaces,

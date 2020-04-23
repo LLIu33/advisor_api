@@ -1,4 +1,4 @@
-function processLimit(input, defaultValue = 100, minValue = 1, maxValue = 1000) {
+function processLimit(input, defaultValue = 10, minValue = 1, maxValue = 1000) {
   let limit = parseInt(input) || defaultValue;
   limit = limit >= minValue ? limit : minValue;
   limit = limit <= maxValue ? limit : maxValue;
