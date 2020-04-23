@@ -72,28 +72,15 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'popularDishes',
     });
-    Place.belongsToMany(models.Photos, {
-      through: 'PlacePhotos',
+    Place.hasMany(models.Photos, {
       as: 'photos',
       foreignKey: 'placeId',
     });
-    Place.belongsToMany(models.Photos, {
-      through: 'PlaceGooglePhotos',
+    Place.hasMany(models.GooglePhotos, {
       as: 'googlePhotos',
       foreignKey: 'placeId',
     });
-    Place.belongsToMany(models.Photos, {
-      through: 'PlaceMainPhotos',
-      as: 'mainPhotos',
-      foreignKey: 'placeId',
-    });
-    Place.belongsToMany(models.Photos, {
-      through: 'PlaceTopPhotos',
-      as: 'topPhotos',
-      foreignKey: 'placeId',
-    });
-    Place.belongsToMany(models.Photos, {
-      through: 'PlacePositionedPhotos',
+    Place.hasMany(models.PositionedPhotos, {
       as: 'positionedPhotos',
       foreignKey: 'placeId',
     });

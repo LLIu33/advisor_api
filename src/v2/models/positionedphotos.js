@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Photos = sequelize.define(
-    'Photos',
+  const PositionedPhotos = sequelize.define(
+    'PositionedPhotos',
     {
       id: {
         allowNull: false,
@@ -30,10 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     { charset: 'utf8mb4', collate: 'utf8mb4_general_ci' }
   );
-  Photos.associate = function (models) {
-    Photos.belongsTo(models.Place, {
+  PositionedPhotos.associate = function (models) {
+    PositionedPhotos.belongsTo(models.Place, {
       foreignKey: 'placeId',
     });
   };
-  return Photos;
+  return PositionedPhotos;
 };

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const Photos = sequelize.define(
-    'Photos',
+  const GooglePhotos = sequelize.define(
+    'GooglePhotos',
     {
       id: {
         allowNull: false,
@@ -30,10 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     { charset: 'utf8mb4', collate: 'utf8mb4_general_ci' }
   );
-  Photos.associate = function (models) {
-    Photos.belongsTo(models.Place, {
+  GooglePhotos.associate = function (models) {
+    GooglePhotos.belongsTo(models.Place, {
       foreignKey: 'placeId',
     });
   };
-  return Photos;
+  return GooglePhotos;
 };

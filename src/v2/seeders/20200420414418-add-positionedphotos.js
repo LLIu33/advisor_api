@@ -11,38 +11,33 @@ module.exports = {
     places.forEach((item) => {
       placesHash[item.uid] = item.id;
     });
-    // console.log(placesHash);
-    const photoQuery = `SELECT id, storageRef from Photos`;
-    const photos = await queryInterface.sequelize.query(photoQuery, {
-      type: queryInterface.sequelize.QueryTypes.SELECT,
-    });
-    const photosHash = {};
-    photos.forEach((item) => {
-      photosHash[item.storageRef] = item.id;
-    });
     const dataToInsert = [];
-
     for (const key in data) {
       const place = data[key];
       const placeId = placesHash[place.id];
-      const entitiesList = place.googlePhotos || [];
+      const entitiesList = place.positionedPhotos || [];
 
       entitiesList.forEach((entity) => {
+        // console.log(entity);
         const item = {
           placeId: placeId,
-          photoId: photosHash[entity.storageRef],
+          caption: entity.caption || '',
+          category: entity.category || '',
+          publishedAt: helper.fbTimestampToDatetime(entity.date),
+          imageUrl: entity.imageUrl,
+          googlePhotoRef: entity.googlePhotoRef,
+          position: +helper.emptyOrNullToString(entity.position) || 0,
+          storageRef: entity.storageRef || '',
+          uid: entity.uid || '',
+          reviewUid: entity.reviewId || '',
         };
-        // console.log(entity);
+        //console.log(item);
         dataToInsert.push(item);
       });
     }
-
     // dataToInsert = [...new Set(dataToInsert)];
     console.log('dataToInsert.length: ', dataToInsert.length);
-    // if (dataToInsert.length > 0) {
-      return queryInterface.bulkInsert('PlaceGooglePhotos', dataToInsert, {});
-    // }
-    // return null;
+    return queryInterface.bulkInsert('PositionedPhotos', dataToInsert, {});
   },
 
   down: (queryInterface) => {
@@ -53,6 +48,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('PlaceGooglePhotos', null, {});
+    return queryInterface.bulkDelete('PositionedPhotos', null, {});
   },
 };

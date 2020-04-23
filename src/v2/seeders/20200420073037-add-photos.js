@@ -3,19 +3,24 @@ const helper = require('../../utils/helper');
 module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
+    const placesQuery = `SELECT id, uid from Place`;
+    const places = await queryInterface.sequelize.query(placesQuery, {
+      type: queryInterface.sequelize.QueryTypes.SELECT,
+    });
+    const placesHash = {};
+    places.forEach((item) => {
+      placesHash[item.uid] = item.id;
+    });
     const dataToInsert = [];
     for (const key in data) {
       const place = data[key];
-      const googlePhotos = place.googlePhotos || [];
-      const mainPhotos = place.mainPhotos || [];
-      const photos = place.photos || [];
-      const positionedPhotos = place.positionedPhotos || [];
-      const topPhotos = place.topPhotos || [];
-      const entitiesList = [...new Set([...googlePhotos, ...mainPhotos, ...photos, ...positionedPhotos, ...topPhotos])];
+      const placeId = placesHash[place.id];
+      const entitiesList = place.photos || [];
 
       entitiesList.forEach((entity) => {
         // console.log(entity);
         const item = {
+          placeId: placeId,
           caption: entity.caption || '',
           category: entity.category || '',
           publishedAt: helper.fbTimestampToDatetime(entity.date),

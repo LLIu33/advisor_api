@@ -15,6 +15,9 @@ const getList = async (req, res) => {
       where: filter,
       include: [
         { model: db.Cuisines, as: 'cuisines' },
+        { model: db.Photos, as: 'photos' },
+        { model: db.Photos, as: 'googlePhotos' },
+        { model: db.Photos, as: 'mainPhotos' },
         { model: db.Photos, as: 'topPhotos' },
         { model: db.Photos, as: 'positionedPhotos' },
         { model: db.Periods, as: 'openingHours' },
@@ -27,7 +30,7 @@ const getList = async (req, res) => {
       limit: limit,
     });
     console.log(data.length);
-    const places = data.length ? data.map((place) => toShortPlace(place)) : [];
+    const places = data.length ? data.map((place) => toJson(place, false)) : [];
     const response = {
       places,
       limit,
@@ -52,9 +55,8 @@ const get = async (req, res) => {
         { model: db.PhotoReferences, as: 'PhotoReferences' },
         { model: db.Dishes, as: 'popularDishes' },
         { model: db.Photos, as: 'photos' },
-        { model: db.Photos, as: 'googlePhotos' },
-        { model: db.Photos, as: 'mainPhotos' },
-        { model: db.Photos, as: 'topPhotos' },
+        { model: db.GooglePhotos, as: 'googlePhotos' },
+        { model: db.PositionedPhotos, as: 'positionedPhotos' },
         { model: db.Periods, as: 'openingHours' },
         { model: db.Locations, as: 'location' },
         { model: db.Contacts, as: 'contacts' },
@@ -147,6 +149,130 @@ const getByIds = async (req, res) => {
 //   }
 // };
 
+// {
+//             "id": "360_Mall_+_Murooj-Agnii_360-29.2662873-47.9975469",
+//             "name": "Agnii - 360 Mall New",
+//             "cost": 2,
+//             "cuisines": [
+//                 "Indian"
+//             ],
+//             "rating": {
+//                 "atmosphere": 0,
+//                 "service": 0,
+//                 "quality": 0
+//             },
+//             "reviewsNumber": 0,
+//             "hidden": false,
+//             "location": {
+//                 "coordinates": {
+//                     "_latitude": 29.2662873,
+//                     "_longitude": 47.9975469
+//                 },
+//                 "address": "Jassem Mohammad Al-Kharafi Road, Kuwait",
+//                 "area": "360 Mall + Murooj"
+//             },
+//             "openingHours": [
+//                 [
+//                     1,
+//                     1200,
+//                     1,
+//                     2330
+//                 ],
+//                 [
+//                     4,
+//                     1200,
+//                     5,
+//                     0
+//                 ]
+//             ],
+//             "googleReviews_number": 16,
+//             "google_rating": 5,
+//             "googleReviews": [
+//                 {
+//                     "rating": 5,
+//                     "time": 1583006950
+//                 },
+//                 {
+//                     "rating": 5,
+//                     "time": 1582058555
+//                 },
+//                 {
+//                     "rating": 5,
+//                     "time": 1583064861
+//                 },
+//                 {
+//                     "rating": 5,
+//                     "time": 1583005998
+//                 },
+//                 {
+//                     "rating": 5,
+//                     "time": 1583009000
+//                 }
+//             ]
+//             "topPhotos": [
+//                 {
+//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_0?alt=media&token=c47fc70e-36fe-45c5-a741-0ae2005f0fb0"
+//                 },
+//                 {
+//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_1?alt=media&token=a2f049f6-85b8-4d0a-a934-ddcb058506d3"
+//                 },
+//                 {
+//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_2?alt=media&token=8262abdf-b0ae-43c3-b46d-a450527029a0"
+//                 },
+//                 {
+//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_3?alt=media&token=67c10454-2dd2-43de-86a7-0d864c1a6ece"
+//                 }
+//             ],
+//         },
+function cutArraysFields(value, whitelistedFields = [], blacklistedFields = []) {
+  if (!value) {
+    return value;
+  } else {
+    if (!value.length) {
+      return [];
+    } else {
+      let result = [...value];
+      if (whitelistedFields.length) {
+        result = result.map((p) => {
+          const item = {};
+          for (const field of whitelistedFields) {
+            item[field] = p[field];
+          }
+          return item;
+        });
+      }
+      if (blacklistedFields.length) {
+        result = result.map((p) => {
+          const item = Object.assign({}, p);
+          for (const field of blacklistedFields) {
+            delete item[field];
+          }
+          return item;
+        });
+      }
+      return result;
+    }
+  }
+}
+const placeFieldNames = [
+  'name',
+  'cost',
+  'cuisines',
+  'rating',
+  'reviewsNumber',
+  'hidden',
+  'isNewlyOpened',
+  'location',
+  'openingHours',
+  'googleReviews_number',
+  'google_rating',
+  'timings',
+  'mainPhotos',
+  'photos',
+  'googlePhotos',
+  'positionedPhotos',
+  'googleReviews',
+];
 const toShortPlace = (input) => {
   return {
     id: input.uid,
@@ -159,8 +285,9 @@ const toShortPlace = (input) => {
     location: locationToJson(input.location),
     openingHours: input.openingHours.map((item) => zipOpeningHours(item)),
     googleReviews_number: input.googleReviews.length,
-    googleReviews: input.googleReviews.map((item) => googleReviewToJson(item)),
-    topPhotos: input.topPhotos.map((item) => photoToJson(item)),
+    // google_rating,
+    // googleReviews,
+    // topPhotos,
   };
 };
 
@@ -197,8 +324,6 @@ const toJson = (input, withNested = true) => {
       popularDishes: input.popularDishes.map((item) => item.name),
       photos: input.photos.map((item) => photoToJson(item)),
       googlePhotos: input.googlePhotos.map((item) => photoToJson(item)),
-      mainPhotos: input.mainPhotos.map((item) => photoToJson(item)),
-      topPhotos: input.topPhotos.map((item) => photoToJson(item)),
       positionedPhotos: input.positionedPhotos.map((item) => photoToJson(item)),
       openingHours: { periods: input.openingHours.map((item) => periodToJson(item)) },
       location: locationToJson(input.location),
