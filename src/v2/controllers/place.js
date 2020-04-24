@@ -14,8 +14,8 @@ const getList = async (req, res) => {
       where: filter,
       include: [
         { model: db.Cuisines, as: 'cuisines' },
-        // { model: db.Photos, as: 'photos' },
-        // { model: db.GooglePhotos, as: 'googlePhotos' },
+        { model: db.Photos, as: 'photos' },
+        { model: db.GooglePhotos, as: 'googlePhotos' },
         { model: db.PositionedPhotos, as: 'positionedPhotos' },
         { model: db.Periods, as: 'openingHours' },
         { model: db.Locations, as: 'location' },
@@ -240,6 +240,7 @@ const placeFieldNames = [
   'googleReviews',
 ];
 const toShortPlace = (data) => {
+  console.log(data);
   const item = { id: data.id, topPhotos: [] };
   for (const fieldName of placeFieldNames) {
     if (fieldName === 'positionedPhotos') {
@@ -259,20 +260,8 @@ const toShortPlace = (data) => {
     item.positionedPhotos && item.positionedPhotos
       ? item.positionedPhotos.sort((a, b) => (a.position || 0) - (b.position || 0))
       : item.positionedPhotos;
-  let dateSortedPhotos = [...item.topPhotos].sort((a, b) => {
-    const aDate = a.date ? a.date.toDate().getTime() : new Date();
-    const bDate = b.date ? b.date.toDate().getTime() : new Date();
-    if (aDate > bDate) {
-      return -1;
-    } else if (aDate < bDate) {
-      return 1;
-    } else if (a.imageUrl < b.imageUrl) {
-      return -1;
-    } else if (a.imageUrl > b.imageUrl) {
-      return 1;
-    }
-    return 0;
-  });
+  let dateSortedPhotos = [...item.topPhotos].sort(sortPhotos);
+
   for (const i of [...Array(item.positionedPhotos ? item.positionedPhotos.length : 0).keys()]) {
     const priorPhoto = item.positionedPhotos[i];
     const index = dateSortedPhotos.findIndex((tp) => tp.imageUrl === priorPhoto.imageUrl);
@@ -304,6 +293,21 @@ const toShortPlace = (data) => {
     googleReviews: data.googleReviews.map((item) => shortGoogleReviewToJson(item)),
     topPhotos: item.topPhotos,
   };
+};
+
+const sortPhotos = (a, b) => {
+  const aDate = a.publishedAt ? a.publishedAt.toDate().getTime() : new Date();
+  const bDate = b.publishedAt ? b.publishedAt.toDate().getTime() : new Date();
+  if (aDate > bDate) {
+    return -1;
+  } else if (aDate < bDate) {
+    return 1;
+  } else if (a.imageUrl < b.imageUrl) {
+    return -1;
+  } else if (a.imageUrl > b.imageUrl) {
+    return 1;
+  }
+  return 0;
 };
 
 function zipImageUrl(photo) {
@@ -426,7 +430,6 @@ const shortPhotoToJson = (photo) => {
 };
 
 const shortGoogleReviewToJson = (entity) => {
-  console.log(entity);
   return {
     rating: entity.rating,
     time: moment(entity.publishedAt).unix(),
