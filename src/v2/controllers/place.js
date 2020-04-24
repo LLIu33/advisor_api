@@ -145,81 +145,6 @@ const getByIds = async (req, res) => {
 //   }
 // };
 
-// {
-//             "id": "360_Mall_+_Murooj-Agnii_360-29.2662873-47.9975469",
-//             "name": "Agnii - 360 Mall New",
-//             "cost": 2,
-//             "cuisines": [
-//                 "Indian"
-//             ],
-//             "rating": {
-//                 "atmosphere": 0,
-//                 "service": 0,
-//                 "quality": 0
-//             },
-//             "reviewsNumber": 0,
-//             "hidden": false,
-//             "location": {
-//                 "coordinates": {
-//                     "_latitude": 29.2662873,
-//                     "_longitude": 47.9975469
-//                 },
-//                 "address": "Jassem Mohammad Al-Kharafi Road, Kuwait",
-//                 "area": "360 Mall + Murooj"
-//             },
-//             "openingHours": [
-//                 [
-//                     1,
-//                     1200,
-//                     1,
-//                     2330
-//                 ],
-//                 [
-//                     4,
-//                     1200,
-//                     5,
-//                     0
-//                 ]
-//             ],
-//             "googleReviews_number": 16,
-//             "google_rating": 5,
-//             "googleReviews": [
-//                 {
-//                     "rating": 5,
-//                     "time": 1583006950
-//                 },
-//                 {
-//                     "rating": 5,
-//                     "time": 1582058555
-//                 },
-//                 {
-//                     "rating": 5,
-//                     "time": 1583064861
-//                 },
-//                 {
-//                     "rating": 5,
-//                     "time": 1583005998
-//                 },
-//                 {
-//                     "rating": 5,
-//                     "time": 1583009000
-//                 }
-//             ]
-//             "topPhotos": [
-//                 {
-//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_0?alt=media&token=c47fc70e-36fe-45c5-a741-0ae2005f0fb0"
-//                 },
-//                 {
-//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_1?alt=media&token=a2f049f6-85b8-4d0a-a934-ddcb058506d3"
-//                 },
-//                 {
-//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_2?alt=media&token=8262abdf-b0ae-43c3-b46d-a450527029a0"
-//                 },
-//                 {
-//                     "imageUrl": "360_Mall_%2B_Murooj-Agnii_360-29.2662873-47.9975469%2Fphotos%2F04-04-2020_16:06:59_3?alt=media&token=67c10454-2dd2-43de-86a7-0d864c1a6ece"
-//                 }
-//             ],
-//         },
 const placeFieldNames = [
   'name',
   'cost',
@@ -239,6 +164,7 @@ const placeFieldNames = [
   'positionedPhotos',
   'googleReviews',
 ];
+
 const toShortPlace = (data) => {
   console.log(data);
   const item = { id: data.id, topPhotos: [] };
