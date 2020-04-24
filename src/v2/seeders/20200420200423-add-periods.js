@@ -11,11 +11,19 @@ module.exports = {
     places.forEach((item) => {
       placesHash[item.uid] = item.id;
     });
+    const existPlaces = [];
     for (const key in data) {
       const place = data[key];
+      const uid = place.id;
+      if (existPlaces.includes(uid.toLowerCase())) {
+        continue;
+      }
+      existPlaces.push(uid.toLowerCase());
       const placeId = placesHash[place.id];
       const entitiesList = place.openingHours.periods || [];
-
+      if (!placeId) {
+        continue;
+      }
       entitiesList.forEach((entity) => {
         // console.log(entity);
         entity.open = typeof entity.open === 'string' ? helper.getDataFromJson(entity.open) : entity.open;

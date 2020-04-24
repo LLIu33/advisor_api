@@ -13,11 +13,19 @@ module.exports = {
     });
     // console.log(placesHash);
     let dataToInsert = [];
+    const existPlaces = [];
     for (const key in data) {
       const place = data[key];
+      const uid = place.id;
+      if (existPlaces.includes(uid.toLowerCase())) {
+        continue;
+      }
+      existPlaces.push(uid.toLowerCase());
       const placeId = placesHash[place.id];
       const entitiesList = place.photo_references || [];
-
+      if (!placeId) {
+        continue;
+      }
       entitiesList.forEach((entity) => {
         //console.log(entity);
         const item = {

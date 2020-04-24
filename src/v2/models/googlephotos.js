@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   GooglePhotos.associate = function (models) {
     GooglePhotos.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
   };
   return GooglePhotos;

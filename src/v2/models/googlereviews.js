@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   GoogleReviews.associate = function (models) {
     GoogleReviews.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
   };
   return GoogleReviews;

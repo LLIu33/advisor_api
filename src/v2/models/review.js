@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   Review.associate = function (models) {
     Review.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
     Review.belongsTo(models.Profile, {
       foreignKey: 'userId',

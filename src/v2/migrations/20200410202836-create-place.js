@@ -33,9 +33,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       venueId: {
-        type: Sequelize.INTEGER,
-      },
-      venueUid: {
         type: Sequelize.STRING,
       },
       hasOutdoorSeating: {

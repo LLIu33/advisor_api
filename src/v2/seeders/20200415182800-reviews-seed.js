@@ -4,8 +4,14 @@ module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
     const dataToInsert = [];
+    const existPlaces = [];
     for (const key in data) {
       const entity = data[key];
+      const uid = entity.id;
+      if (existPlaces.includes(uid.toLowerCase())) {
+        continue;
+      }
+      existPlaces.push(uid.toLowerCase());
       if (entity['collection:reviews']) {
         const reviews = entity['collection:reviews'];
         for (const reviewKey in reviews) {

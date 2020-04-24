@@ -3,7 +3,10 @@ module.exports = (sequelize, DataTypes) => {
   const PhotoReferences = sequelize.define(
     'PhotoReferences',
     {
-      placeId: DataTypes.INTEGER,
+      placeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       reference: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
@@ -19,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   PhotoReferences.associate = function (models) {
     PhotoReferences.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
   };
   return PhotoReferences;

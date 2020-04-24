@@ -5,8 +5,14 @@ module.exports = {
     const data = require('../../../data/places.json')['collection:places'];
     const dataToInsert = [];
     const existCuisines = [];
+    const existPlaces = [];
     for (const key in data) {
       const place = data[key];
+      const uid = place.id;
+      if (existPlaces.includes(uid.toLowerCase())) {
+        continue;
+      }
+      existPlaces.push(uid.toLowerCase());
       const entitiesList = place.cuisines || [];
 
       entitiesList.forEach((entity) => {

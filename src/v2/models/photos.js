@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   Photos.associate = function (models) {
     Photos.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
   };
   return Photos;

@@ -3,6 +3,23 @@ const Place = db.Place;
 const { Op } = require('sequelize');
 const helper = require('./helper');
 const moment = require('moment');
+const uuid = require('uuid/v4');
+
+const fullArrayNestedModels = [
+  { model: db.Cuisines, as: 'cuisines' },
+  { model: db.DeliveryApps, as: 'DeliveryApps' },
+  { model: db.DeliveryApps, as: 'PickupApps' },
+  { model: db.PhotoReferences, as: 'PhotoReferences' },
+  { model: db.Dishes, as: 'popularDishes' },
+  { model: db.Photos, as: 'photos' },
+  { model: db.GooglePhotos, as: 'googlePhotos' },
+  { model: db.PositionedPhotos, as: 'positionedPhotos' },
+  { model: db.Periods, as: 'openingHours' },
+  { model: db.Locations, as: 'location' },
+  { model: db.Contacts, as: 'contacts' },
+  { model: db.Ratings, as: 'rating' },
+  { model: db.GoogleReviews, as: 'googleReviews' },
+];
 
 const getList = async (req, res) => {
   try {
@@ -44,21 +61,7 @@ const get = async (req, res) => {
     const entityId = req.params.item_id;
     const place = await Place.findOne({
       where: { uid: entityId },
-      include: [
-        { model: db.Cuisines, as: 'cuisines' },
-        { model: db.DeliveryApps, as: 'DeliveryApps' },
-        { model: db.DeliveryApps, as: 'PickupApps' },
-        { model: db.PhotoReferences, as: 'PhotoReferences' },
-        { model: db.Dishes, as: 'popularDishes' },
-        { model: db.Photos, as: 'photos' },
-        { model: db.GooglePhotos, as: 'googlePhotos' },
-        { model: db.PositionedPhotos, as: 'positionedPhotos' },
-        { model: db.Periods, as: 'openingHours' },
-        { model: db.Locations, as: 'location' },
-        { model: db.Contacts, as: 'contacts' },
-        { model: db.Ratings, as: 'rating' },
-        { model: db.GoogleReviews, as: 'googleReviews' },
-      ],
+      include: fullArrayNestedModels,
     });
     const response = toJson(place);
     return res.status(200).send(response);
@@ -70,8 +73,34 @@ const get = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const newData = req.body;
-    await Place.create(newData);
+    const input = req.body;
+    const newData = {
+      uid: input.id || uuid(),
+      name: input.name,
+      reviewsNumber: input.reviewsNumber,
+      hidden: input.hidden,
+      hasDelivery: input.hasDelivery,
+      venueId: input.venueId,
+      hasOutdoorSeating: input.hasOutdoorSeating,
+      cost: input.cost,
+      isNewlyOpened: input.isNewlyOpened,
+      googlePlaceId: input.googlePlaceId,
+      location: input.location || {},
+      contacts: input.contacts || {},
+      rating: input.rating || {},
+      popularDishes: input.popularDishes || [],
+      googleReviews: input.googleReviews || [],
+      reviews: input.reviews || [],
+      deliveryApps: input.deliveryApps || [],
+      pickUpApps: input.pickUpApps || [],
+      photo_references: input.photo_references || [],
+      photos: input.photos || [],
+      positionedPhotos: input.positionedPhotos || [],
+      googlePhotos: input.googlePhotos || [],
+      cuisines: input.cuisines || [],
+      openingHours: input.openingHours || [],
+    };
+    await Place.create(newData, { include: fullArrayNestedModels });
     return res.status(200).send();
   } catch (error) {
     console.log(error);
@@ -252,7 +281,7 @@ const toJson = (input, withNested = true) => {
     reviewsNumber: input.reviewsNumber,
     hidden: input.hidden,
     hasDelivery: input.hasDelivery,
-    venueId: input.venueUid,
+    venueId: input.venueId,
     hasOutdoorSeating: input.hasOutdoorSeating,
     createdAt: input.createdAt,
     updatedAt: input.updatedAt,

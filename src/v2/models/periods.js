@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   Periods.associate = function (models) {
     Periods.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
   };
   return Periods;

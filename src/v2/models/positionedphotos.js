@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
   PositionedPhotos.associate = function (models) {
     PositionedPhotos.belongsTo(models.Place, {
       foreignKey: 'placeId',
+      onDelete: 'CASCADE',
     });
   };
   return PositionedPhotos;
