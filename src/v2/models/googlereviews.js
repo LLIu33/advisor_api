@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
       text: DataTypes.TEXT,
       publishedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {

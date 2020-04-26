@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
       closed: DataTypes.BOOLEAN,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {}

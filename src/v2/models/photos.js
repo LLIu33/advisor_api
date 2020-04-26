@@ -18,14 +18,13 @@ module.exports = (sequelize, DataTypes) => {
       storageRef: DataTypes.STRING,
       uid: DataTypes.STRING,
       reviewId: DataTypes.INTEGER,
-      reviewUid: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     { charset: 'utf8mb4', collate: 'utf8mb4_general_ci' }

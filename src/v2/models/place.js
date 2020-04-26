@@ -26,15 +26,15 @@ module.exports = (sequelize, DataTypes) => {
       hasOutdoorSeating: DataTypes.BOOLEAN,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {
-      timestamps: true,
+      timestamps: false,
       charset: 'utf8mb4',
       collate: 'utf8mb4_general_ci',
     }

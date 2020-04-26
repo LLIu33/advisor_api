@@ -5,11 +5,11 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {}

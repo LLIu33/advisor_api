@@ -23,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       publishedAt: DataTypes.DATE,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW() ON UPDATE NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {

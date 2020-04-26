@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       deliveryId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {}

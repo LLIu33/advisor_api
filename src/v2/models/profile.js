@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
       avatarUrl: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
       updatedAt: {
         type: DataTypes.DATE,
-        defaultValue: sequelize.literal('NOW()'),
+        defaultValue: sequelize.NOW,
       },
     },
     {}
