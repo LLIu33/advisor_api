@@ -2,7 +2,7 @@ const db = require('../models');
 const Place = db.Place;
 const { Op } = require('sequelize');
 const helper = require('./helper');
-const { toJson, toShortPlace, inputToPlaceData } = require('../mappers/place');
+const { toJson, toShortPlace, jsonToPlace } = require('../mappers/place');
 
 const fullArrayNestedModels = [
   { model: db.Cuisines, as: 'cuisines' },
@@ -72,7 +72,7 @@ const get = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const newData = inputToPlaceData(req.body);
+    const newData = jsonToPlace(req.body);
     const response = await Place.create(newData, { include: fullArrayNestedModels });
     return res.status(200).send(toJson(response));
   } catch (error) {

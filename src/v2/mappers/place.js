@@ -150,7 +150,7 @@ const jsonToPlace = (input) => {
           return { name: item };
         })
       : [],
-    photo_references: input.photo_references
+    PhotoReferences: input.photo_references
       ? input.photo_references.map((item) => {
           return { reference: item };
         })
