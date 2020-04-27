@@ -23,6 +23,9 @@ function processFilter(input) {
       case 'isTrending':
         result[filter] = input[filter] === 'true' || input[filter] === '1';
         break;
+      case 'creatorId':
+        result[filter] = input[filter];
+        break;
     }
   }
   return result;
