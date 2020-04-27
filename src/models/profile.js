@@ -1,4 +1,5 @@
 const firebase = require('../utils/firebase');
+const firebaseAdmin = require('firebase-admin');
 const uuid = require('uuid/v4');
 const reviewModel = require('./review');
 const placeModel = require('./place');
@@ -30,6 +31,7 @@ const getListOfProfiles = async (params) => {
 const create = async (newData) => {
   const newEntityId = uuid();
   newData.uid = newEntityId;
+  newData = processDataForProfile(newData);
   const isCreated = await db
     .collection(collectionName)
     .doc('/' + newEntityId + '/')
@@ -85,12 +87,19 @@ const getPhotosById = async (entityId) => {
 
 const updateById = async (entityId, newData) => {
   newData.uid = entityId;
+  newData = processDataForProfile(newData);
   const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
   if (!isUpdated) {
     return false;
   }
   const document = await db.collection(collectionName).doc(entityId).get();
   return document.data();
+};
+
+const processDataForProfile = (data) => {
+  data.date = new firebaseAdmin.firestore.Timestamp(data.date._seconds, data.date._nanoseconds);
+  data.birthday = new firebaseAdmin.firestore.Timestamp(data.birthday._seconds, data.birthday._nanoseconds);
+  return data;
 };
 
 module.exports = {
