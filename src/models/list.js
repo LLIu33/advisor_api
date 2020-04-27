@@ -1,4 +1,5 @@
 const firebase = require('../utils/firebase');
+const firebaseAdmin = require('firebase-admin');
 const uuid = require('uuid/v4');
 const placeModel = require('./place');
 
@@ -27,6 +28,7 @@ const getCollectionOfLists = async (params) => {
 const create = async (newData) => {
   const newEntityId = uuid();
   newData.id = newEntityId;
+  newData.date = new firebaseAdmin.firestore.Timestamp(newData.date._seconds, newData.date._nanoseconds);
   const isCreated = await db
     .collection(collectionName)
     .doc('/' + newEntityId + '/')
@@ -60,6 +62,7 @@ const getPlacesByListId = async (entityId) => {
 
 const updateById = async (entityId, newData) => {
   newData.id = entityId;
+  newData.date = new firebaseAdmin.firestore.Timestamp(newData.date._seconds, newData.date._nanoseconds);
   const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
   if (!isUpdated) {
     return false;
