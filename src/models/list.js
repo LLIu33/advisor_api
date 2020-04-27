@@ -116,7 +116,7 @@ const deleteById = async (entityId) => {
 
 const processDataForList = (data) => {
   data.date = new firebaseAdmin.firestore.Timestamp(data.date._seconds, data.date._nanoseconds);
-  data.placeListItems.map((item) => {
+  data.placeListItems = data.placeListItems.map((item) => {
     item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
     return item;
   });

@@ -1,4 +1,5 @@
 const firebase = require('../utils/firebase');
+const firebaseAdmin = require('firebase-admin');
 const uuid = require('uuid/v4');
 const axios = require('axios');
 
@@ -49,6 +50,7 @@ const getPlacesByIds = async (ids) => {
 const create = async (newData) => {
   const newEntityId = uuid();
   newData.id = newEntityId;
+  newData = processDataForPlace(newData);
   const isCreated = await db
     .collection(collectionName)
     .doc('/' + newEntityId + '/')
@@ -75,6 +77,7 @@ const getById = async (entityId) => {
 
 const updateById = async (entityId, newData) => {
   newData.id = entityId;
+  newData = processDataForPlace(newData);
   const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
   if (!isUpdated) {
     return false;
@@ -87,6 +90,7 @@ const addPhotoToPlace = async (entityId, photoObj) => {
   const document = db.collection(collectionName).doc(entityId);
   const placeSnap = await document.get();
   const place = placeSnap.data();
+  photoObj.date = new firebaseAdmin.firestore.Timestamp(photoObj.date._seconds, photoObj.date._nanoseconds);
   place.photos.push(photoObj);
   const isUpdated = await document.set({ photos: place.photos }, { merge: true });
   if (!isUpdated) {
@@ -99,6 +103,26 @@ const addPhotoToPlace = async (entityId, photoObj) => {
 const deleteById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   await document.delete();
+};
+
+const processDataForPlace = (data) => {
+  data.photos = data.photos.map((item) => {
+    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    return item;
+  });
+  data.positionedPhotos = data.positionedPhotos.map((item) => {
+    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    return item;
+  });
+  data.googlePhotos = data.googlePhotos.map((item) => {
+    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    return item;
+  });
+  data.location.coordinates = new firebaseAdmin.firestore.GeoPoint(
+    data.location.coordinates._latitude,
+    data.location.coordinates.__longitude
+  );
+  return data;
 };
 
 module.exports = {
