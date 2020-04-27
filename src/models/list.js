@@ -3,7 +3,7 @@ const uuid = require('uuid/v4');
 const placeModel = require('./place');
 
 const db = firebase.getDb();
-const collectionName = 'lists_backup';
+const collectionName = 'lists';
 
 const getCollectionOfLists = async (params) => {
   const { limit, offset, filter } = params;

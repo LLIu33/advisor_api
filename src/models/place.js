@@ -3,8 +3,7 @@ const uuid = require('uuid/v4');
 const axios = require('axios');
 
 const db = firebase.getDb();
-// const collectionName = 'places';
-const collectionName = 'places_backup';
+const collectionName = 'places';
 
 const getAll = async () => {
   const url = 'https://fobe-id.firebaseapp.com/list-cached';

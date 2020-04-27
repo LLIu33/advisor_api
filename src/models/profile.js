@@ -4,7 +4,7 @@ const reviewModel = require('./review');
 const placeModel = require('./place');
 
 const db = firebase.getDb();
-const collectionName = 'profiles_backup';
+const collectionName = 'profiles';
 
 const getListOfProfiles = async (params) => {
   const { limit, offset, filter } = params;
