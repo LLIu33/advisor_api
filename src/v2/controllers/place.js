@@ -84,11 +84,11 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const newData = req.body;
-    await Place.update(newData, {
+    const newData = jsonToPlace(req.body);
+    const response = await Place.update(newData, {
       where: { uid: entityId },
     });
-    return res.status(200).send();
+    return res.status(200).send(response);
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

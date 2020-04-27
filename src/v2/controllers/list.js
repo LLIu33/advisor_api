@@ -73,16 +73,16 @@ const remove = async (req, res) => {
   }
 };
 
-// const getPlacesByListId = async (req, res) => {
-//   try {
-//     const entityId = req.params.item_id;
-//     const response = await List.findOne({ where: { uid: entityId }, include: [{ model: Place }] });
-//     return res.status(200).send(response);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send(error);
-//   }
-// };
+const getPlacesByListId = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const response = await List.findOne({ where: { uid: entityId }, include: [{ model: Place }] });
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
 
 // const addPlacesToList = async (req, res) => {
 //   try {
@@ -111,7 +111,7 @@ const remove = async (req, res) => {
 module.exports = {
   getCollection,
   get,
-  // getPlacesByListId,
+  getPlacesByListId,
   create,
   update,
   // addPlacesToList,
