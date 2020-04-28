@@ -8,7 +8,7 @@ const photoReportsName = 'photo-reports';
 const listReportsName = 'list-reports';
 
 const createReviewReport = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
   newData = processDataForReport(newData);
   const isCreated = await db
@@ -23,7 +23,7 @@ const createReviewReport = async (newData) => {
 };
 
 const createPhotoReport = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
   newData = processDataForReport(newData);
   const isCreated = await db
@@ -38,7 +38,7 @@ const createPhotoReport = async (newData) => {
 };
 
 const createListReport = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
   newData = processDataForReport(newData);
   const isCreated = await db

@@ -29,7 +29,7 @@ const getListOfProfiles = async (params) => {
 };
 
 const create = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.uid = newEntityId;
   newData = processDataForProfile(newData);
   const isCreated = await db

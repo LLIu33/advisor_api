@@ -26,7 +26,7 @@ const getCollectionOfLists = async (params) => {
 };
 
 const create = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
   newData = processDataForList(newData);
   const isCreated = await db

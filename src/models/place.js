@@ -48,7 +48,7 @@ const getPlacesByIds = async (ids) => {
 };
 
 const create = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
   newData = processDataForPlace(newData);
   const isCreated = await db

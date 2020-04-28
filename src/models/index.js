@@ -5,9 +5,11 @@ const firebase = require('../utils/firebase');
 const db = firebase.getDb();
 
 const create = async (collectionName, newData) => {
+  const newEntityId = newData.id || newData.uid || uuid();
+  newData.id = newEntityId;
   return await db
     .collection(collectionName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
 };
 const getById = async (collectionName, entityId) => {

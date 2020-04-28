@@ -50,7 +50,7 @@ const getReviewsByPlaceIds = async (ids) => {
 };
 
 const create = async (newData, placeId) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
   newData = processDataForReview(newData);
   const isCreated = await db
