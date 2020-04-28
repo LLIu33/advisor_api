@@ -1,6 +1,6 @@
 const firebase = require('../utils/firebase');
 const uuid = require('uuid/v4');
-
+const firebaseAdmin = require('firebase-admin');
 const db = firebase.getDb();
 const parentCollectionName = 'places';
 const collectionName = 'reviews';
@@ -52,6 +52,7 @@ const getReviewsByPlaceIds = async (ids) => {
 const create = async (newData, placeId) => {
   const newEntityId = uuid();
   newData.id = newEntityId;
+  newData = processDataForReview(newData);
   const isCreated = await db
     .collection(parentCollectionName)
     .doc(placeId)
@@ -71,6 +72,7 @@ const getById = async (entityId, placeId) => {
 };
 
 const updateById = async (entityId, newData, placeId) => {
+  newData = processDataForReview(newData);
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   await document.update(newData);
   return getPlaceById(placeId);
@@ -80,6 +82,9 @@ const addPhoto = async (entityId, placeId, photoObj) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   const revieweSnap = await document.get();
   const review = revieweSnap.data();
+  photoObj.date = photoObj.date
+    ? new firebaseAdmin.firestore.Timestamp(photoObj.date._seconds, photoObj.date._nanoseconds)
+    : null;
   review.photos.push(photoObj);
   await document.set({ photos: review.photos }, { merge: true });
   return getPlaceById(placeId);
@@ -113,6 +118,19 @@ const getPlaceById = async (placeId) => {
     });
   }
   return place.data();
+};
+
+const processDataForReview = (data) => {
+  data.date = new firebaseAdmin.firestore.Timestamp(data.date._seconds, data.date._nanoseconds);
+  if (data.photos && data.photos.length > 0) {
+    data.photos = data.photos.map((photo) => {
+      photo.date = photo.date
+        ? new firebaseAdmin.firestore.Timestamp(photo.date._seconds, photo.date._nanoseconds)
+        : null;
+      return photo;
+    });
+  }
+  return data;
 };
 
 module.exports = {
