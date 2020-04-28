@@ -15,7 +15,7 @@ const getList = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -26,7 +26,7 @@ const get = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -38,7 +38,7 @@ const create = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -51,7 +51,7 @@ const update = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -64,7 +64,7 @@ const addPhoto = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -77,7 +77,7 @@ const removePhoto = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -89,7 +89,7 @@ const remove = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 

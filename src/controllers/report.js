@@ -7,7 +7,7 @@ const createReviewReport = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -18,7 +18,7 @@ const createPhotoReport = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
@@ -29,7 +29,7 @@ const createListReport = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 

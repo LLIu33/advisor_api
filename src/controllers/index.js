@@ -9,7 +9,7 @@ const createEntity = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 const getEntity = async (req, res) => {
@@ -20,7 +20,7 @@ const getEntity = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 const getListOfEntity = async (req, res) => {
@@ -32,7 +32,7 @@ const getListOfEntity = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 const updateEntity = async (req, res) => {
@@ -44,7 +44,7 @@ const updateEntity = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 const delteEntity = async (req, res) => {
@@ -55,7 +55,7 @@ const delteEntity = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error);
+    return res.status(500).send(error.stack);
   }
 };
 
