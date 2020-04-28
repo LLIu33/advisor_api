@@ -9,7 +9,7 @@ const createEntity = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 const getEntity = async (req, res) => {
@@ -20,7 +20,7 @@ const getEntity = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 const getListOfEntity = async (req, res) => {
@@ -32,7 +32,7 @@ const getListOfEntity = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 const updateEntity = async (req, res) => {
@@ -44,7 +44,7 @@ const updateEntity = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 const delteEntity = async (req, res) => {
@@ -55,7 +55,7 @@ const delteEntity = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 

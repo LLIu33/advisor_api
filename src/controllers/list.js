@@ -14,7 +14,7 @@ const getCollection = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -25,7 +25,7 @@ const getPlacesByListId = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -36,7 +36,7 @@ const get = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -47,7 +47,7 @@ const create = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -59,7 +59,7 @@ const update = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -71,7 +71,7 @@ const addPlacesToList = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -83,7 +83,7 @@ const removePlaceFromList = async (req, res) => {
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
@@ -94,7 +94,7 @@ const remove = async (req, res) => {
     return res.status(200).send();
   } catch (error) {
     console.log(error);
-    return res.status(500).send(error.stack);
+    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
   }
 };
 
