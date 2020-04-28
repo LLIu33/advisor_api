@@ -107,21 +107,20 @@ const deleteById = async (entityId) => {
 
 const processDataForPlace = (data) => {
   data.photos = data.photos.map((item) => {
-    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    item.date = item.date ? new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds) : null;
     return item;
   });
   data.positionedPhotos = data.positionedPhotos.map((item) => {
-    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    item.date = item.date ? new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds) : null;
     return item;
   });
   data.googlePhotos = data.googlePhotos.map((item) => {
-    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    item.date = item.date ? new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds) : null;
     return item;
   });
-  data.location.coordinates = new firebaseAdmin.firestore.GeoPoint(
-    data.location.coordinates._latitude,
-    data.location.coordinates.__longitude
-  );
+  data.location.coordinates = data.location.coordinates
+    ? new firebaseAdmin.firestore.GeoPoint(data.location.coordinates._latitude, data.location.coordinates._longitude)
+    : null;
   return data;
 };
 
