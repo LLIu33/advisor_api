@@ -9,10 +9,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       uid: DataTypes.STRING,
-      listId: DataTypes.INTEGER,
-      listUid: DataTypes.STRING,
+      listId: DataTypes.STRING,
       text: DataTypes.STRING,
       timestamp: DataTypes.DATE,
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW,
+      },
     },
     {}
   );

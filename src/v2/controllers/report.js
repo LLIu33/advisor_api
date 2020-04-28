@@ -1,9 +1,14 @@
-const reportModel = require('../services/report');
+const db = require('../models');
+const ReviewReport = db.ReviewReport;
+const PhotoReport = db.PhotoReport;
+const ListReport = db.ListReport;
+
+const { jsonToReviewReport, jsonToListReport, jsonToPhotoReport } = require('../mappers/report');
 
 const createReviewReport = async (req, res) => {
   try {
-    const newData = req.body;
-    const response = await reportModel.createReviewReport(newData);
+    const newData = jsonToReviewReport(req.body);
+    const response = await ReviewReport.create(newData);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -13,8 +18,8 @@ const createReviewReport = async (req, res) => {
 
 const createPhotoReport = async (req, res) => {
   try {
-    const newData = req.body;
-    const response = await reportModel.createPhotoReport(newData);
+    const newData = jsonToPhotoReport(req.body);
+    const response = await PhotoReport.create(newData);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -24,8 +29,8 @@ const createPhotoReport = async (req, res) => {
 
 const createListReport = async (req, res) => {
   try {
-    const newData = req.body;
-    const response = await reportModel.createListReport(newData);
+    const newData = jsonToListReport(req.body);
+    const response = await ListReport.create(newData);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);

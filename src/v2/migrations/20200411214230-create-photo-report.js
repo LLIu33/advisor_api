@@ -8,31 +8,26 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      uid: {
-        type: Sequelize.STRING,
-      },
-      placeId: {
-        type: Sequelize.INTEGER,
-      },
-      photoId: {
-        type: Sequelize.INTEGER,
-      },
-      placeUid: {
-        type: Sequelize.STRING,
-      },
-      photoUid: {
-        type: Sequelize.STRING,
-      },
-      timestamp: {
-        type: Sequelize.DATE,
-      },
+      uid: Sequelize.STRING,
+      placeId: Sequelize.STRING,
+      photoCaption: Sequelize.STRING,
+      photoCategory: Sequelize.STRING,
+      photoDate: Sequelize.DATE,
+      photoImageUrl: Sequelize.STRING,
+      photoProfileRef: Sequelize.STRING,
+      photoReviewId: Sequelize.STRING,
+      photoStorageRef: Sequelize.STRING,
+      photoUid: Sequelize.STRING,
+      timestamp: Sequelize.DATE,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW() ON UPDATE NOW()'),
       },
     });
   },

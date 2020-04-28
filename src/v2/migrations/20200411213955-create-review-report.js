@@ -12,12 +12,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       placeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       reviewId: {
-        type: Sequelize.INTEGER,
-      },
-      placeUid: {
         type: Sequelize.STRING,
       },
       reviewUid: {
@@ -32,10 +29,12 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW() ON UPDATE NOW()'),
       },
     });
   },
