@@ -86,7 +86,6 @@ const update = async (req, res) => {
     newData = jsonToReview(newData);
     const review = await Review.findOne({
       where: { uid: entityId, placeId: placeId },
-      include: { model: db.ReviewPhoto, as: 'photos' },
     });
 
     await review.setPhotos([]);

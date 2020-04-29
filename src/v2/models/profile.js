@@ -32,12 +32,16 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: sequelize.NOW,
       },
     },
-    {}
+    {
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_general_ci',
+    }
   );
   Profile.associate = function (models) {
     Profile.hasMany(models.Review, {
-      foreignKey: 'userId',
+      foreignKey: 'userUid',
       as: 'reviews',
+      sourceKey: 'uid',
     });
 
     Profile.belongsToMany(models.Place, {

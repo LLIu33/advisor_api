@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       uid: DataTypes.STRING,
-      userUid: DataTypes.STRING,
+      userUid: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       placeId: DataTypes.INTEGER,
       atmosphereRating: DataTypes.INTEGER,
       serviceRating: DataTypes.INTEGER,

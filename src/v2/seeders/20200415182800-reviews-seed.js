@@ -16,7 +16,6 @@ module.exports = {
       if (entity['collection:reviews']) {
         const reviews = entity['collection:reviews'];
         for (const reviewKey in reviews) {
-          let profile = [];
           let place = [];
           const placeQuery = `SELECT id from Place WHERE uid = "${entity.id}";`;
           place = await queryInterface.sequelize.query(placeQuery, {
@@ -24,12 +23,14 @@ module.exports = {
           });
           const review = reviews[reviewKey];
           // console.log(review);
-          if (review.userID) {
-            const profileQuery = `SELECT id from Profile WHERE uid = "${review.userID}";`;
-            profile = await queryInterface.sequelize.query(profileQuery, {
-              type: queryInterface.sequelize.QueryTypes.SELECT,
-            });
+          const profileQuery = `SELECT id from Profile WHERE uid = "${review.userID}";`;
+          const profile = await queryInterface.sequelize.query(profileQuery, {
+            type: queryInterface.sequelize.QueryTypes.SELECT,
+          });
+          if (profile.length === 0) {
+            continue;
           }
+
           const atmosphereRating = helper.emptyOrNullToString(review.rating.atmosphere);
           const serviceRating = helper.emptyOrNullToString(review.rating.service);
           const qualityRating = helper.emptyOrNullToString(review.rating.quality);
@@ -52,7 +53,6 @@ module.exports = {
           }
           // console.log(addedReviews);
           addedReviews.push(entity.id + '_' + item.uid);
-          // console.log(item);
           dataToInsert.push(item);
         }
       }
