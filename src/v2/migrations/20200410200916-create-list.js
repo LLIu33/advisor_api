@@ -23,9 +23,6 @@ module.exports = {
       isPublic: {
         type: Sequelize.BOOLEAN,
       },
-      creatorId: {
-        type: Sequelize.STRING,
-      },
       creatorUid: {
         type: Sequelize.STRING,
       },

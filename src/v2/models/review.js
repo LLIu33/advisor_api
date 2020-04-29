@@ -8,11 +8,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      uid: {
-        allowNull: false,
-        type: DataTypes.STRING,
-        unique: true,
-      },
+      uid: DataTypes.STRING,
       userId: DataTypes.INTEGER,
       userUid: DataTypes.STRING,
       placeId: DataTypes.INTEGER,
@@ -38,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: true,
       charset: 'utf8mb4',
       collate: 'utf8mb4_general_ci',
+      indexes: [
+        {
+          unique: true,
+          fields: ['placeUid', 'uid'],
+        },
+      ],
     }
   );
   Review.associate = function (models) {

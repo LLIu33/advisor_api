@@ -12,11 +12,7 @@ module.exports = {
       type: Sequelize.STRING,
       unique: true,
     });
-    return queryInterface.changeColumn('Review', 'uid', {
-      allowNull: false,
-      type: Sequelize.STRING,
-      unique: true,
-    });
+    return queryInterface.addIndex('Review', ['uid', 'placeUid'], { unique: true });
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -26,8 +22,6 @@ module.exports = {
     await queryInterface.changeColumn('Profile', 'uid', {
       type: Sequelize.STRING,
     });
-    return queryInterface.changeColumn('Review', 'uid', {
-      type: Sequelize.STRING,
-    });
+    return queryInterface.removeIndex('Review', ['uid', 'placeUid'], { unique: true });
   },
 };

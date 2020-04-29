@@ -5,6 +5,7 @@ module.exports = {
     const data = require('../../../data/places.json')['collection:places'];
     const dataToInsert = [];
     const existPlaces = [];
+    const addedReviews = [];
     for (const key in data) {
       const entity = data[key];
       const uid = entity.id;
@@ -47,18 +48,21 @@ module.exports = {
             text: review.text,
             publishedAt: helper.fbTimestampToDatetime(review.date),
           };
+          if (addedReviews.includes(entity.id + '_' + item.uid)) {
+            console.log(entity.id + '_' + item.uid);
+            continue;
+          }
+          // console.log(addedReviews);
+          addedReviews.push(entity.id + '_' + item.uid);
           // console.log(item);
           dataToInsert.push(item);
         }
       }
     }
     //console.log(dataToInsert);
-    // fs.writeFileSync('./reviews.json', JSON.stringify(dataToInsert), 'utf8');
     console.log('dataToInsert.length: ', dataToInsert.length);
-    return queryInterface.bulkInsert('Review', dataToInsert, {
-      timestamps: true,
-      charset: 'utf8mb4',
-      collate: 'utf8mb4_general_ci',
+    return queryInterface.bulkInsert('Review', dataToInsert).catch(function (err) {
+      console.log(err);
     });
   },
 

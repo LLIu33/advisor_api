@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       coverUrl: DataTypes.STRING,
       isTrending: DataTypes.BOOLEAN,
       isPublic: DataTypes.BOOLEAN,
-      creatorId: DataTypes.INTEGER,
       creatorUid: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
@@ -31,9 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   List.associate = function (models) {
-    List.hasOne(models.Profile, {
-      foreignKey: 'creatorId',
+    List.belongsTo(models.Profile, {
+      foreignKey: 'creatorUid',
       as: 'profile',
+      targetKey: 'uid',
     });
 
     List.belongsToMany(models.Place, {
