@@ -11,12 +11,14 @@ module.exports = {
     const profiles = await queryInterface.sequelize.query(query, {
       type: queryInterface.sequelize.QueryTypes.SELECT,
     });
-    // console.log(profiles);
+    const profileUids = profiles.map((item) => item.uid);
+    // console.log(profileUids);
     // placeListItems;
     const DataToSeed = [];
     const addedEntity = [];
     for (const listKey in listsData) {
       const list = listsData[listKey];
+      // console.log(list);
       if (addedEntity.includes(list.id)) {
         continue;
       }
@@ -28,7 +30,7 @@ module.exports = {
         createdAt: helper.fbTimestampToDatetime(list.date),
         isTrending: list.isTrending ? list.isTrending.data : false,
         isPublic: list.isPublic ? list.isPublic.data : false,
-        creatorUid: list.creatorId && profiles.includes(list.creatorId) ? list.creatorId : null,
+        creatorUid: list.creatorId && profileUids.includes(list.creatorId) ? list.creatorId : null,
       };
       // console.log(item);
       DataToSeed.push(item);
