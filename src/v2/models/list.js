@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      uid: DataTypes.STRING,
+      uid: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+      },
       name: DataTypes.STRING,
       coverUrl: DataTypes.STRING,
       isTrending: DataTypes.BOOLEAN,

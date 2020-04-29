@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      uid: DataTypes.STRING,
+      uid: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true,
+      },
       userId: DataTypes.INTEGER,
       userUid: DataTypes.STRING,
       placeId: DataTypes.INTEGER,
