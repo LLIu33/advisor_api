@@ -4,7 +4,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const placeRouter = require('./place');
 const listRouter = require('./list');
-// const reviewRouter = require('./review');
+const reviewRouter = require('./review');
 const profileRouter = require('./profile');
 const reportRouter = require('./report');
 
@@ -16,7 +16,7 @@ const apiRouter = express.Router();
 apiRouter.use(placeRouter);
 apiRouter.use(listRouter);
 apiRouter.use(profileRouter);
-// apiRouter.use(reviewRouter);
+apiRouter.use(reviewRouter);
 apiRouter.use(reportRouter);
 
 const swaggerSpec = swaggerJsdoc(swaggerDefinition);

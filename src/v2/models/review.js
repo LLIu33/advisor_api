@@ -9,10 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
       },
       uid: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
       userUid: DataTypes.STRING,
       placeId: DataTypes.INTEGER,
-      placeUid: DataTypes.STRING,
       atmosphereRating: DataTypes.INTEGER,
       serviceRating: DataTypes.INTEGER,
       qualityRating: DataTypes.INTEGER,
@@ -37,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       indexes: [
         {
           unique: true,
-          fields: ['placeUid', 'uid'],
+          fields: ['placeId', 'uid'],
         },
       ],
     }
@@ -48,7 +46,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE',
     });
     Review.belongsTo(models.Profile, {
-      foreignKey: 'userId',
+      foreignKey: 'userUid',
+      targetKey: 'uid',
+    });
+    Review.hasMany(models.ReviewPhoto, {
+      foreignKey: 'reviewId',
+      as: 'photos',
     });
   };
   return Review;

@@ -9,12 +9,12 @@ const jsonToPhoto = (photos) => {
       position: photo.position,
       storageRef: photo.storageRef,
       uid: photo.uid,
-      reviewId: photo.reviewId === '' ? null : photo.reviewId,
+      reviewUid: photo.reviewId === '' ? null : photo.reviewId,
     };
   });
 };
 
-const photoToJson = (photo) => {
+const photoToJson = (photo, reviewId = null) => {
   return {
     imageUrl: photo.imageUrl,
     date: photo.publishedAt,
@@ -23,7 +23,7 @@ const photoToJson = (photo) => {
     googlePhotoRef: photo.googlePhotoRef,
     storageRef: photo.storageRef,
     position: photo.position,
-    reviewId: photo.reviewUid,
+    reviewId: reviewId ? reviewId : photo.reviewUid,
   };
 };
 

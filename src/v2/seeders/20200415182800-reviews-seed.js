@@ -35,10 +35,8 @@ module.exports = {
           const qualityRating = helper.emptyOrNullToString(review.rating.quality);
           const item = {
             uid: review.id,
-            userId: profile.length ? profile[0].id : null,
             userUid: review.userID,
             placeId: place.length ? place[0].id : null,
-            placeUid: entity.id,
             atmosphereRating: atmosphereRating.data,
             serviceRating: serviceRating.data,
             qualityRating: qualityRating.data,

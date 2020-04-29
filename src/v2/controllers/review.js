@@ -1,17 +1,27 @@
 const db = require('../models');
 const Review = db.Review;
+const Place = db.Place;
+const { Op } = require('sequelize');
 const helper = require('./helper');
+const { jsonToReview, reviewToJson } = require('../mappers/review');
 
 const getList = async (req, res) => {
   try {
+    const placeUid = req.params.place_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
+    });
+    const placeId = place.id;
     let { limit, offset, ...filter } = req.query;
     limit = helper.processLimit(limit);
     offset = helper.processOffset(offset);
     filter = helper.processFilter(filter);
 
-    const lists = await Review.findAll({ where: filter });
+    filter.placeId = placeId;
+
+    const reviews = await Review.findAll({ where: filter, include: { model: db.ReviewPhoto, as: 'photos' } });
     const response = {
-      lists,
+      reviews: reviews.map((item) => reviewToJson(item)),
       limit,
       offset,
     };
@@ -24,9 +34,17 @@ const getList = async (req, res) => {
 
 const get = async (req, res) => {
   try {
+    const placeUid = req.params.place_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
+    });
+    const placeId = place.id;
     const entityId = req.params.item_id;
-    const response = await Review.findOne({ where: { uid: entityId } });
-    return res.status(200).send(response);
+    const response = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+      include: { model: db.ReviewPhoto, as: 'photos' },
+    });
+    return res.status(200).send(reviewToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -35,9 +53,20 @@ const get = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const newData = req.body;
-    await Review.create(newData);
-    return res.status(200).send();
+    const placeUid = req.params.place_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
+    });
+    const placeId = place.id;
+    let newData = req.body;
+    newData.placeId = placeId;
+    newData = jsonToReview(newData);
+    const review = await Review.create(newData, { include: { model: db.ReviewPhoto, as: 'photos' } });
+    const response = await Review.findOne({
+      where: { uid: review.uid, placeId: placeId },
+      include: { model: db.ReviewPhoto, as: 'photos' },
+    });
+    return res.status(200).send(reviewToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -46,12 +75,37 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const entityId = req.params.item_id;
-    const newData = req.body;
-    await Review.update(newData, {
-      where: { uid: entityId },
+    const placeUid = req.params.place_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
     });
-    return res.status(200).send();
+    const placeId = place.id;
+    const entityId = req.params.item_id;
+    let newData = req.body;
+    newData.placeId = placeId;
+    newData = jsonToReview(newData);
+    const review = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+      include: { model: db.ReviewPhoto, as: 'photos' },
+    });
+
+    await review.setPhotos([]);
+    await review.update(newData, {
+      where: { uid: entityId, placeId: placeId },
+    });
+    if (newData.photos.length > 0) {
+      newData.photos = newData.photos.map((photo) => {
+        photo.reviewId = review.id;
+        return photo;
+      });
+      await db.ReviewPhoto.bulkCreate(newData.photos);
+    }
+
+    const response = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+      include: { model: db.ReviewPhoto, as: 'photos' },
+    });
+    return res.status(200).send(reviewToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -60,9 +114,14 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
+    const placeUid = req.params.place_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
+    });
+    const placeId = place.id;
     const entityId = req.params.item_id;
     await Review.destroy({
-      where: { uid: entityId },
+      where: { uid: entityId, placeId: placeId },
     });
     return res.status(200).send();
   } catch (error) {

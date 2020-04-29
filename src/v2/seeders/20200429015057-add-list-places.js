@@ -20,7 +20,7 @@ module.exports = {
     lists.forEach((item) => {
       listsHash[item.uid] = item.id;
     });
-    console.log(listsHash);
+    // console.log(listsHash);
     let dataToInsert = [];
     const addedEntity = [];
     for (const key in data) {

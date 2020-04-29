@@ -1,57 +1,59 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Review', {
+    return queryInterface.createTable('ReviewPhotos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      storageRef: {
+        type: Sequelize.TEXT,
+      },
+      position: {
+        type: Sequelize.INTEGER,
+      },
+      profileRef: {
+        type: Sequelize.TEXT,
+      },
+      reviewId: {
+        type: Sequelize.INTEGER,
+      },
+      reviewUid: {
+        type: Sequelize.STRING,
+      },
+      imageUrl: {
+        type: Sequelize.TEXT,
+      },
       uid: {
-        type: Sequelize.STRING,
-      },
-      userUid: {
-        type: Sequelize.STRING,
-      },
-      placeId: {
-        type: Sequelize.INTEGER,
-      },
-      atmosphereRating: {
-        type: Sequelize.INTEGER,
-      },
-      serviceRating: {
-        type: Sequelize.INTEGER,
-      },
-      qualityRating: {
-        type: Sequelize.INTEGER,
-      },
-      atmosphereText: {
-        type: Sequelize.STRING,
-      },
-      serviceText: {
-        type: Sequelize.STRING,
-      },
-      qualityText: {
-        type: Sequelize.STRING,
-      },
-      text: {
         type: Sequelize.STRING,
       },
       publishedAt: {
         type: Sequelize.DATE,
       },
+      caption: {
+        type: Sequelize.STRING,
+      },
+      category: {
+        type: Sequelize.STRING,
+      },
+      googlePhotoRef: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW()'),
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('NOW() ON UPDATE NOW()'),
       },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Review');
+    return queryInterface.dropTable('ReviewPhotos');
   },
 };
