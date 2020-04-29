@@ -1,7 +1,9 @@
 const db = require('../models');
 const List = db.List;
 const Place = db.Place;
+const { Op } = require('sequelize');
 const helper = require('./helper');
+const { jsonToList, listToJson } = require('../mappers/list');
 
 const getCollection = async (req, res) => {
   try {
@@ -10,9 +12,9 @@ const getCollection = async (req, res) => {
     offset = helper.processOffset(offset);
     filter = helper.processFilter(filter);
 
-    const lists = await List.findAll({ where: filter });
+    const lists = await List.findAll({ where: filter, include: { model: db.Place, as: 'places' } });
     const response = {
-      lists,
+      lists: lists.map((item) => listToJson(item)),
       limit,
       offset,
     };
@@ -26,8 +28,8 @@ const getCollection = async (req, res) => {
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const response = await List.findOne({ where: { uid: entityId } });
-    return res.status(200).send(response);
+    const response = await List.findOne({ where: { uid: entityId }, include: { model: db.Place, as: 'places' } });
+    return res.status(200).send(listToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -36,9 +38,22 @@ const get = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const newData = req.body;
-    const response = await List.create(newData);
-    return res.status(200).send(response);
+    const newData = jsonToList(req.body);
+    const list = await List.create(newData);
+
+    if (req.body.placeListItems && req.body.placeListItems.length > 0) {
+      const placeIds = req.body.placeListItems.map((item) => item.placeId);
+      const places = await Place.findAll({
+        where: {
+          uid: {
+            [Op.in]: placeIds,
+          },
+        },
+      });
+      await list.setPlaces(places);
+    }
+    const response = await List.findOne({ where: { uid: list.uid }, include: { model: db.Place, as: 'places' } });
+    return res.status(200).send(listToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -48,12 +63,25 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const newData = req.body;
-    await List.update(newData, {
-      where: { uid: entityId },
-    });
-    const response = await List.findOne({ where: { uid: entityId } });
-    return res.status(200).send(response);
+    const newData = jsonToList(req.body);
+    const list = await List.findOne({ where: { uid: entityId } });
+    await list.update(newData);
+
+    if (req.body.placeListItems && req.body.placeListItems.length > 0) {
+      const placeIds = req.body.placeListItems.map((item) => item.placeId);
+      const places = await Place.findAll({
+        where: {
+          uid: {
+            [Op.in]: placeIds,
+          },
+        },
+      });
+      await list.setPlaces([]);
+      await list.setPlaces(places);
+    }
+
+    const response = await List.findOne({ where: { uid: entityId }, include: { model: db.Place, as: 'places' } });
+    return res.status(200).send(listToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);

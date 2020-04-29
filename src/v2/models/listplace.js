@@ -3,8 +3,22 @@ module.exports = (sequelize, DataTypes) => {
   const ListPlace = sequelize.define(
     'ListPlace',
     {
-      listId: DataTypes.INTEGER,
-      placeId: DataTypes.INTEGER,
+      listId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      placeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      createdAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW,
+      },
+      updatedAt: {
+        type: DataTypes.DATE,
+        defaultValue: sequelize.NOW,
+      },
     },
     {}
   );
