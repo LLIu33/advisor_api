@@ -11,6 +11,14 @@ module.exports = {
     places.forEach((item) => {
       placesHash[item.uid] = item.id;
     });
+    const reviewsQuery = `SELECT id, uid from Review`;
+    const reviews = await queryInterface.sequelize.query(reviewsQuery, {
+      type: queryInterface.sequelize.QueryTypes.SELECT,
+    });
+    const reviewsHash = {};
+    reviews.forEach((item) => {
+      reviewsHash[item.uid] = item.id;
+    });
     const dataToInsert = [];
     const existPlaces = [];
     for (const key in data) {
@@ -37,7 +45,7 @@ module.exports = {
           position: +helper.emptyOrNullToString(entity.position) || 0,
           storageRef: entity.storageRef || '',
           uid: entity.uid || '',
-          reviewUid: entity.reviewId || '',
+          reviewId: reviewsHash[entity.reviewId] || null,
         };
         //console.log(item);
         dataToInsert.push(item);

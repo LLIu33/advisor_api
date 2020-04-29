@@ -85,9 +85,10 @@ const update = async (req, res) => {
   try {
     const entityId = req.params.item_id;
     const newData = jsonToPlace(req.body);
-    const response = await Place.update(newData, {
+    await Place.update(newData, {
       where: { uid: entityId },
     });
+    const response = await Place.findOne({ where: { uid: entityId } });
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
