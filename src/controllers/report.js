@@ -1,35 +1,32 @@
 const reportModel = require('../models/report');
 
-const createReviewReport = async (req, res) => {
+const createReviewReport = async (req, res, next) => {
   try {
     const newData = req.body;
     const response = await reportModel.createReviewReport(newData);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const createPhotoReport = async (req, res) => {
+const createPhotoReport = async (req, res, next) => {
   try {
     const newData = req.body;
     const response = await reportModel.createPhotoReport(newData);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const createListReport = async (req, res) => {
+const createListReport = async (req, res, next) => {
   try {
     const newData = req.body;
     const response = await reportModel.createListReport(newData);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 

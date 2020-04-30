@@ -1,7 +1,7 @@
 const profileModel = require('../models/profile');
 const helper = require('./helper');
 
-const getList = async (req, res) => {
+const getList = async (req, res, next) => {
   try {
     const { limit, offset, ...filterParams } = req.query;
     const params = {
@@ -13,64 +13,58 @@ const getList = async (req, res) => {
     const response = await profileModel.getListOfProfiles(params);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const get = async (req, res) => {
+const get = async (req, res, next) => {
   try {
     const entityId = req.params.item_id;
     const response = await profileModel.getById(entityId);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const getPhotos = async (req, res) => {
+const getPhotos = async (req, res, next) => {
   try {
     const entityId = req.params.item_id;
     const response = await profileModel.getPhotosById(entityId);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const getReviews = async (req, res) => {
+const getReviews = async (req, res, next) => {
   try {
     const entityId = req.params.item_id;
     const response = await profileModel.getReviewsById(entityId);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   try {
     const newData = req.body;
     const response = await profileModel.create(newData);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const entityId = req.params.item_id;
     const newData = req.body;
     const response = await profileModel.updateById(entityId, newData);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 

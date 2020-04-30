@@ -1,29 +1,27 @@
 const genericModel = require('../models');
 const helper = require('./helper');
 
-const createEntity = async (req, res) => {
+const createEntity = async (req, res, next) => {
   try {
     const newData = req.body;
     const collectionName = req.params.collection;
     await genericModel.create(collectionName, newData);
     return res.status(200).send();
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
-const getEntity = async (req, res) => {
+const getEntity = async (req, res, next) => {
   try {
     const collectionName = req.params.collection;
     const entityId = req.params.item_id;
     const response = await genericModel.getById(collectionName, entityId);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
-const getListOfEntity = async (req, res) => {
+const getListOfEntity = async (req, res, next) => {
   try {
     const collectionName = req.params.collection;
     const limit = helper.processLimit(req.query.limit);
@@ -31,11 +29,10 @@ const getListOfEntity = async (req, res) => {
     const response = await genericModel.getList(collectionName, limit, offset);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
-const updateEntity = async (req, res) => {
+const updateEntity = async (req, res, next) => {
   try {
     const collectionName = req.params.collection;
     const entityId = req.params.item_id;
@@ -43,19 +40,17 @@ const updateEntity = async (req, res) => {
     await genericModel.updateById(collectionName, entityId, newData);
     return res.status(200).send();
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
-const delteEntity = async (req, res) => {
+const delteEntity = async (req, res, next) => {
   try {
     const collectionName = req.params.collection;
     const entityId = req.params.item_id;
     await genericModel.deleteById(collectionName, entityId);
     return res.status(200).send();
   } catch (error) {
-    console.log(error);
-    return res.status(500).send([{ code: 500, message: 'Internal server error' }]);
+    next(error);
   }
 };
 
