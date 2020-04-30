@@ -139,7 +139,7 @@ const jsonToPlace = (input) => {
           return { name: item };
         })
       : [],
-    googleReviews: jsonToGoogleReview(input.googleReviews),
+    googleReviews: input.googleReviews.map((item) => jsonToGoogleReview(item)),
     deliveryApps: input.deliveryApps
       ? input.deliveryApps.map((item) => {
           return { name: item };

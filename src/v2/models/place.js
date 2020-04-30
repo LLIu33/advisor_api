@@ -43,14 +43,17 @@ module.exports = (sequelize, DataTypes) => {
     Place.hasOne(models.Locations, {
       foreignKey: 'placeId',
       as: 'location',
+      allowNull: false,
     });
     Place.hasOne(models.Contacts, {
       foreignKey: 'placeId',
-      as: 'contacts',
+      as: 'contact',
+      allowNull: false,
     });
     Place.hasOne(models.Ratings, {
       foreignKey: 'placeId',
       as: 'rating',
+      allowNull: false,
     });
     Place.hasMany(models.Review, {
       foreignKey: 'placeId',

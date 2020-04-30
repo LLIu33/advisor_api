@@ -3,7 +3,10 @@ module.exports = (sequelize, DataTypes) => {
   const Contacts = sequelize.define(
     'Contacts',
     {
-      placeId: DataTypes.INTEGER,
+      placeId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       carrigeMenu: DataTypes.TEXT,
       deliverooMenu: DataTypes.TEXT,
       instagram: DataTypes.STRING,

@@ -2,6 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const DeliveryApps = sequelize.define(
     'DeliveryApps',
     {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
       name: DataTypes.STRING,
       createdAt: {
         type: DataTypes.DATE,
