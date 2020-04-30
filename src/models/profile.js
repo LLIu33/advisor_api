@@ -59,7 +59,7 @@ const getReviewsById = async (entityId) => {
     places.forEach((place) => {
       data.push({
         placeId: place.id,
-        reviews: place.reviews,
+        review: place.reviews.length > 0 ? place.reviews[0] : {},
       });
     });
   }
