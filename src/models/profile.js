@@ -59,7 +59,6 @@ const getReviewsById = async (entityId) => {
     places.forEach((place) => {
       data.push({
         placeId: place.id,
-        name: place.name,
         reviews: place.reviews,
       });
     });
@@ -77,7 +76,6 @@ const getPhotosById = async (entityId) => {
     places.forEach((place) => {
       data.push({
         placeId: place.id,
-        name: place.name,
         photos: place.photos,
       });
     });
