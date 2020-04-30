@@ -58,8 +58,8 @@ const getReviewsById = async (entityId) => {
     const places = await reviewModel.getReviewsByPlaceIds(profileData.placeIds);
     places.forEach((place) => {
       data.push({
+        placeId: place.id,
         name: place.name,
-        mainPhotos: place.mainPhotos,
         reviews: place.reviews,
       });
     });
@@ -76,8 +76,8 @@ const getPhotosById = async (entityId) => {
     const places = await placeModel.getPlacesByIds(profileData.placeIds);
     places.forEach((place) => {
       data.push({
+        placeId: place.id,
         name: place.name,
-        mainPhotos: place.mainPhotos,
         photos: place.photos,
       });
     });
