@@ -40,10 +40,12 @@ const getListOfPlaces = async (params) => {
 };
 
 const getPlacesByIds = async (ids) => {
-  const querySnapshot = await db.collection(collectionName).where('id', 'in', ids).get();
-  const places = querySnapshot.docs.map((doc) => {
-    return { id: doc.id, ...doc.data() };
-  });
+  const places = [];
+  for (const key in ids) {
+    const placeId = ids[key];
+    const place = await db.collection(collectionName).doc(placeId).get();
+    places.push({ id: place.id, ...place.data() });
+  }
   return places;
 };
 

@@ -54,13 +54,17 @@ const getReviewsById = async (entityId) => {
   const profile = await document.get();
   const profileData = profile.data();
   const data = [];
-  if (profileData.placeIds) {
+  if (profileData.placeIds.length > 0) {
     const places = await reviewModel.getReviewsByPlaceIds(profileData.placeIds);
     places.forEach((place) => {
-      data.push({
-        placeId: place.id,
-        review: place.reviews.length > 0 ? place.reviews[0] : {},
-      });
+      let review = place.reviews.length > 0 ? place.reviews[0] : null;
+      review = review.id === profileData.uid ? review : null;
+      if (review) {
+        data.push({
+          placeId: place.id,
+          review: review,
+        });
+      }
     });
   }
   return data;
@@ -71,12 +75,14 @@ const getPhotosById = async (entityId) => {
   const item = await document.get();
   const profileData = item.data();
   const data = [];
-  if (profileData.placeIds) {
+  if (profileData.placeIds.length > 0) {
     const places = await placeModel.getPlacesByIds(profileData.placeIds);
+    console.log(places);
     places.forEach((place) => {
+      place.photos = place.photos || [];
       data.push({
         placeId: place.id,
-        photos: place.photos,
+        photos: place.photos.filter((photo) => photo.uid === profileData.uid),
       });
     });
   }
