@@ -101,28 +101,41 @@ const update = async (req, res) => {
 
     const deliveryAppsHash = await getDeliveryAppsHash();
     newData.deliveryApps = newData.deliveryApps.map((item) => deliveryAppsHash[item.name]);
+    console.log(newData.deliveryApps);
     await place.setDeliveryApps(newData.deliveryApps);
     newData.pickUpApps = newData.pickUpApps.map((item) => deliveryAppsHash[item.name]);
     await place.setPickupApps(newData.pickUpApps);
 
-    // console.log(newData.photoReferences);
+    const cuisinesHash = await getCuisinesHash();
+    newData.cuisines = newData.cuisines.map((item) => cuisinesHash[item.name]);
+    console.log(newData.cuisines);
+    await place.setCuisines(newData.cuisines);
+
     await db.PhotoReference.destroy({ where: { placeId: place.id } });
     await db.PhotoReference.bulkCreate(newData.photoReferences);
 
-    // await place.setPopularDishes(newData.popularDishes);
-    // await place.setPhotos(newData.photos);
-    // await place.setGooglePhotos(newData.googlePhotos);
-    // await place.setPositionedPhotos(newData.positionedPhotos);
-    // await place.setOpeningHours(newData.openingHours);
+    await db.Dishes.destroy({ where: { placeId: place.id } });
+    await db.Dishes.bulkCreate(newData.popularDishes);
 
-    // await place.setGoogleReviews(newData.googleReviews);
-    // await place.setCuisines(newData.cuisines);
+    await db.Photos.destroy({ where: { placeId: place.id } });
+    await db.Photos.bulkCreate(newData.photos);
 
-    // const response = await Place.findOne({
-    //   where: { uid: entityId },
-    //   include: fullArrayNestedModels,
-    // });
-    const response = [];
+    await db.GooglePhotos.destroy({ where: { placeId: place.id } });
+    await db.GooglePhotos.bulkCreate(newData.googlePhotos);
+
+    await db.PositionedPhotos.destroy({ where: { placeId: place.id } });
+    await db.PositionedPhotos.bulkCreate(newData.positionedPhotos);
+
+    await db.Periods.destroy({ where: { placeId: place.id } });
+    await db.Periods.bulkCreate(newData.openingHours);
+
+    await db.GoogleReviews.destroy({ where: { placeId: place.id } });
+    await db.GoogleReviews.bulkCreate(newData.googleReviews);
+
+    const response = await Place.findOne({
+      where: { uid: entityId },
+      include: fullArrayNestedModels,
+    });
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
@@ -191,6 +204,17 @@ const getDeliveryAppsHash = async () => {
     deliveriesHash[item.name] = item.id;
   });
   return deliveriesHash;
+};
+
+const getCuisinesHash = async () => {
+  const cuisines = await db.Cuisines.findAll({
+    attributes: ['id', 'name'],
+  });
+  const cuisinesHash = {};
+  cuisines.forEach((item) => {
+    cuisinesHash[item.name] = item.id;
+  });
+  return cuisinesHash;
 };
 
 module.exports = {

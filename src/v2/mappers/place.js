@@ -136,10 +136,10 @@ const jsonToPlace = (input, placeId) => {
     rating: input.rating || {},
     popularDishes: input.popularDishes
       ? input.popularDishes.map((item) => {
-          return { name: item };
+          return { placeId: placeId, name: item };
         })
       : [],
-    googleReviews: input.googleReviews.map((item) => jsonToGoogleReview(item)),
+    googleReviews: input.googleReviews.map((item) => jsonToGoogleReview(item, placeId)),
     deliveryApps: input.deliveryApps
       ? input.deliveryApps.map((item) => {
           return { name: item };
@@ -152,21 +152,18 @@ const jsonToPlace = (input, placeId) => {
       : [],
     photoReferences: input.photo_references
       ? input.photo_references.map((item) => {
-          return {
-            placeId: placeId,
-            reference: item,
-          };
+          return { placeId: placeId, reference: item };
         })
       : [],
-    photos: jsonToPhoto(input.photos),
-    positionedPhotos: jsonToPhoto(input.positionedPhotos),
-    googlePhotos: jsonToPhoto(input.googlePhotos),
+    photos: jsonToPhoto(input.photos, placeId),
+    positionedPhotos: jsonToPhoto(input.positionedPhotos, placeId),
+    googlePhotos: jsonToPhoto(input.googlePhotos, placeId),
     cuisines: input.cuisines
       ? input.cuisines.map((item) => {
           return { name: item };
         })
       : [],
-    openingHours: jsonToPeriods(input.openingHours),
+    openingHours: jsonToPeriods(input.openingHours, placeId),
   };
 };
 

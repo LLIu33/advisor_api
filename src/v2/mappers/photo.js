@@ -1,7 +1,8 @@
-const jsonToPhoto = (photos) => {
+const jsonToPhoto = (photos, placeId = null) => {
   photos = photos || [];
   return photos.map((photo) => {
     return {
+      placeId: placeId,
       caption: photo.caption,
       category: photo.category,
       googlePhotoRef: photo.googlePhotoRef,

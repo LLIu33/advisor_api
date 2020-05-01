@@ -1,7 +1,8 @@
 const moment = require('moment');
 
-const jsonToGoogleReview = (data) => {
+const jsonToGoogleReview = (data, placeId) => {
   return {
+    placeId: placeId,
     authorName: data.author_name,
     profilePhotoUrl: data.profile_photo_url,
     rating: data.rating,

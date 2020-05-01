@@ -1,4 +1,4 @@
-const jsonToPeriods = (json) => {
+const jsonToPeriods = (json, placeId = null) => {
   return json.periods
     ? json.periods.map((item) => {
         return jsonToPeriod(item);
@@ -6,6 +6,7 @@ const jsonToPeriods = (json) => {
     : { periods: [] };
   function jsonToPeriod(json) {
     return {
+      placeId: placeId,
       openDay: json.open.day,
       openTime: json.open.time,
       closeDay: json.close.day,
