@@ -8,7 +8,7 @@ const fullArrayNestedModels = [
   { model: db.Cuisines, as: 'cuisines' },
   { model: db.DeliveryApps, as: 'DeliveryApps' },
   { model: db.DeliveryApps, as: 'PickupApps' },
-  { model: db.PhotoReferences, as: 'PhotoReferences' },
+  { model: db.PhotoReference, as: 'photoReferences' },
   { model: db.Dishes, as: 'popularDishes' },
   { model: db.Photos, as: 'photos' },
   { model: db.GooglePhotos, as: 'googlePhotos' },
@@ -89,7 +89,7 @@ const update = async (req, res) => {
       where: { uid: entityId },
     });
 
-    const newData = jsonToPlace(req.body);
+    const newData = jsonToPlace(req.body, place.id);
     await place.update(newData);
 
     const contact = await place.getContact();
@@ -101,10 +101,14 @@ const update = async (req, res) => {
 
     const deliveryAppsHash = await getDeliveryAppsHash();
     newData.deliveryApps = newData.deliveryApps.map((item) => deliveryAppsHash[item.name]);
-    console.log(newData.deliveryApps);
     await place.setDeliveryApps(newData.deliveryApps);
-    // await place.setPickupApps(newData.PickupApps);
-    // await place.setPhotoReferences(newData.PhotoReferences);
+    newData.pickUpApps = newData.pickUpApps.map((item) => deliveryAppsHash[item.name]);
+    await place.setPickupApps(newData.pickUpApps);
+
+    // console.log(newData.photoReferences);
+    await db.PhotoReference.destroy({ where: { placeId: place.id } });
+    await db.PhotoReference.bulkCreate(newData.photoReferences);
+
     // await place.setPopularDishes(newData.popularDishes);
     // await place.setPhotos(newData.photos);
     // await place.setGooglePhotos(newData.googlePhotos);

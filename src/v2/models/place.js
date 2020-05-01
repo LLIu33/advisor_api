@@ -59,9 +59,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'placeId',
       as: 'reviews',
     });
-    Place.hasMany(models.PhotoReferences, {
+    Place.hasMany(models.PhotoReference, {
       foreignKey: 'placeId',
-      as: 'PhotoReferences',
+      as: 'photoReferences',
     });
     Place.hasMany(models.Dishes, {
       foreignKey: 'placeId',

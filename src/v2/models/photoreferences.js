@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const PhotoReferences = sequelize.define(
-    'PhotoReferences',
+  const PhotoReference = sequelize.define(
+    'PhotoReference',
     {
       placeId: {
         type: DataTypes.INTEGER,
@@ -19,11 +19,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  PhotoReferences.associate = function (models) {
-    PhotoReferences.belongsTo(models.Place, {
-      foreignKey: 'placeId',
+  PhotoReference.associate = function (models) {
+    PhotoReference.belongsTo(models.Place, {
       onDelete: 'CASCADE',
     });
   };
-  return PhotoReferences;
+  return PhotoReference;
 };

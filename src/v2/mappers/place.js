@@ -46,7 +46,7 @@ const toJson = (input, withNested = true) => {
       cuisines: input.cuisines ? input.cuisines.map((item) => item.name) : [],
       DeliveryApps: input.DeliveryApps ? input.DeliveryApps.map((item) => item.name) : [],
       PickupApps: input.PickupApps ? input.PickupApps.map((item) => item.name) : [],
-      photo_references: input.PhotoReferences ? input.PhotoReferences.map((item) => item.reference) : [],
+      photo_references: input.photoReferences ? input.photoReferences.map((item) => item.reference) : [],
       popularDishes: input.popularDishes ? input.popularDishes.map((item) => item.name) : [],
       photos: input.photos ? input.photos.map((item) => photoToJson(item)) : [],
       googlePhotos: input.googlePhotos ? input.googlePhotos.map((item) => photoToJson(item)) : [],
@@ -118,7 +118,7 @@ const toShortPlace = (data) => {
   };
 };
 
-const jsonToPlace = (input) => {
+const jsonToPlace = (input, placeId) => {
   const uid = input.id || uuid();
   return {
     uid: uid,
@@ -150,9 +150,12 @@ const jsonToPlace = (input) => {
           return { name: item };
         })
       : [],
-    PhotoReferences: input.photo_references
+    photoReferences: input.photo_references
       ? input.photo_references.map((item) => {
-          return { reference: item };
+          return {
+            placeId: placeId,
+            reference: item,
+          };
         })
       : [],
     photos: jsonToPhoto(input.photos),

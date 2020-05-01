@@ -1,5 +1,3 @@
-const helper = require('../../utils/helper');
-
 module.exports = {
   up: async (queryInterface) => {
     const data = require('../../../data/places.json')['collection:places'];
@@ -37,9 +35,9 @@ module.exports = {
       });
     }
     dataToInsert = [...new Set(dataToInsert)];
-    //console.log(dataToInsert);
+    // console.log(dataToInsert);
     console.log('dataToInsert.length: ', dataToInsert.length);
-    return queryInterface.bulkInsert('PhotoReferences', dataToInsert, {});
+    return queryInterface.bulkInsert('PhotoReference', dataToInsert, {});
   },
 
   down: (queryInterface) => {
@@ -50,6 +48,6 @@ module.exports = {
       Example:
       return queryInterface.bulkDelete('People', null, {});
     */
-    return queryInterface.bulkDelete('PhotoReferences', null, {});
+    return queryInterface.bulkDelete('PhotoReference', null, {});
   },
 };
