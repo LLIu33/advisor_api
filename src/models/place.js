@@ -40,11 +40,22 @@ const getListOfPlaces = async (params) => {
 };
 
 const getPlacesByIds = async (ids) => {
-  const places = [];
-  for (const key in ids) {
-    const placeId = ids[key];
-    const place = await db.collection(collectionName).doc(placeId).get();
-    places.push({ id: place.id, ...place.data() });
+  let places = [];
+  const splitArrToChunks = (array, chunkSize) =>
+    Array(Math.ceil(array.length / chunkSize))
+      .fill()
+      .map((_, index) => index * chunkSize)
+      .map((begin) => array.slice(begin, begin + chunkSize));
+
+  //firestore has limitation for 'in' filter - max 10 elements in array
+  const splittedIds = splitArrToChunks(ids, 10);
+  for (const key in splittedIds) {
+    const idsChunk = splittedIds[key];
+    const querySnapshot = await db.collection(collectionName).where('id', 'in', idsChunk).get();
+    const placesPart = querySnapshot.docs.map((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+    places = [...places, ...placesPart];
   }
   return places;
 };

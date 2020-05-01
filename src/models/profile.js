@@ -77,7 +77,6 @@ const getPhotosById = async (entityId) => {
   const data = [];
   if (profileData.placeIds.length > 0) {
     const places = await placeModel.getPlacesByIds(profileData.placeIds);
-    console.log(places);
     places.forEach((place) => {
       place.photos = place.photos || [];
       data.push({
