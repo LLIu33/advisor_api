@@ -3,6 +3,7 @@ const Place = db.Place;
 const { Op } = require('sequelize');
 const helper = require('./helper');
 const { toJson, toShortPlace, jsonToPlace } = require('../mappers/place');
+const { jsonToPhoto } = require('../mappers/photo');
 
 const fullArrayNestedModels = [
   { model: db.Cuisines, as: 'cuisines' },
@@ -74,6 +75,7 @@ const get = async (req, res) => {
   }
 };
 
+//TODO: add photos
 const create = async (req, res) => {
   try {
     const newData = jsonToPlace(req.body);
@@ -187,17 +189,18 @@ const getByIds = async (req, res) => {
   }
 };
 
-// const addPhotoToPlace = async (req, res) => {
-//   try {
-//     const entityId = req.params.item_id;
-//     const photoObj = req.body;
-//     await Place.addPhotoToPlace(entityId, photoObj);
-//     return res.status(200).send();
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send(error);
-//   }
-// };
+const addPhotoToPlace = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const photoObj = req.body;
+    const place = await Place.findOne({ where: { uid: entityId } });
+    await place.createPhoto(jsonToPhoto(photoObj));
+    return res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
 
 const getDeliveryAppsHash = async () => {
   const deliveries = await db.DeliveryApps.findAll({
@@ -228,6 +231,6 @@ module.exports = {
   getByIds,
   create,
   update,
-  // addPhotoToPlace,
+  addPhotoToPlace,
   remove,
 };

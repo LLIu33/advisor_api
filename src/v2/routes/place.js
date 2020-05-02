@@ -105,7 +105,7 @@ placeRouter.put('/places/:item_id', PlaceCtrl.update);
  *       200:
  *         description: Successfully updated
  */
-// placeRouter.put('/places/:item_id/add_photo', PlaceCtrl.addPhotoToPlace);
+placeRouter.put('/places/:item_id/add_photo', PlaceCtrl.addPhotoToPlace);
 
 /**
  * @swagger

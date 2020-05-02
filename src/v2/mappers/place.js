@@ -120,6 +120,9 @@ const toShortPlace = (data) => {
 
 const jsonToPlace = (input, placeId) => {
   const uid = input.id || uuid();
+  input.photos = input.photos || [];
+  input.positionedPhotos = input.positionedPhotos || [];
+  input.googlePhotos = input.googlePhotos || [];
   return {
     uid: uid,
     name: input.name,
@@ -155,9 +158,9 @@ const jsonToPlace = (input, placeId) => {
           return { placeId: placeId, reference: item };
         })
       : [],
-    photos: jsonToPhoto(input.photos, placeId),
-    positionedPhotos: jsonToPhoto(input.positionedPhotos, placeId),
-    googlePhotos: jsonToPhoto(input.googlePhotos, placeId),
+    photos: input.photos.map((photo) => jsonToPhoto(photo, placeId)),
+    positionedPhotos: input.positionedPhotos.map((photo) => jsonToPhoto(photo, placeId)),
+    googlePhotos: input.googlePhotos.map((photo) => jsonToPhoto(photo, placeId)),
     cuisines: input.cuisines
       ? input.cuisines.map((item) => {
           return { name: item };

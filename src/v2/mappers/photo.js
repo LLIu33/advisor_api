@@ -1,18 +1,15 @@
-const jsonToPhoto = (photos, placeId = null) => {
-  photos = photos || [];
-  return photos.map((photo) => {
-    return {
-      placeId: placeId,
-      caption: photo.caption,
-      category: photo.category,
-      googlePhotoRef: photo.googlePhotoRef,
-      imageUrl: photo.imageUrl,
-      position: photo.position,
-      storageRef: photo.storageRef,
-      uid: photo.uid,
-      reviewUid: photo.reviewId === '' ? null : photo.reviewId,
-    };
-  });
+const jsonToPhoto = (photo, placeId = null) => {
+  return {
+    placeId: placeId,
+    caption: photo.caption,
+    category: photo.category,
+    googlePhotoRef: photo.googlePhotoRef,
+    imageUrl: photo.imageUrl,
+    position: photo.position,
+    storageRef: photo.storageRef,
+    uid: photo.uid,
+    reviewUid: photo.reviewId === '' ? null : photo.reviewId,
+  };
 };
 
 const photoToJson = (photo, reviewId = null) => {
