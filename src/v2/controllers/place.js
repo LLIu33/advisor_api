@@ -10,12 +10,9 @@ const fullArrayNestedModels = [
   { model: db.DeliveryApps, as: 'PickupApps' },
   { model: db.PhotoReference, as: 'photoReferences' },
   { model: db.Dishes, as: 'popularDishes' },
-  { model: db.Photos, as: 'photos' },
-  { model: db.GooglePhotos, as: 'googlePhotos' },
-  { model: db.PositionedPhotos, as: 'positionedPhotos' },
   { model: db.Periods, as: 'openingHours' },
   { model: db.Locations, as: 'location' },
-  { model: db.Contacts, as: 'contacts' },
+  { model: db.Contacts, as: 'contact' },
   { model: db.Ratings, as: 'rating' },
   { model: db.GoogleReviews, as: 'googleReviews' },
 ];
@@ -30,19 +27,23 @@ const getList = async (req, res) => {
       where: filter,
       include: [
         { model: db.Cuisines, as: 'cuisines' },
-        { model: db.Photos, as: 'photos' },
-        { model: db.GooglePhotos, as: 'googlePhotos' },
-        { model: db.PositionedPhotos, as: 'positionedPhotos' },
         { model: db.Periods, as: 'openingHours' },
         { model: db.Locations, as: 'location' },
-        { model: db.Contacts, as: 'contacts' },
+        { model: db.Contacts, as: 'contact' },
         { model: db.Ratings, as: 'rating' },
         { model: db.GoogleReviews, as: 'googleReviews' },
       ],
       offset: offset,
       limit: limit,
     });
-    const places = data.length ? data.map((place) => toShortPlace(place)) : [];
+    const places = [];
+    for (const key in data) {
+      const place = data[key];
+      place.photos = await place.getPhotos();
+      place.googlePhotos = await place.getGooglePhotos();
+      place.positionedPhotos = await place.getPositionedPhotos();
+      places.push(toShortPlace(place));
+    }
     const response = {
       places,
       limit,
@@ -62,6 +63,9 @@ const get = async (req, res) => {
       where: { uid: entityId },
       include: fullArrayNestedModels,
     });
+    place.photos = await place.getPhotos();
+    place.googlePhotos = await place.getGooglePhotos();
+    place.positionedPhotos = await place.getPositionedPhotos();
     const response = toJson(place);
     return res.status(200).send(response);
   } catch (error) {

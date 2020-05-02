@@ -53,7 +53,7 @@ const toJson = (input, withNested = true) => {
       positionedPhotos: input.positionedPhotos ? input.positionedPhotos.map((item) => photoToJson(item)) : [],
       openingHours: input.openingHours ? { periods: input.openingHours.map((item) => periodToJson(item)) } : [],
       location: locationToJson(input.location),
-      contacts: contactToJson(input.contacts),
+      contacts: contactToJson(input.contact),
       rating: ratingToJson(input.rating),
       googleReviews: input.googleReviews ? input.googleReviews.map((item) => googleReviewToJson(item)) : [],
     };
@@ -189,21 +189,21 @@ const zipImageUrl = (photo) => {
 
 const contactToJson = (entity) => {
   return {
-    carrigeMenu: entity.carrigeMenu,
-    deliverooMenu: entity.deliverooMenu,
-    instagram: entity.instagram,
-    menusite: entity.menusite,
-    phone: entity.phone,
-    talabatMenu: entity.talabatMenu,
-    website: entity.website,
+    carrigeMenu: entity.carrigeMenu || null,
+    deliverooMenu: entity.deliverooMenu || null,
+    instagram: entity.instagram || null,
+    menusite: entity.menusite || null,
+    phone: entity.phone || null,
+    talabatMenu: entity.talabatMenu || null,
+    website: entity.website || null,
   };
 };
 
 const ratingToJson = (entity) => {
   return {
-    atmosphere: entity.atmosphere,
-    quality: entity.quality,
-    service: entity.service,
+    atmosphere: entity.atmosphere || null,
+    quality: entity.quality || null,
+    service: entity.service || null,
   };
 };
 
