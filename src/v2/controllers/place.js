@@ -107,14 +107,12 @@ const update = async (req, res) => {
 
     const deliveryAppsHash = await getDeliveryAppsHash();
     newData.deliveryApps = newData.deliveryApps.map((item) => deliveryAppsHash[item.name]);
-    console.log(newData.deliveryApps);
     await place.setDeliveryApps(newData.deliveryApps);
     newData.pickUpApps = newData.pickUpApps.map((item) => deliveryAppsHash[item.name]);
     await place.setPickupApps(newData.pickUpApps);
 
     const cuisinesHash = await getCuisinesHash();
     newData.cuisines = newData.cuisines.map((item) => cuisinesHash[item.name]);
-    console.log(newData.cuisines);
     await place.setCuisines(newData.cuisines);
 
     await db.PhotoReference.destroy({ where: { placeId: place.id } });

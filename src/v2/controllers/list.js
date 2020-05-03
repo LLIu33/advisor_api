@@ -115,10 +115,17 @@ const getPlacesByListId = async (req, res) => {
 const addPlacesToList = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const placeIds = req.body.placeIds;
-    const list = await List.findOne({ where: { uid: entityId }, include: { model: db.Place, as: 'places' } });
+    const placeUids = req.body.placeIds;
+    const list = await List.findOne({ where: { uid: entityId } });
+    if (!list) {
+      return res.status(404).send('Not found');
+    }
+    const placesHash = await getPlacesByUidsHash(placeUids);
+    const placeIds = placeUids.map((uid) => placesHash[uid]);
     await list.addPlaces(placeIds);
-    return res.status(200).send();
+
+    const response = await List.findOne({ where: { uid: entityId }, include: { model: db.Place, as: 'places' } });
+    return res.status(200).send(listToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
@@ -128,14 +135,38 @@ const addPlacesToList = async (req, res) => {
 const removePlaceFromList = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const placeId = req.params.place_id;
-    const list = await List.findOne({ where: { uid: entityId }, include: { model: db.Place, as: 'places' } });
-    await list.removePlace(placeId);
-    return res.status(200).send();
+    const placeUid = req.params.place_id;
+    const list = await List.findOne({ where: { uid: entityId } });
+    if (!list) {
+      return res.status(404).send('List not found');
+    }
+    const placesHash = await getPlacesByUidsHash([placeUid]);
+    const placeId = placesHash[placeUid];
+    await list.removePlaces([placeId]);
+
+    const response = await List.findOne({ where: { uid: entityId }, include: { model: db.Place, as: 'places' } });
+    return res.status(200).send(listToJson(response));
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
   }
+};
+
+const getPlacesByUidsHash = async (placeUids) => {
+  const places = await Place.findAll({
+    attributes: ['id', 'uid'],
+    where: {
+      uid: {
+        [Op.in]: placeUids,
+      },
+    },
+  });
+
+  const placesHash = {};
+  places.forEach((item) => {
+    placesHash[item.uid] = item.id;
+  });
+  return placesHash;
 };
 
 module.exports = {
