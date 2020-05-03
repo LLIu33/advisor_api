@@ -70,7 +70,7 @@ profileRouter.get('/profiles/:item_id', ProfileCtrl.get);
  *       200:
  *         description: Successfully returned
  */
-// profileRouter.get('/profiles/:item_id/photos', ProfileCtrl.getPhotos);
+profileRouter.get('/profiles/:item_id/photos', ProfileCtrl.getPhotos);
 
 /**
  * @swagger
@@ -86,7 +86,7 @@ profileRouter.get('/profiles/:item_id', ProfileCtrl.get);
  *       200:
  *         description: Successfully returned
  */
-// profileRouter.get('/profiles/:item_id/reviews', ProfileCtrl.getReviews);
+profileRouter.get('/profiles/:item_id/reviews', ProfileCtrl.getReviews);
 
 /**
  * @swagger

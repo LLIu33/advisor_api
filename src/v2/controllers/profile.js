@@ -4,6 +4,8 @@ const Place = db.Place;
 const { Op } = require('sequelize');
 const helper = require('./helper');
 const { jsonToProfile, profileToJson } = require('../mappers/profile');
+const { reviewToJson } = require('../mappers/review');
+const { photoToJson } = require('../mappers/photo');
 
 const getList = async (req, res) => {
   try {
@@ -85,33 +87,59 @@ const update = async (req, res) => {
   }
 };
 
-// const getPhotos = async (req, res) => {
-//   try {
-//     const entityId = req.params.item_id;
-//     const response = await profileModel.getPhotosById(entityId);
-//     return res.status(200).send(response);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send(error);
-//   }
-// };
+const getReviews = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const profile = await Profile.findOne({ where: { uid: entityId } });
+    const places = await profile.getPlaces();
 
-// const getReviews = async (req, res) => {
-//   try {
-//     const entityId = req.params.item_id;
-//     const response = await profileModel.getReviewsById(entityId);
-//     return res.status(200).send(response);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send(error);
-//   }
-// };
+    const reviews = [];
+    for (const key in places) {
+      const place = places[key];
+      let placeReviews = await place.getReviews();
+      placeReviews = placeReviews.filter((review) => review.uid === profile.uid);
+      const review = placeReviews.length > 0 ? placeReviews[0] : null;
+      if (review) {
+        reviews.push({
+          placeId: place.uid,
+          review: reviewToJson(review),
+        });
+      }
+    }
+    return res.status(200).send(reviews);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
+const getPhotos = async (req, res) => {
+  try {
+    const entityId = req.params.item_id;
+    const profile = await Profile.findOne({ where: { uid: entityId } });
+    const places = await profile.getPlaces();
+    const photos = [];
+    for (const key in places) {
+      const place = places[key];
+      let placePhotos = await place.getPhotos();
+      placePhotos = placePhotos.filter((photo) => photo.uid === profile.uid);
+      photos.push({
+        placeId: place.uid,
+        photos: placePhotos.map((photo) => photoToJson(photo)),
+      });
+    }
+    return res.status(200).send(photos);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
 
 module.exports = {
   getList,
   get,
-  // getPhotos,
-  // getReviews,
+  getPhotos,
+  getReviews,
   create,
   update,
 };

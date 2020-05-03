@@ -59,6 +59,10 @@ const create = async (newData, placeId) => {
 };
 
 const getById = async (entityId, placeId) => {
+  console.log(parentCollectionName);
+  console.log(placeId);
+  console.log(collectionName);
+  console.log(entityId);
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   const item = await document.get();
   return item.data();

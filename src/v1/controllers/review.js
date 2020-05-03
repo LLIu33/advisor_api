@@ -22,7 +22,8 @@ const getList = async (req, res) => {
 const get = async (req, res) => {
   try {
     const entityId = req.params.item_id;
-    const response = await reviewModel.getById(entityId);
+    const placeId = req.params.place_id;
+    const response = await reviewModel.getById(entityId, placeId);
     return res.status(200).send(response);
   } catch (error) {
     console.log(error);
