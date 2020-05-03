@@ -57,8 +57,7 @@ const getReviewsById = async (entityId) => {
   if (profileData.placeIds.length > 0) {
     const places = await reviewModel.getReviewsByPlaceIds(profileData.placeIds);
     places.forEach((place) => {
-      let review = place.reviews.length > 0 ? place.reviews[0] : null;
-      review = review.id === profileData.uid ? review : null;
+      const review = place.reviews.length > 0 && place.reviews[0].id === profileData.uid ? place.reviews[0] : null;
       if (review) {
         data.push({
           placeId: place.id,
