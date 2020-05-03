@@ -76,7 +76,7 @@ reviewRouter.put('/places/:place_id/reviews/:item_id', ReviewCtrl.update);
  *       200:
  *         description: Successfully updated
  */
-// reviewRouter.put('/places/:place_id/reviews/:item_id/add_photo', ReviewCtrl.addPhoto);
+reviewRouter.put('/places/:place_id/reviews/:item_id/add_photo', ReviewCtrl.addPhoto);
 
 /**
  * @swagger
@@ -90,7 +90,7 @@ reviewRouter.put('/places/:place_id/reviews/:item_id', ReviewCtrl.update);
  *       200:
  *         description: Successfully removed
  */
-// reviewRouter.delete('/places/:place_id/reviews/:item_id/remove_photo/:photo_id', ReviewCtrl.removePhoto);
+reviewRouter.delete('/places/:place_id/reviews/:item_id/remove_photo/:photo_id', ReviewCtrl.removePhoto);
 
 /**
  * @swagger

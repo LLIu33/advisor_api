@@ -4,6 +4,7 @@ const Place = db.Place;
 const { Op } = require('sequelize');
 const helper = require('./helper');
 const { jsonToReview, reviewToJson } = require('../mappers/review');
+const { jsonToPhoto, photoToJson } = require('../mappers/photo');
 
 const getList = async (req, res) => {
   try {
@@ -129,38 +130,60 @@ const remove = async (req, res) => {
   }
 };
 
-// const addPhoto = async (req, res) => {
-//   try {
-//     const placeId = req.params.place_id;
-//     const entityId = req.params.item_id;
-//     const photoObj = req.body;
-//     await reviewModel.updateById(entityId, placeId, photoObj);
-//     return res.status(200).send();
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send(error);
-//   }
-// };
+const addPhoto = async (req, res) => {
+  try {
+    const placeUid = req.params.place_id;
+    const photoObj = req.body;
+    const entityId = req.params.item_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
+    });
+    const placeId = place.id;
+    const review = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+    });
+    await review.addPhoto(jsonToPhoto(photoObj));
+    const response = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+      include: { model: db.ReviewPhoto, as: 'photos' },
+    });
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
 
-// const removePhoto = async (req, res) => {
-//   try {
-//     const placeId = req.params.place_id;
-//     const entityId = req.params.item_id;
-//     const photoId = req.params.photo_id;
-//     await reviewModel.deleteById(entityId, placeId, photoId);
-//     return res.status(200).send();
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).send(error);
-//   }
-// };
+const removePhoto = async (req, res) => {
+  try {
+    const placeUid = req.params.place_id;
+    const entityId = req.params.item_id;
+    const photoId = req.params.photo_id;
+    const place = await Place.findOne({
+      where: { uid: placeUid },
+    });
+    const placeId = place.id;
+    const review = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+    });
+    await review.removePhoto(photoId);
+    const response = await Review.findOne({
+      where: { uid: entityId, placeId: placeId },
+      include: { model: db.ReviewPhoto, as: 'photos' },
+    });
+    return res.status(200).send(response);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
 
 module.exports = {
   getList,
   get,
   create,
   update,
-  // addPhoto,
-  // removePhoto,
+  addPhoto,
+  removePhoto,
   remove,
 };
