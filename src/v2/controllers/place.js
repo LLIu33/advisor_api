@@ -5,7 +5,7 @@ const helper = require('./helper');
 const { toJson, toShortPlace, jsonToPlace } = require('../mappers/place');
 const { jsonToPhoto } = require('../mappers/photo');
 
-const fullArrayNestedModels = [
+const nestedModels = [
   { model: db.Cuisines, as: 'cuisines' },
   { model: db.DeliveryApps, as: 'DeliveryApps' },
   { model: db.DeliveryApps, as: 'PickupApps' },
@@ -62,7 +62,7 @@ const get = async (req, res) => {
     const entityId = req.params.item_id;
     const place = await Place.findOne({
       where: { uid: entityId },
-      include: fullArrayNestedModels,
+      include: nestedModels,
     });
     place.photos = await place.getPhotos();
     place.googlePhotos = await place.getGooglePhotos();
@@ -75,11 +75,13 @@ const get = async (req, res) => {
   }
 };
 
-//TODO: add photos
 const create = async (req, res) => {
   try {
     const newData = jsonToPlace(req.body);
-    const response = await Place.create(newData, { include: fullArrayNestedModels });
+    nestedModels.push({ model: db.Photos, as: 'photos' });
+    nestedModels.push({ model: db.GooglePhotos, as: 'googlePhotos' });
+    nestedModels.push({ model: db.PositionedPhotos, as: 'positionedPhotos' });
+    const response = await Place.create(newData, { include: nestedModels });
     return res.status(200).send(toJson(response));
   } catch (error) {
     console.log(error);
@@ -138,7 +140,7 @@ const update = async (req, res) => {
 
     const response = await Place.findOne({
       where: { uid: entityId },
-      include: fullArrayNestedModels,
+      include: nestedModels,
     });
     return res.status(200).send(response);
   } catch (error) {
