@@ -28,7 +28,7 @@ const getList = async (req, res, next) => {
 
 const getByIds = async (req, res, next) => {
   try {
-    const ids = req.query.ids;
+    const ids = req.body.ids;
     const response = await placeModel.getPlacesByIds(ids);
     return res.status(200).send(response);
   } catch (error) {
