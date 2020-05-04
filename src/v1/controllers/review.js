@@ -1,7 +1,7 @@
 const reviewModel = require('../services/review');
 const helper = require('./helper');
 
-const getList = async (req, res) => {
+const getList = async (req, res, next) => {
   try {
     const { limit, offset, ...filterParams } = req.query;
     const params = {
@@ -14,83 +14,76 @@ const getList = async (req, res) => {
     const response = await reviewModel.getListOfReviews(params);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 
-const get = async (req, res) => {
+const get = async (req, res, next) => {
   try {
-    const entityId = req.params.item_id;
     const placeId = req.params.place_id;
+    const entityId = req.params.item_id;
     const response = await reviewModel.getById(entityId, placeId);
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 
-const create = async (req, res) => {
+const create = async (req, res, next) => {
   try {
     const newData = req.body;
     const placeId = req.params.place_id;
-    await reviewModel.create(newData, placeId);
-    return res.status(200).send();
+    const response = await reviewModel.create(newData, placeId);
+    return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 
-const update = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const placeId = req.params.place_id;
     const entityId = req.params.item_id;
     const newData = req.body;
-    await reviewModel.updateById(entityId, newData, placeId);
-    return res.status(200).send();
+    const response = await reviewModel.updateById(entityId, newData, placeId);
+    return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 
-const addPhoto = async (req, res) => {
+const addPhoto = async (req, res, next) => {
   try {
     const placeId = req.params.place_id;
     const entityId = req.params.item_id;
     const photoObj = req.body;
-    await reviewModel.updateById(entityId, placeId, photoObj);
-    return res.status(200).send();
+    const response = await reviewModel.updateById(entityId, placeId, photoObj);
+    return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 
-const removePhoto = async (req, res) => {
+const removePhoto = async (req, res, next) => {
   try {
     const placeId = req.params.place_id;
     const entityId = req.params.item_id;
     const photoId = req.params.photo_id;
-    await reviewModel.deleteById(entityId, placeId, photoId);
-    return res.status(200).send();
+    const response = await reviewModel.deleteById(entityId, placeId, photoId);
+    return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
   try {
     const placeId = req.params.place_id;
     const entityId = req.params.item_id;
-    await reviewModel.deleteById(entityId, placeId);
-    return res.status(200).send();
+    const response = await reviewModel.deleteById(entityId, placeId);
+    return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 

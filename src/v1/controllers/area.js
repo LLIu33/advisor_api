@@ -1,12 +1,11 @@
-const areaModel = require('../models/area');
+const areaModel = require('../services/area');
 
-const getList = async (req, res) => {
+const getList = async (req, res, next) => {
   try {
     const response = await areaModel.getListOfAreas();
     return res.status(200).send(response);
   } catch (error) {
-    console.log(error);
-    return res.status(500).send(error);
+    next(error);
   }
 };
 

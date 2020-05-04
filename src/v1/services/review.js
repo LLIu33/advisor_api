@@ -1,6 +1,6 @@
 const firebase = require('../../utils/firebase');
 const uuid = require('uuid/v4');
-
+const firebaseAdmin = require('firebase-admin');
 const db = firebase.getDb();
 const parentCollectionName = 'places';
 const collectionName = 'reviews';
@@ -50,35 +50,44 @@ const getReviewsByPlaceIds = async (ids) => {
 };
 
 const create = async (newData, placeId) => {
-  return await db
+  const newEntityId = newData.id || newData.uid || uuid();
+  newData.id = newEntityId;
+  newData = processDataForReview(newData);
+  const isCreated = await db
     .collection(parentCollectionName)
     .doc(placeId)
     .collection(collectionName)
-    .doc('/' + uuid() + '/')
+    .doc('/' + newEntityId + '/')
     .create(newData);
+  if (!isCreated) {
+    return false;
+  }
+  return getPlaceById(placeId);
 };
 
 const getById = async (entityId, placeId) => {
-  console.log(parentCollectionName);
-  console.log(placeId);
-  console.log(collectionName);
-  console.log(entityId);
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   const item = await document.get();
   return item.data();
 };
 
 const updateById = async (entityId, newData, placeId) => {
+  newData = processDataForReview(newData);
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
-  return await document.update(newData);
+  await document.update(newData);
+  return getPlaceById(placeId);
 };
 
 const addPhoto = async (entityId, placeId, photoObj) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   const revieweSnap = await document.get();
   const review = revieweSnap.data();
+  photoObj.date = photoObj.date
+    ? new firebaseAdmin.firestore.Timestamp(photoObj.date._seconds, photoObj.date._nanoseconds)
+    : null;
   review.photos.push(photoObj);
-  return await document.set({ photos: review.photos }, { merge: true });
+  await document.set({ photos: review.photos }, { merge: true });
+  return getPlaceById(placeId);
 };
 
 const removePhoto = async (entityId, placeId, photoId) => {
@@ -90,12 +99,38 @@ const removePhoto = async (entityId, placeId, photoId) => {
       return photoObj;
     }
   });
-  return await document.set({ photos: review.photos }, { merge: true });
+  await document.set({ photos: review.photos }, { merge: true });
+  return getPlaceById(placeId);
 };
 
 const deleteById = async (entityId, placeId) => {
   const document = db.collection(parentCollectionName).doc(placeId).collection(collectionName).doc(entityId);
   await document.delete();
+  return getPlaceById(placeId);
+};
+
+const getPlaceById = async (placeId) => {
+  const place = await db.collection(parentCollectionName).doc(placeId).get();
+  if (place.reviewsNumber) {
+    const reviewsSnap = await db.collection(collectionName).doc(placeId).collection('reviews').get();
+    place.reviews = reviewsSnap.docs.map((review) => {
+      return review.data();
+    });
+  }
+  return place.data();
+};
+
+const processDataForReview = (data) => {
+  data.date = new firebaseAdmin.firestore.Timestamp(data.date._seconds, data.date._nanoseconds);
+  if (data.photos && data.photos.length > 0) {
+    data.photos = data.photos.map((photo) => {
+      photo.date = photo.date
+        ? new firebaseAdmin.firestore.Timestamp(photo.date._seconds, photo.date._nanoseconds)
+        : null;
+      return photo;
+    });
+  }
+  return data;
 };
 
 module.exports = {

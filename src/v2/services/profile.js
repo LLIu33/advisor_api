@@ -1,10 +1,11 @@
 const firebase = require('../utils/firebase');
+const firebaseAdmin = require('firebase-admin');
 const uuid = require('uuid/v4');
 const reviewModel = require('./review');
 const placeModel = require('./place');
 
 const db = firebase.getDb();
-const collectionName = 'profiles_backup';
+const collectionName = 'profiles';
 
 const getListOfProfiles = async (params) => {
   const { limit, offset, filter } = params;
@@ -28,8 +29,9 @@ const getListOfProfiles = async (params) => {
 };
 
 const create = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.uid = newEntityId;
+  newData = processDataForProfile(newData);
   const isCreated = await db
     .collection(collectionName)
     .doc('/' + newEntityId + '/')
@@ -52,14 +54,17 @@ const getReviewsById = async (entityId) => {
   const profile = await document.get();
   const profileData = profile.data();
   const data = [];
-  if (profileData.placeIds) {
+  if (profileData.placeIds.length > 0) {
     const places = await reviewModel.getReviewsByPlaceIds(profileData.placeIds);
     places.forEach((place) => {
-      data.push({
-        name: place.name,
-        mainPhotos: place.mainPhotos,
-        reviews: place.reviews,
-      });
+      place.reviews = place.reviews.filter((review) => review.id === profileData.uid);
+      const review = place.reviews.length > 0 ? place.reviews[0] : null;
+      if (review) {
+        data.push({
+          placeId: place.id,
+          review: review,
+        });
+      }
     });
   }
   return data;
@@ -70,13 +75,13 @@ const getPhotosById = async (entityId) => {
   const item = await document.get();
   const profileData = item.data();
   const data = [];
-  if (profileData.placeIds) {
+  if (profileData.placeIds.length > 0) {
     const places = await placeModel.getPlacesByIds(profileData.placeIds);
     places.forEach((place) => {
+      place.photos = place.photos || [];
       data.push({
-        name: place.name,
-        mainPhotos: place.mainPhotos,
-        photos: place.photos,
+        placeId: place.id,
+        photos: place.photos.filter((photo) => photo.uid === profileData.uid),
       });
     });
   }
@@ -85,12 +90,19 @@ const getPhotosById = async (entityId) => {
 
 const updateById = async (entityId, newData) => {
   newData.uid = entityId;
+  newData = processDataForProfile(newData);
   const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
   if (!isUpdated) {
     return false;
   }
   const document = await db.collection(collectionName).doc(entityId).get();
   return document.data();
+};
+
+const processDataForProfile = (data) => {
+  data.date = new firebaseAdmin.firestore.Timestamp(data.date._seconds, data.date._nanoseconds);
+  data.birthday = new firebaseAdmin.firestore.Timestamp(data.birthday._seconds, data.birthday._nanoseconds);
+  return data;
 };
 
 module.exports = {

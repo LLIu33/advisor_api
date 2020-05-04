@@ -2,26 +2,31 @@ const express = require('express');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { httpCodes } = require('./utils/http');
 require('dotenv').config();
 
-const routes = require('./routes');
+const { handleError, ErrorHandler } = require('./utils/error');
 
+const routes = require('./routes');
 const PORT = process.env.PORT || 5000;
+
+const Sentry = require('@sentry/node');
+Sentry.init({ dsn: process.env.SENTRY_DSN });
 
 const app = express();
 app.use(bodyParser.json());
 app.use(compression());
 app.use(cors());
+app.use(Sentry.Handlers.requestHandler());
 app.use('/', routes);
+app.use(Sentry.Handlers.errorHandler());
 
 app.use((req, res) => {
-  res.status(httpCodes.NOT_FOUND).send('Not found');
+  handleError(new ErrorHandler(404, 'Not found'), res);
 });
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   console.log(err);
-  res.status(httpCodes.INTERNAL_ERROR).send('Internal server error');
+  handleError(new ErrorHandler(500, 'Internal server error'), res);
 });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

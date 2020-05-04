@@ -1,9 +1,10 @@
 const firebase = require('../../utils/firebase');
+const firebaseAdmin = require('firebase-admin');
 const uuid = require('uuid/v4');
 const placeModel = require('./place');
 
 const db = firebase.getDb();
-const collectionName = 'lists_backup';
+const collectionName = 'lists';
 
 const getCollectionOfLists = async (params) => {
   const { limit, offset, filter } = params;
@@ -25,8 +26,9 @@ const getCollectionOfLists = async (params) => {
 };
 
 const create = async (newData) => {
-  const newEntityId = uuid();
+  const newEntityId = newData.id || newData.uid || uuid();
   newData.id = newEntityId;
+  newData = processDataForList(newData);
   const isCreated = await db
     .collection(collectionName)
     .doc('/' + newEntityId + '/')
@@ -60,6 +62,7 @@ const getPlacesByListId = async (entityId) => {
 
 const updateById = async (entityId, newData) => {
   newData.id = entityId;
+  newData = processDataForList(newData);
   const isUpdated = await db.collection(collectionName).doc(entityId).update(newData);
   if (!isUpdated) {
     return false;
@@ -79,7 +82,7 @@ const addPlacesToList = async (entityId, input) => {
   });
   const newPlaces = input.map((placeId) => {
     return {
-      date: new Date(),
+      date: firebaseAdmin.firestore.Timestamp.now(),
       placeId,
     };
   });
@@ -109,6 +112,15 @@ const removePlaceFromList = async (entityId, placeId) => {
 const deleteById = async (entityId) => {
   const document = db.collection(collectionName).doc(entityId);
   await document.delete();
+};
+
+const processDataForList = (data) => {
+  data.date = new firebaseAdmin.firestore.Timestamp(data.date._seconds, data.date._nanoseconds);
+  data.placeListItems = data.placeListItems.map((item) => {
+    item.date = new firebaseAdmin.firestore.Timestamp(item.date._seconds, item.date._nanoseconds);
+    return item;
+  });
+  return data;
 };
 
 module.exports = {
